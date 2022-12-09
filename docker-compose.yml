@@ -10,4 +10,15 @@ services:
     ports:
       - 5433:5432
     volumes:
-      - ./docker/postgres:/var/lib/postgresql/data
+      - ./docker/postgres/iam:/var/lib/postgresql/data
+
+  postgres-game:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: game
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5434:5432
+    volumes:
+      - ./docker/postgres/game:/var/lib/postgresql/data
