@@ -1,5 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn, Unique} from "typeorm";
-import {IsNotEmpty, IsString} from "class-validator";
+import {IsNotEmpty, IsString, validateOrReject, ValidationError} from "class-validator";
+import * as bcrypt from "bcrypt";
 
 @Entity()
 @Unique(["email"])
@@ -25,12 +26,19 @@ export class UserEntity {
     @IsNotEmpty()
     @IsString()
     @Column({select: false})
-    password: string;
+    passwordHash: string;
 
-    constructor(firstname: string, lastname: string, email: string, password?: string) {
+    constructor(firstname: string, lastname: string, email: string) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.password = password;
+    }
+
+    async setPassword(password: string) {
+        this.passwordHash = await bcrypt.hash(password, 10);
+    }
+
+    isPasswordValid(password: string): Promise<boolean> {
+        return bcrypt.compare(password, this.passwordHash);
     }
 }
