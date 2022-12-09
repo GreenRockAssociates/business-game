@@ -1,13 +1,14 @@
+// Configure environment variables
+// Do this before imports so that all modules can use the environment variables
+import dotenv from 'dotenv';
+dotenv.config({path: '.env'});
+
 // Libs
 import express, { Request, Response, NextFunction } from 'express';
-import dotenv from 'dotenv';
 
 // Custom files
 import {AppDataSource} from "./libraries/database";
 import {router} from "./api/api";
-
-// Configure environment variables
-dotenv.config({path: '.env'});
 
 // Connect to database and run the app once the connection is established
 AppDataSource.initialize().then(() => {
