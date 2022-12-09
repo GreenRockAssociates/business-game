@@ -1,19 +1,25 @@
 // Libs
 import express, { Request, Response, NextFunction } from 'express';
-
-// Configure environment variables
 import dotenv from 'dotenv';
-dotenv.config({path: '.env'});
 
-// Custom imports
+// Custom files
+import {AppDataSource} from "./libraries/database";
 import {router} from "./api/api";
 
-const index = express();
+// Configure environment variables
+dotenv.config({path: '.env'});
 
-// Configuration des routes
-index.use('/api/', router)
+// Connect to database and run the app once the connection is established
+AppDataSource.initialize().then(() => {
+    console.log("Database connected")
 
-const port = process.env.PORT;
-index.listen(port, () => {
-    console.log(`Authentication service is running on port ${port}.`);
-});
+    const app = express();
+
+    // Configuration des routes
+    app.use('/api/', router)
+
+    const port = process.env.APP_PORT;
+    app.listen(port, () => {
+        console.log(`Authentication service is running on port ${port}.`);
+    });
+})
