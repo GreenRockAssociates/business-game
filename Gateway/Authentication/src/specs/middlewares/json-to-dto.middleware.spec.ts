@@ -9,13 +9,14 @@ describe('jsonToDtoMiddlewareFactory', () => {
     let responseSpy: jest.SpyInstance;
     let nextSpy: jest.Mock;
 
-    beforeEach(() => {
+    beforeAll(() => {
         responseSpy = jest.spyOn(response, 'sendStatus');
         nextSpy = jest.fn();
     })
 
     afterEach(() => {
-        jest.restoreAllMocks();
+        jest.clearAllMocks();
+        nextSpy.mockClear();
     })
 
     it('The middleware should parses object literal to class instance', async () => {

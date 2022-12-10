@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import {plainToInstance} from "class-transformer";
 import {validateOrReject} from "class-validator";
 import {sanitize} from "class-sanitizer";
+import "reflect-metadata";
 
 /**
  * Returns a middleware that will parse req.body to a sanitized instance of the DTO given in {type}
