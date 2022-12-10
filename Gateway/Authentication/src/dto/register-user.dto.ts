@@ -1,9 +1,10 @@
 import {IsEmail, IsNotEmpty, IsString, MinLength} from "class-validator";
 import {NormalizeEmail, Trim} from "class-sanitizer";
 import {Expose} from "class-transformer";
+import "reflect-metadata";
 
 /**
- * Data tranfer object for the register HTTP request
+ * Data transfer object for the register HTTP request
  */
 export class RegisterUserDto {
     @IsNotEmpty()
