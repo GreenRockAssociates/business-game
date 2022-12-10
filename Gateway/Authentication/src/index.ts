@@ -4,11 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config({path: '.env'});
 
 // Libs
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 
 // Custom files
 import {AppDataSource} from "./libraries/database";
-import {router} from "./api/api";
+import {router, registerRoutes} from "./api/api";
 
 // Connect to database and run the app once the connection is established
 AppDataSource.initialize().then(() => {
@@ -20,7 +20,8 @@ AppDataSource.initialize().then(() => {
     app.use(express.json());
 
     // Configuration des routes
-    app.use('/api/', router)
+    registerRoutes(router, AppDataSource)
+    app.use(process.env.SERVICE_URL_PREFIX, router)
 
     const port = process.env.APP_PORT;
     app.listen(port, () => {
