@@ -22,7 +22,10 @@ export class UserEntity {
     @IsNotEmpty()
     @IsString()
     @IsEmail()
-    @UniqueInColumn('id')
+    @UniqueInColumn({
+        primaryKeys: ['id'],
+        caseSensitive: false
+    })
     @Column()
     email: string;
 

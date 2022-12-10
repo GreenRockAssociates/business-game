@@ -2,19 +2,26 @@ import {registerDecorator, ValidationOptions, ValidationArguments} from 'class-v
 import {AppDataSource} from "../libraries/database";
 import {ILike, Not} from "typeorm";
 
-export function UniqueInColumn(primaryKey?: string, validationOptions?: ValidationOptions) {
+interface UniqueInColumnProps {
+    primaryKeys: string[]
+    caseSensitive?: boolean;
+}
+
+export function UniqueInColumn(props?: UniqueInColumnProps, validationOptions?: ValidationOptions) {
     return function (object: object, propertyName: string) {
         registerDecorator({
             name: 'uniqueInColumn',
             target: object.constructor,
             propertyName: propertyName,
             options: validationOptions,
-            constraints: [primaryKey],
+            constraints: [props],
             validator: {
                 async validate(value: any, args: ValidationArguments) {
-                    // Get the PK field name and value
-                    const [primaryKey] = args.constraints;
-                    const primaryKeyValue = (args.object as any)[primaryKey];
+                    const props = (args.constraints[0] as UniqueInColumnProps);
+
+                    // Get the PK fields names and values
+                    const primaryKeys = props.primaryKeys;
+                    const primaryKeyValues = primaryKeys.map(key => (args.object as any)[key]);
 
                     // Get the property field name and value
                     const property = args.property;
@@ -25,12 +32,14 @@ export function UniqueInColumn(primaryKey?: string, validationOptions?: Validati
                     const repository = AppDataSource.getRepository(entity);
 
                     // Construct the where clause of the select
-                    // Always search for rows that have a value in the column {property} matching (case-insensitive) the given propertyValue
+                    // Always search for rows that have a value in the column {property} matching the given propertyValue. Use the prop to know if the search should be case-sensitive or not
                     const where = {
-                        [property]: ILike(propertyValue)
+                        [property]: props?.caseSensitive ? propertyValue : ILike(propertyValue)
                     }
                     // If a PK exists, this means the entity is being updated and not created, thus we need to exclude its own row from the select
-                    if (primaryKeyValue) { where[primaryKey] = Not(primaryKeyValue) }
+                    for (let i = 0; i < primaryKeys.length; i++){
+                        if (primaryKeyValues[i]) { where[primaryKeys[i]] = Not(primaryKeyValues[i]) }
+                    }
 
                     const entities = await repository.find({
                         where
