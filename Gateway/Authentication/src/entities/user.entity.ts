@@ -1,5 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn, Unique} from "typeorm";
-import {IsEmail, IsNotEmpty, IsString} from "class-validator";
+import {IsEmail, IsNotEmpty, IsString, MaxLength} from "class-validator";
 import * as bcrypt from "bcrypt";
 import {UniqueInColumn} from "../decorators/unique-in-column.decorator";
 
@@ -11,17 +11,20 @@ export class UserEntity {
 
     @IsNotEmpty()
     @IsString()
+    @MaxLength(100, {message: "First name cannot be longer than 100 characters"})
     @Column()
     firstname: string;
 
     @IsNotEmpty()
     @IsString()
+    @MaxLength(100, {message: "Last name cannot be longer than 100 characters"})
     @Column()
     lastname: string;
 
     @IsNotEmpty()
     @IsString()
     @IsEmail()
+    @MaxLength(320, {message: "Email cannot be longer than 320 characters"})
     @UniqueInColumn({
         primaryKeys: ['id'],
         caseSensitive: false
