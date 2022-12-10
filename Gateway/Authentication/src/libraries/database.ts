@@ -1,6 +1,7 @@
 import {DataSource} from "typeorm"
 import {UserEntity} from "../entities/user.entity";
 import "reflect-metadata";
+import {ValidationSubscriber} from "../subcribers/validation.subscriber";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -9,6 +10,6 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: true,
     entities: [UserEntity],
-    subscribers: [],
+    subscribers: [ValidationSubscriber],
     migrations: [],
 })

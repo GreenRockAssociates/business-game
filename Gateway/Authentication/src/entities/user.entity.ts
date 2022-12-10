@@ -1,9 +1,10 @@
 import {Column, Entity, PrimaryGeneratedColumn, Unique} from "typeorm";
-import {IsNotEmpty, IsString, validateOrReject, ValidationError} from "class-validator";
+import {IsEmail, IsNotEmpty, IsString} from "class-validator";
 import * as bcrypt from "bcrypt";
+import {UniqueInColumn} from "../decorators/unique-in-column.decorator";
 
 @Entity()
-@Unique(["email"])
+@Unique(['email'])
 export class UserEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string;
@@ -20,12 +21,14 @@ export class UserEntity {
 
     @IsNotEmpty()
     @IsString()
+    @IsEmail()
+    @UniqueInColumn('id')
     @Column()
     email: string;
 
     @IsNotEmpty()
     @IsString()
-    @Column({select: false})
+    @Column()
     passwordHash: string;
 
     constructor(firstname: string, lastname: string, email: string) {
