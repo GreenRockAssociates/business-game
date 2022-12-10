@@ -16,6 +16,9 @@ AppDataSource.initialize().then(() => {
 
     const app = express();
 
+    // Parse request body as json
+    app.use(express.json());
+
     // Configuration des routes
     app.use('/api/', router)
 
