@@ -92,4 +92,17 @@ describe('jsonToDtoMiddlewareFactory', () => {
         expect(nextSpy).not.toHaveBeenCalled();
         expect(responseSpy).toHaveBeenCalledWith(400);
     })
+
+    it('Should handle empty body and call the sendStatus() function with error code 400', async () => {
+        // Only check one kind of invalidity ; each dto should have its own tests for every kind of invalidity it has
+        const request = {
+            body : {}
+        }
+
+        const middleware = jsonToDtoMiddlewareFactory(RegisterUserDto);
+        await middleware(request as Request, response as unknown as Response, nextSpy as NextFunction);
+
+        expect(nextSpy).not.toHaveBeenCalled();
+        expect(responseSpy).toHaveBeenCalledWith(400);
+    })
 })
