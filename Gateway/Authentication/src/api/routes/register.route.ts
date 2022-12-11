@@ -3,7 +3,7 @@ import {UserEntity} from "../../entities/user.entity";
 import {RegisterUserDto} from "../../dto/register-user.dto";
 import {Repository} from "typeorm";
 
-export async function registerUser (req: Request, res: Response, repository: Repository<UserEntity>) {
+export async function registerUser(req: Request, res: Response, repository: Repository<UserEntity>) {
     const dto = req.body as RegisterUserDto
     const newUser = new UserEntity(
         dto.firstName,
