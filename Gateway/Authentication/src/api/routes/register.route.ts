@@ -16,7 +16,7 @@ export async function registerUser (req: Request, res: Response, repository: Rep
         await repository.save(newUser);
     } catch (e) {
         res.statusMessage = "User already exists";
-        res.sendStatus(403);
+        res.sendStatus(401);
         return;
     }
 

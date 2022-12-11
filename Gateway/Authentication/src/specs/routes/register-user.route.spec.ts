@@ -98,7 +98,7 @@ describe("Register route", () => {
         await registerUser({body: userDto} as Request, response as unknown as Response, repository);
 
         // Check calls to DB
-        expect(responseSpy).toHaveBeenCalledWith(403);
+        expect(responseSpy).toHaveBeenCalledWith(401);
         expect(saveSpy).toHaveBeenCalled();
 
         // Check that there is indeed only one entry in the database
