@@ -10,13 +10,16 @@ export async function login(req: Request, res: Response, repository: Repository<
         email: ILike(dto.email)
     });
 
+    // If the user does not exist, return 401
     if (!user){
-        res.sendStatus(403)
+        res.sendStatus(401)
         return;
     }
 
+    // If the password is invalid, return 401 as well
+    // Don't leave any way to distinguish between wrong email or wrong password
     if (!await bcrypt.compare(dto.password, user.passwordHash) ){
-        res.sendStatus(403)
+        res.sendStatus(401)
         return;
     }
 

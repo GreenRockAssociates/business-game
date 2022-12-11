@@ -44,6 +44,7 @@ describe("Login route", () => {
     });
 
     beforeEach(async () => {
+        await repository.clear();
         // Add a new user to the test
         user = new UserEntity("Foo", "Bar", "foo@bar.com");
         await user.setPassword("passwordpassword");
@@ -88,23 +89,23 @@ describe("Login route", () => {
         expect(responseSpy).toHaveBeenCalledTimes(1);
     })
 
-    it('Should return code 403 if the password is invalid', async () => {
+    it('Should return code 401 if the password is invalid', async () => {
         const loginDto = new LoginDto("foo@bar.com", "password");
 
         await login({body: loginDto, session} as Request, response as unknown as Response, repository)
 
-        expect(responseSpy).toHaveBeenCalledWith(403);
+        expect(responseSpy).toHaveBeenCalledWith(401);
         expect(responseSpy).toHaveBeenCalledTimes(1);
         expect(sessionRegenerateSpy).not.toHaveBeenCalled();
         expect(sessionSaveSpy).not.toHaveBeenCalled();
     })
 
-    it('Should return code 403 if the email does not exist', async () => {
+    it('Should return code 401 if the email does not exist', async () => {
         const loginDto = new LoginDto("jane@doe.com", "passwordpassword");
 
         await login({body: loginDto, session} as Request, response as unknown as Response, repository)
 
-        expect(responseSpy).toHaveBeenCalledWith(403);
+        expect(responseSpy).toHaveBeenCalledWith(401);
         expect(responseSpy).toHaveBeenCalledTimes(1);
         expect(sessionRegenerateSpy).not.toHaveBeenCalled();
         expect(sessionSaveSpy).not.toHaveBeenCalled();
