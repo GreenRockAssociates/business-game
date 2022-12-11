@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config({path: '.env'});
 
 // Libs
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import session from "express-session";
 let RedisStore = require("connect-redis")(session)
 
@@ -48,6 +48,11 @@ Promise.all([
     // Configuration des routes
     registerRoutes(router, AppDataSource)
     app.use(process.env.SERVICE_URL_PREFIX, router)
+
+    // Custom error handling to avoid leaking stack trace
+    app.use((err: any, req: Request, res: Response, _: NextFunction) => {
+        res.sendStatus(err?.statusCode ?? 500);
+    })
 
     const port = process.env.APP_PORT;
     app.listen(port, () => {
