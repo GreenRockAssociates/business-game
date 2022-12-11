@@ -7,6 +7,7 @@ import {LoginDto} from "../dto/login.dto";
 import {jsonToDtoMiddlewareFactory} from "./middlewares/json-to-dto.middleware";
 import {registerUser} from "./routes/register.route";
 import {login} from "./routes/login.route";
+import {disconnect} from "./routes/disconnect.route";
 
 export const router = express.Router()
 
@@ -15,4 +16,5 @@ export function registerRoutes(router: Router, dataSource: DataSource){
 
     router.post('/register', jsonToDtoMiddlewareFactory(RegisterUserDto), (req, res) => registerUser(req, res, userRepository))
     router.post('/login', jsonToDtoMiddlewareFactory(LoginDto), (req, res) => login(req, res, userRepository))
+    router.post('/disconnect', disconnect)
 }
