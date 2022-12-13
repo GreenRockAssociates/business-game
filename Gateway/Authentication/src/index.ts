@@ -7,6 +7,7 @@ dotenv.config({path: '.env'});
 import express, {Request, Response, NextFunction} from 'express';
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import cors from 'cors';
 let RedisStore = require("connect-redis")(session)
 
 // Redis for the session store
@@ -30,6 +31,13 @@ Promise.all([
 
     const app = express();
     app.set('trust proxy', 1);
+
+    // Enable CORS
+    app.use(cors({
+        origin: process.env.CORS_URL,
+        credentials: true,
+        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    }))
 
     // CSRF Mitigation
     app.use(cookieParser());
