@@ -173,7 +173,7 @@ describe("CSRF protection middleware", () => {
         const cookie = cookieSpy.mock.calls[0]
 
         expect(cookie[2]).toEqual({
-            maxAge: 60*60*24*30, // 30 days
+            maxAge: 60*60*1000, // 1 hour
             secure: true,
             sameSite: true
         })

@@ -48,7 +48,7 @@ function setCsrfCookie(res: Response): void {
         csrfCookieName,
         randomUUID(),
         {
-            maxAge: 60*60*24*30, // 30 days
+            maxAge: 60*60*1000, // 1 hour
             secure: true,
             sameSite: true
         }
