@@ -1,7 +1,6 @@
-import {AppDataSource} from "../../libraries/database";
 import {UserEntity} from "../../entities/user.entity";
 import {DataSource} from "typeorm";
-import * as bcrypt from "bcrypt";
+import {AppDataSource} from "../../index";
 
 describe('User entity', () => {
     describe('Database interaction', () => {
@@ -24,7 +23,6 @@ describe('User entity', () => {
 
         it('should create a new User in database', async () => {
             const user = new UserEntity("John", "Doe", "john.doe@live.com");
-            await user.setPassword("password");
 
             await dataSource.getRepository(UserEntity.name).save(user);
             const users = await dataSource.getRepository(UserEntity.name).find() as UserEntity[];
@@ -36,7 +34,6 @@ describe('User entity', () => {
 
         it('should update a new User in database', async () => {
             const user = new UserEntity("John", "Doe", "john.doe@live.com");
-            await user.setPassword("password");
 
             await dataSource.getRepository(UserEntity.name).save(user);
             const fetchedUser: UserEntity = await dataSource.getRepository(UserEntity.name).findOneBy({
@@ -63,7 +60,6 @@ describe('User entity', () => {
 
         it('should raise error on saving if a property is missing', async () => {
             let user = new UserEntity(undefined, "Doe", "john.doe@live.com");
-            await user.setPassword("password");
             await expect(dataSource.getRepository(UserEntity.name).save(user)).rejects.toContainEqual(
                 expect.objectContaining({
                     "property": "firstname"
@@ -71,7 +67,6 @@ describe('User entity', () => {
             )
 
             user = new UserEntity("John", undefined, "john.doe@live.com");
-            await user.setPassword("password");
             await expect(dataSource.getRepository(UserEntity.name).save(user)).rejects.toContainEqual(
                 expect.objectContaining({
                     "property": "lastname"
@@ -79,17 +74,9 @@ describe('User entity', () => {
             )
 
             user = new UserEntity("John", "Doe", undefined);
-            await user.setPassword("password");
             await expect(dataSource.getRepository(UserEntity.name).save(user)).rejects.toContainEqual(
                 expect.objectContaining({
                     "property": "email"
-                })
-            )
-
-            user = new UserEntity("John", "Doe", "john.doe@live.com");
-            await expect(dataSource.getRepository(UserEntity.name).save(user)).rejects.toContainEqual(
-                expect.objectContaining({
-                    "property": "passwordHash"
                 })
             )
         })
@@ -97,8 +84,6 @@ describe('User entity', () => {
         it('should raise error on saving is email is not unique when creating a new user', async () => {
             const user1 = new UserEntity("John", "Doe", "john.doe@live.com");
             const user2 = new UserEntity("John", "Doe", "john.DOE@live.com"); // Use an email with different capitalization
-            await user1.setPassword('password');
-            await user2.setPassword('password');
 
             await dataSource.getRepository(UserEntity.name).save(user1);
 
@@ -108,26 +93,5 @@ describe('User entity', () => {
                 })
             );
         })
-    })
-
-    test('The password should be hashed', async () => {
-        let user = new UserEntity(undefined, "Doe", "john.doe@live.com");
-        await user.setPassword("password");
-
-        await expect(bcrypt.compare("password", user.passwordHash)).resolves.toBeTruthy()
-    })
-
-    test('isPasswordValid() should return true when the given password is correct', async () => {
-        let user = new UserEntity(undefined, "Doe", "john.doe@live.com");
-        await user.setPassword("password");
-
-        await expect(user.isPasswordValid("password")).resolves.toBeTruthy()
-    })
-
-    test('isPasswordValid() should return false when the given password is incorrect', async () => {
-        let user = new UserEntity(undefined, "Doe", "john.doe@live.com");
-        await user.setPassword("password");
-
-        await expect(user.isPasswordValid("wrong-password")).resolves.toBeFalsy()
     })
 })
