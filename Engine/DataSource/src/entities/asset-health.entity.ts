@@ -20,7 +20,7 @@ export class AssetHealthEntity {
     @ManyToOne(() => GameEntity, (game) => game.assetHealthEntries)
     game: GameEntity
 
-    @ManyToOne(() => AssetEntity, (asset) => asset.health)
+    @ManyToOne(() => AssetEntity, (asset) => asset.healthEntries)
     asset: AssetEntity
 
     @IsString()

@@ -2,6 +2,7 @@ import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {IsNotEmpty, IsString} from "class-validator";
 import {PlayerEntity} from "./player.entity";
 import {AssetHealthEntity} from "./asset-health.entity";
+import {MarketEntity} from "./market.entity";
 
 @Entity()
 export class GameEntity {
@@ -18,6 +19,9 @@ export class GameEntity {
 
     @OneToMany(() => AssetHealthEntity, (assetHealth) => assetHealth.game)
     assetHealthEntries: AssetHealthEntity[]
+
+    @OneToMany(() => MarketEntity, (market) => market.game)
+    markets: MarketEntity[]
 
 
     constructor(gameState: string = "Created") {

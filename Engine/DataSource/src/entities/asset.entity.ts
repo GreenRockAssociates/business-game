@@ -3,6 +3,7 @@ import {IsNotEmpty, IsString, MaxLength} from "class-validator";
 import {SectorEntity} from "./sector.entity";
 import {PortfolioEntity} from "./portfolio.entity";
 import {AssetHealthEntity} from "./asset-health.entity";
+import {MarketEntity} from "./market.entity";
 
 @Entity()
 export class AssetEntity {
@@ -39,7 +40,10 @@ export class AssetEntity {
     portfolio: PortfolioEntity[]
 
     @OneToMany(() => AssetHealthEntity, (assetHealth) => assetHealth.asset)
-    health: AssetHealthEntity[]
+    healthEntries: AssetHealthEntity[]
+
+    @OneToMany(() => MarketEntity, (market) => market.asset)
+    markets: MarketEntity[]
 
     constructor(ticker: string, name: string, description: string, logo: string) {
         this.ticker = ticker;
