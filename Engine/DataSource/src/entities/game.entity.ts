@@ -1,9 +1,15 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {IsNotEmpty, IsString} from "class-validator";
+import {IsNotEmpty} from "class-validator";
 import {PlayerEntity} from "./player.entity";
 import {AssetHealthEntity} from "./asset-health.entity";
 import {MarketEntity} from "./market.entity";
 import {NewsReportEntity} from "./news-report.entity";
+
+enum GameState {
+    CREATED,
+    RUNNING,
+    ENDED
+}
 
 @Entity()
 export class GameEntity {
@@ -11,9 +17,8 @@ export class GameEntity {
     id: string
 
     @IsNotEmpty()
-    @IsString()
     @Column()
-    gameState: string
+    gameState: GameState
 
     @OneToMany(() => PlayerEntity, (player) => player.game)
     players: PlayerEntity[]
@@ -27,8 +32,7 @@ export class GameEntity {
     @OneToMany(() => NewsReportEntity, (newsReport) => newsReport.game)
     newsReportEntries: NewsReportEntity[]
 
-
-    constructor(gameState: string = "Created") {
+    constructor(gameState: GameState = GameState.CREATED) {
         this.gameState = gameState;
     }
 }
