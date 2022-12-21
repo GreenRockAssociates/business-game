@@ -1,6 +1,7 @@
-import {Column, Entity, JoinTable, ManyToMany, PrimaryColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn} from "typeorm";
 import {IsNotEmpty, IsString, MaxLength} from "class-validator";
 import {SectorEntity} from "./sector.entity";
+import {PortfolioEntity} from "./portfolio.entity";
 
 @Entity()
 export class AssetEntity {
@@ -32,6 +33,9 @@ export class AssetEntity {
     @ManyToMany(() => SectorEntity, (sector: SectorEntity) => sector.assets, {cascade: true})
     @JoinTable()
     sectors : SectorEntity[]
+
+    @OneToMany(() => PortfolioEntity, (portfolio) => portfolio.asset)
+    portfolio: PortfolioEntity[]
 
     constructor(ticker: string, name: string, description: string, logo: string) {
         this.ticker = ticker;
