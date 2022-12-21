@@ -122,7 +122,7 @@ describe('Portfolio entity', () => {
             await expect(dataSource.manager.save(portfolioEntry)).rejects.not.toBeUndefined()
         })
 
-        it("Insertion should fail if player is null", async () => {
+        it("Insertion should fail if asset is null", async () => {
             const player = new PlayerEntity();
             await dataSource.manager.save(player);
 
