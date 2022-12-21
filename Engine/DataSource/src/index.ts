@@ -12,7 +12,6 @@ export const AppDataSource = new DataSource({
     database: "game",
     synchronize: true,
     logging: false,
-    entities: [join(__dirname, '/../**/**.entity{.ts,.js}')],
+    entities: [join(__dirname, '/**/**.entity{.ts,.js}')],
     subscribers: [ValidationSubscriber],
-    migrations: [],
 })
