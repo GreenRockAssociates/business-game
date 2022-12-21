@@ -4,6 +4,7 @@ import {SectorEntity} from "./sector.entity";
 import {PortfolioEntity} from "./portfolio.entity";
 import {AssetHealthEntity} from "./asset-health.entity";
 import {MarketEntity} from "./market.entity";
+import {NewsReportEntity} from "./news-report.entity";
 
 @Entity()
 export class AssetEntity {
@@ -44,6 +45,10 @@ export class AssetEntity {
 
     @OneToMany(() => MarketEntity, (market) => market.asset)
     markets: MarketEntity[]
+
+    @ManyToMany(() => NewsReportEntity, (newsReport: NewsReportEntity) => newsReport.assets, {cascade: true})
+    @JoinTable()
+    newsReportEntries : NewsReportEntity[]
 
     constructor(ticker: string, name: string, description: string, logo: string) {
         this.ticker = ticker;

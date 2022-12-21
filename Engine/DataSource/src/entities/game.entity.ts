@@ -3,6 +3,7 @@ import {IsNotEmpty, IsString} from "class-validator";
 import {PlayerEntity} from "./player.entity";
 import {AssetHealthEntity} from "./asset-health.entity";
 import {MarketEntity} from "./market.entity";
+import {NewsReportEntity} from "./news-report.entity";
 
 @Entity()
 export class GameEntity {
@@ -22,6 +23,9 @@ export class GameEntity {
 
     @OneToMany(() => MarketEntity, (market) => market.game)
     markets: MarketEntity[]
+
+    @OneToMany(() => NewsReportEntity, (newsReport) => newsReport.game)
+    newsReportEntries: NewsReportEntity[]
 
 
     constructor(gameState: string = "Created") {
