@@ -1,9 +1,12 @@
 import {Column, Entity, ManyToOne, PrimaryColumn} from "typeorm";
 import {GameEntity} from "./game.entity";
-import {IsString, IsUUID} from "class-validator";
+import {IsNotEmpty, IsString, IsUUID} from "class-validator";
 
 @Entity()
 export class UserIdTranslationEntity {
+    @IsNotEmpty()
+    @IsString()
+    @IsUUID()
     @PrimaryColumn()
     userId: string
 

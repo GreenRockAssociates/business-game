@@ -2,6 +2,7 @@ import {DataSource} from "typeorm";
 import {AppDataSource} from "../../libraries/database";
 import {GameEntity, GameState} from "../../entities/game.entity";
 import {UserIdTranslationEntity} from "../../entities/user-id-translation.entity";
+import {InvitationEntity} from "../../entities/invitation.entity";
 
 describe("Game entity", () => {
     let dataSource: DataSource;
@@ -12,6 +13,7 @@ describe("Game entity", () => {
         });
         // Use .delete({}) and not .clear() since there are foreign keys : https://github.com/typeorm/typeorm/issues/2978#issuecomment-730596460
         await dataSource.getRepository(UserIdTranslationEntity.name).delete({})
+        await dataSource.getRepository(InvitationEntity.name).delete({})
         await dataSource.getRepository(GameEntity.name).delete({})
     })
 
@@ -22,6 +24,7 @@ describe("Game entity", () => {
     afterEach(async () => {
         // Use .delete({}) and not .clear() since there are foreign keys : https://github.com/typeorm/typeorm/issues/2978#issuecomment-730596460
         await dataSource.getRepository(UserIdTranslationEntity.name).delete({})
+        await dataSource.getRepository(InvitationEntity.name).delete({})
         await dataSource.getRepository(GameEntity.name).delete({})
     })
 
@@ -91,5 +94,24 @@ describe("Game entity", () => {
         expect(gameFromDb.userIds[1].gameId).toEqual(gameFromDb.id);
         expect(id1.gameId).toEqual(gameFromDb.id);
         expect(id2.gameId).toEqual(gameFromDb.id);
+    })
+
+    it("Can have invitation relations", async () => {
+        const game = new GameEntity("a0911cdb-fd25-4899-9596-60ef5a112916", "f4c5b4d9-94a7-4841-8546-25bf0b044e02");
+        await dataSource.manager.save(game);
+
+        const invitation1 = new InvitationEntity("f4c5b4d9-94a7-4841-8546-25bf0b044e02", true);
+        invitation1.game = game
+        await dataSource.manager.save(invitation1);
+        const invitation2 = new InvitationEntity("f4c5b4d9-94a7-4841-8546-25bf0b044e04");
+        invitation2.game = game
+        await dataSource.manager.save(invitation2);
+
+        const gameFromDb: GameEntity = (await dataSource.getRepository(GameEntity).find({where: {id: game.id}, relations: {invitations: true}}))[0]
+        expect(gameFromDb.invitations.length).toEqual(2);
+        expect(gameFromDb.invitations[0].gameId).toEqual(gameFromDb.id);
+        expect(gameFromDb.invitations[1].gameId).toEqual(gameFromDb.id);
+        expect(invitation1.gameId).toEqual(gameFromDb.id);
+        expect(invitation2.gameId).toEqual(gameFromDb.id);
     })
 })

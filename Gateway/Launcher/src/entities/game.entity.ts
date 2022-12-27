@@ -1,6 +1,7 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {IsNotEmpty, IsOptional, IsString, IsUUID} from "class-validator";
 import {UserIdTranslationEntity} from "./user-id-translation.entity";
+import {InvitationEntity} from "./invitation.entity";
 
 export enum GameState {
     CREATED,
@@ -34,6 +35,9 @@ export class GameEntity {
 
     @OneToMany(() => UserIdTranslationEntity, (userIdTranslationEntity: UserIdTranslationEntity) => userIdTranslationEntity.game)
     userIds: UserIdTranslationEntity[]
+
+    @OneToMany(() => InvitationEntity, (invitation: InvitationEntity) => invitation.game)
+    invitations: InvitationEntity[]
 
     constructor(engineId: string, ownerId: string, gameState: GameState = GameState.CREATED) {
         this.engineId = engineId;
