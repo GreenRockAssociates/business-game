@@ -1,6 +1,7 @@
 import {DataSource} from "typeorm";
 import {AppDataSource} from "../../libraries/database";
 import {GameEntity, GameState} from "../../entities/game.entity";
+import {UserIdTranslationEntity} from "../../entities/user-id-translation.entity";
 
 describe("Game entity", () => {
     let dataSource: DataSource;
@@ -10,6 +11,7 @@ describe("Game entity", () => {
             throw new Error(`Error initializing database: ${error.message}`);
         });
         // Use .delete({}) and not .clear() since there are foreign keys : https://github.com/typeorm/typeorm/issues/2978#issuecomment-730596460
+        await dataSource.getRepository(UserIdTranslationEntity.name).delete({})
         await dataSource.getRepository(GameEntity.name).delete({})
     })
 
@@ -19,6 +21,7 @@ describe("Game entity", () => {
 
     afterEach(async () => {
         // Use .delete({}) and not .clear() since there are foreign keys : https://github.com/typeorm/typeorm/issues/2978#issuecomment-730596460
+        await dataSource.getRepository(UserIdTranslationEntity.name).delete({})
         await dataSource.getRepository(GameEntity.name).delete({})
     })
 
@@ -69,5 +72,24 @@ describe("Game entity", () => {
                 "property": "engineId"
             })
         )
+    })
+
+    it("Can have userIdTranslation relations", async () => {
+        const game = new GameEntity("a0911cdb-fd25-4899-9596-60ef5a112916", "f4c5b4d9-94a7-4841-8546-25bf0b044e02");
+        await dataSource.manager.save(game);
+
+        const id1 = new UserIdTranslationEntity("f4c5b4d9-94a7-4841-8546-25bf0b044e02", "f4c5b4d9-94a7-4841-8546-25bf0b044e03");
+        id1.game = game
+        await dataSource.manager.save(id1);
+        const id2 = new UserIdTranslationEntity("f4c5b4d9-94a7-4841-8546-25bf0b044e04", "f4c5b4d9-94a7-4841-8546-25bf0b044e05");
+        id2.game = game
+        await dataSource.manager.save(id2);
+
+        const gameFromDb: GameEntity = (await dataSource.getRepository(GameEntity).find({where: {id: game.id}, relations: {userIds: true}}))[0]
+        expect(gameFromDb.userIds.length).toEqual(2);
+        expect(gameFromDb.userIds[0].gameId).toEqual(gameFromDb.id);
+        expect(gameFromDb.userIds[1].gameId).toEqual(gameFromDb.id);
+        expect(id1.gameId).toEqual(gameFromDb.id);
+        expect(id2.gameId).toEqual(gameFromDb.id);
     })
 })

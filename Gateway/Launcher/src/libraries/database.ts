@@ -7,7 +7,7 @@ export const AppDataSource = new DataSource({
     url: process.env.TYPEORM_URL,
     database: "launcher",
     synchronize: true,
-    logging: process.env.NODE_ENV !== "prod",
+    logging: process.env.NODE_ENV == "dev",
     entities: ['src/**/**.entity{.ts,.js}'],
     subscribers: [ValidationSubscriber],
     migrations: [],
