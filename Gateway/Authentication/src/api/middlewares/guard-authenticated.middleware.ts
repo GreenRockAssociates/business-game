@@ -7,6 +7,7 @@ export async function guardAuthenticated(req: Request, res: Response, next: Next
     if (req.session.data) {
         next();
     } else {
+        res.statusMessage = "Not authenticated";
         res.sendStatus(401);
     }
 }

@@ -6,6 +6,8 @@ dotenv.config({path: '.env'});
 // Libs
 import express, {Request, Response, NextFunction} from 'express';
 import session from "express-session";
+import cookieParser from "cookie-parser";
+import cors from 'cors';
 let RedisStore = require("connect-redis")(session)
 
 // Redis for the session store
@@ -18,6 +20,7 @@ let redisClient = createClient({
 // Custom files
 import {AppDataSource} from "./libraries/database";
 import {router, registerRoutes} from "./api/api";
+import {csrfProtection} from "./api/middlewares/csrf-protection.middleware";
 
 // Connect to databases and run the app once the connection is established
 Promise.all([
@@ -28,6 +31,19 @@ Promise.all([
 
     const app = express();
     app.set('trust proxy', 1);
+
+    // Enable CORS
+    app.use(cors({
+        origin: process.env.CORS_URL,
+        credentials: true,
+        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    }))
+
+    // CSRF Mitigation
+    app.use(cookieParser());
+    app.use(csrfProtection);
+
+    // Session
     app.use(session({
         secret: process.env.SECRET,
         name: 'sessionId',
@@ -38,6 +54,7 @@ Promise.all([
             httpOnly: true,
             secure: process.env.NODE_ENV === "prod",
             maxAge: 365*24*60*60*1000, // 1 an
+            sameSite: true
         },
         store: new RedisStore({ client: redisClient })
     }))

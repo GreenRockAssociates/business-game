@@ -3,7 +3,8 @@ import { Request, Response } from 'express';
 
 describe("Guard unauthenticated middleware", () => {
     const response = {
-        sendStatus() {}
+        sendStatus() {},
+        statusMessage: ""
     };
     let responseSpy: jest.SpyInstance;
     let nextSpy: jest.Mock;
@@ -14,6 +15,7 @@ describe("Guard unauthenticated middleware", () => {
     })
 
     afterEach(() => {
+        response.statusMessage = "";
         jest.clearAllMocks();
         nextSpy.mockClear();
     })
@@ -43,5 +45,6 @@ describe("Guard unauthenticated middleware", () => {
 
         expect(nextSpy).not.toHaveBeenCalled();
         expect(responseSpy).toHaveBeenCalledWith(401);
+        expect(response.statusMessage).toEqual("Already authenticated");
     })
 })
