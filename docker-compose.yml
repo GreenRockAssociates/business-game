@@ -23,6 +23,17 @@ services:
     volumes:
       - ./docker/redis/iam:/data
 
+  postgres-launcher:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: launcher
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 127.0.0.1:5434:5432
+    volumes:
+      - ./docker/postgres/launcher:/var/lib/postgresql/data
+
   postgres-game:
     image: postgres
     environment:
@@ -30,6 +41,6 @@ services:
       POSTGRES_DB: game
       POSTGRES_PASSWORD: postgres
     ports:
-      - 127.0.0.1:5434:5432
+      - 127.0.0.1:5435:5432
     volumes:
       - ./docker/postgres/game:/var/lib/postgresql/data
