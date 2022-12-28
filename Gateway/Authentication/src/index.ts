@@ -46,7 +46,6 @@ Promise.all([
     // Session
     app.use(session({
         secret: process.env.SECRET,
-        name: 'sessionId',
         saveUninitialized: false,
         resave: false,
         proxy: true,
