@@ -1,5 +1,5 @@
 import {UserSessionData} from "../interfaces/session-data.interface";
-import {Axios} from "axios";
+import axios, {AxiosInstance} from 'axios';
 import {SessionDataResponseDto} from "../dto/session-data-response.dto";
 import {IncomingHttpHeaders} from "http";
 import {validateOrReject} from "class-validator";
@@ -7,7 +7,7 @@ import "reflect-metadata";
 import {plainToInstance} from "class-transformer";
 
 export class AuthenticationService {
-    axios: Axios
+    axios: AxiosInstance
 
     async getSessionData(headers: IncomingHttpHeaders): Promise<UserSessionData> {
         let {data} = await this.axios.get(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/session-data`, {
@@ -24,7 +24,7 @@ export class AuthenticationService {
         }
     }
 
-    constructor(axios: Axios = new Axios()) {
-        this.axios = axios;
+    constructor(instance: AxiosInstance = axios.create()) {
+        this.axios = instance;
     }
 }

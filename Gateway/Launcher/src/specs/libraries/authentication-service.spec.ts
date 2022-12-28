@@ -1,4 +1,4 @@
-import {Axios, AxiosRequestConfig} from "axios";
+import {AxiosInstance, AxiosRequestConfig} from "axios";
 import {AuthenticationService} from "../../libraries/authentication-service";
 
 class AxiosMock {
@@ -31,7 +31,7 @@ describe("Authentication service", () => {
     beforeEach(() => {
         axiosMock = new AxiosMock();
         axiosGetSpy = jest.spyOn(axiosMock, "get");
-        authenticationService = new AuthenticationService(axiosMock as Axios);
+        authenticationService = new AuthenticationService(axiosMock as AxiosInstance);
     })
 
     describe("getSessionData", () => {

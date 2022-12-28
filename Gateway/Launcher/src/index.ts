@@ -12,6 +12,8 @@ import cors from 'cors';
 import {AppDataSource} from "./libraries/database";
 import {router, registerRoutes} from "./api/api";
 import {csrfProtection} from "./api/middlewares/csrf-protection.middleware";
+import {distantSession} from "./api/middlewares/distant-session.middleware";
+import {AuthenticationService} from "./libraries/authentication-service";
 
 // Connect to databases and run the app once the connection is established
 Promise.all([
@@ -35,6 +37,10 @@ Promise.all([
 
     // Parse request body as json
     app.use(express.json());
+
+    // Get session data from authentication service
+    const authenticationService = new AuthenticationService()
+    app.use((req, res, next) => distantSession(req, res, next, authenticationService))
 
     // Configuration des routes
     registerRoutes(router, AppDataSource)
