@@ -10,13 +10,8 @@ import {GetGameDetailRequestDto} from "../../dto/get-game-detail-request.dto";
 export async function getGame(req: Request, res: Response, repository: Repository<GameEntity>) {
     const userId = req.session.userId // Can use it directly because the middleware ensures the data is valid
 
-    const requestDTO = new GetGameDetailRequestDto(req.params['gameId'])
-    try {
-        await validateOrReject(requestDTO);
-    } catch (_) {
-        res.sendStatus(400);
-        return;
-    }
+    // Able to cast since there was a call to requestParamsToDtoMiddleware earlier in the call chain
+    const requestDTO: GetGameDetailRequestDto = req.params as unknown as GetGameDetailRequestDto
 
     const game: GameEntity = await repository.findOne({
         relations: {
