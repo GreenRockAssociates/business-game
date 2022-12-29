@@ -45,8 +45,6 @@ export async function getAllGames(req: Request, res: Response, repository: Repos
             games: gameDtos
         }
 
-        console.log(response)
-
         res.status(200);
         res.send(JSON.stringify(response))
     } catch (e) {
