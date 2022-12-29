@@ -17,8 +17,11 @@ export class AuthenticationService {
      * @throws If the request fails or the data is invalid
      */
     async getSessionData(headers: IncomingHttpHeaders): Promise<UserSessionData> {
+        // Echo only the request's cookie
+        // We don't need the 'x-xsrf-token' header since we do a GET request
+        const cookieHeaders = {cookie: headers.cookie}
         let {data} = await this.axios.get(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/session-data`, {
-            headers: headers // Echo the request's headers (cookie, csrf token, etc)
+            headers: cookieHeaders
         })
 
         // We need to cast 'data' to an actual class instance, as Axios only returns a plain object
