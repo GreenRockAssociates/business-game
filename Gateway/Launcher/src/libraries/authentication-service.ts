@@ -9,6 +9,13 @@ import {plainToInstance} from "class-transformer";
 export class AuthenticationService {
     axios: AxiosInstance
 
+    /**
+     * Returns the current session data of the user.
+     *
+     * Fetches that data from the Authentication service. This function also validates the data before returning it.
+     *
+     * @throws If the request fails or the data is invalid
+     */
     async getSessionData(headers: IncomingHttpHeaders): Promise<UserSessionData> {
         let {data} = await this.axios.get(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/session-data`, {
             headers: headers // Echo the request's headers (cookie, csrf token, etc)

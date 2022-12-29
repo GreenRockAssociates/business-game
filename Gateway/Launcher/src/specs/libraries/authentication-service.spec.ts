@@ -14,11 +14,9 @@ class helpers {
         }
     }
 
-    static getInvalidSessionData(): { data: any } {
+    static getInvalidSessionData(invalidData: object): { data: any } {
         return {
-            data: {
-                unknownField: "should not be there"
-            }
+            data: invalidData
         }
     }
 }
@@ -53,13 +51,17 @@ describe("Authentication service", () => {
         })
 
         it("Should throw if the distant session data is invalid", async () => {
-            axiosGetSpy.mockImplementation(() => helpers.getInvalidSessionData())
+            axiosGetSpy.mockImplementation(() => helpers.getInvalidSessionData({
+                unknownField: "should not be there"
+            }))
 
             await expect(authenticationService.getSessionData({})).rejects.not.toBeUndefined()
         })
 
-        it("Should throw if the distant session data is invalid", async () => {
-            axiosGetSpy.mockImplementation(() => helpers.getInvalidSessionData())
+        it("Should throw if the distant user id is not a uuid", async () => {
+            axiosGetSpy.mockImplementation(() => helpers.getInvalidSessionData({
+                userId: "not a uuid"
+            }))
 
             await expect(authenticationService.getSessionData({})).rejects.not.toBeUndefined()
         })
