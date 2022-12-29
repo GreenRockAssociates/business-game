@@ -33,13 +33,24 @@ describe("Authentication service", () => {
     })
 
     describe("getSessionData", () => {
-        it("Should call the right URL and echo the headers", async () => {
+        it("Should call the right URL and echo the cookies", async () => {
             axiosGetSpy.mockImplementation(() => helpers.getValidSessionData())
 
-            await authenticationService.getSessionData({echo: "true"});
+            const cookie = "connect.sid=s%3AAPV3iI9ACXRxL1pXNkBqdHk12tb_YMN7.ojrh%2FUePwF3YBIlgCBeJp6sChHpbghjO782AsR58qGA";
+            await authenticationService.getSessionData({cookie});
 
             expect(axiosGetSpy).toHaveBeenCalledTimes(1)
-            expect(axiosGetSpy).toHaveBeenCalledWith(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/session-data`, {headers: {echo: "true"}})
+            expect(axiosGetSpy).toHaveBeenCalledWith(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/session-data`, {headers: {cookie}})
+        })
+
+        it("Should only echo the cookies header", async () => {
+            axiosGetSpy.mockImplementation(() => helpers.getValidSessionData())
+
+            const cookie = "connect.sid=s%3AAPV3iI9ACXRxL1pXNkBqdHk12tb_YMN7.ojrh%2FUePwF3YBIlgCBeJp6sChHpbghjO782AsR58qGA";
+            await authenticationService.getSessionData({cookie, 'other-header': 'echo'});
+
+            expect(axiosGetSpy).toHaveBeenCalledTimes(1)
+            expect(axiosGetSpy).toHaveBeenCalledWith(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/session-data`, {headers: {cookie}})
         })
 
         it("Should return the correct data in case of success", async () => {
