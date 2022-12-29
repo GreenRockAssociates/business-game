@@ -5,17 +5,16 @@ import {instanceToPlain, plainToInstance} from "class-transformer";
 import {GameDto} from "../../dto/game.dto";
 import {validateOrReject} from "class-validator";
 import {InvitationEntity} from "../../entities/invitation.entity";
+import {GetGameDetailRequestDto} from "../../dto/get-game-detail-request.dto";
 
 export async function getGame(req: Request, res: Response, repository: Repository<GameEntity>) {
-    const gameId = req.params['gameId'];
-    if (!gameId) {
-        res.sendStatus(400);
-        return;
-    }
+    const userId = req.session.userId // Can use it directly because the middleware ensures the data is valid
 
-    const userId = req.session.userId;
-    if (!userId){
-        res.sendStatus(401);
+    const requestDTO = new GetGameDetailRequestDto(req.params['gameId'])
+    try {
+        await validateOrReject(requestDTO);
+    } catch (_) {
+        res.sendStatus(400);
         return;
     }
 
@@ -24,7 +23,7 @@ export async function getGame(req: Request, res: Response, repository: Repositor
             invitations: true
         },
         where: {
-            id: gameId
+            id: requestDTO.gameId
         }
     });
 

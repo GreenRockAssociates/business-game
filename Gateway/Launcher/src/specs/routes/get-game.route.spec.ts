@@ -92,7 +92,7 @@ describe('Get game route',  () => {
         expect(invitations).toEqual([]);
     })
 
-    it("Should return code 404 if the id is invalid even if the player is the owner", async () => {
+    it("Should return code 404 if the id doesn't exist even if the player is the owner", async () => {
         const userId = "c84c0eea-f3d8-4a2f-b6f0-ab40b89039fd";
         await helper.insertGameAsOwner(dataSource, userId);
 
@@ -119,7 +119,7 @@ describe('Get game route',  () => {
         expect(invitations).toEqual([new InvitationDto(userId, true)]);
     })
 
-    it("Should return code 404 if the id is invalid even if the player is invited", async () => {
+    it("Should return code 404 if the id doesn't exist even if the player is invited", async () => {
         const userId = "c84c0eea-f3d8-4a2f-b6f0-ab40b89039fd";
         await helper.insertGameAsInvited(dataSource, userId);
 
@@ -146,21 +146,18 @@ describe('Get game route',  () => {
         expect(sendStatusSpy).toHaveBeenCalledWith(404)
     })
 
-    it("Should return code 401 if the user id is missing", async () => {
-        const userId = "c84c0eea-f3d8-4a2f-b6f0-ab40b89039fd";
-        const game = await helper.insertGameAsOwner(dataSource, userId);
-
-        await getGame(helper.getRequestObject(undefined, game.id), responseMock as unknown as Response, dataSource.getRepository(GameEntity))
-
-        expect(sendStatusSpy).toHaveBeenCalledTimes(1)
-        expect(sendStatusSpy).toHaveBeenCalledWith(401)
-    })
-
     it("Should return code 400 if the game id is missing", async () => {
         const userId = "c84c0eea-f3d8-4a2f-b6f0-ab40b89039fd";
         await helper.insertGameAsOwner(dataSource, userId);
 
         await getGame(helper.getRequestObject(userId, undefined), responseMock as unknown as Response, dataSource.getRepository(GameEntity))
+
+        expect(sendStatusSpy).toHaveBeenCalledTimes(1)
+        expect(sendStatusSpy).toHaveBeenCalledWith(400)
+    })
+
+    it("Should return code 400 if the game id is invalid", async () => {
+        await getGame(helper.getRequestObject("de3c58ac-39d1-44d3-acea-96727e2827e9", "not a uuid"), responseMock as unknown as Response, dataSource.getRepository(GameEntity))
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1)
         expect(sendStatusSpy).toHaveBeenCalledWith(400)

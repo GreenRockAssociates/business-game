@@ -14,12 +14,7 @@ import {validateOrReject} from "class-validator";
  * @param repository
  */
 export async function getAllGames(req: Request, res: Response, repository: Repository<GameEntity>) {
-    const userId = req.session.userId
-    if(!userId){
-        res.statusMessage = "Not authenticated";
-        res.sendStatus(401);
-        return;
-    }
+    const userId = req.session.userId // We know that the userId is valid because of the session middleware
 
     const games = await repository.find({
         relations: {
