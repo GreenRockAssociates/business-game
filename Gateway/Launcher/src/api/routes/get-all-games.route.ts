@@ -46,7 +46,7 @@ export async function getAllGames(req: Request, res: Response, repository: Repos
         }
 
         res.status(200);
-        res.send(JSON.stringify(response))
+        res.json(response)
     } catch (e) {
         // Games should be in a correct state, so if a validation fails it means that something was wrong somewhere else on the server
         res.sendStatus(500)

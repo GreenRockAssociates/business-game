@@ -9,7 +9,7 @@ import {GameDto} from "../../dto/game.dto";
 class ResponseMock {
     sendStatus() {}
     status() {}
-    send() {}
+    json() {}
 }
 
 class helper {
@@ -22,7 +22,7 @@ describe('Get all games route', () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
     let statusSpy: jest.SpyInstance;
-    let sendSpy: jest.SpyInstance;
+    let jsonSpy: jest.SpyInstance;
 
     let dataSource: DataSource;
 
@@ -42,7 +42,7 @@ describe('Get all games route', () => {
         responseMock = new ResponseMock()
         sendStatusSpy = jest.spyOn(responseMock, 'sendStatus');
         statusSpy = jest.spyOn(responseMock, 'status');
-        sendSpy = jest.spyOn(responseMock, 'send');
+        jsonSpy = jest.spyOn(responseMock, 'json');
     })
 
     afterEach(async () => {
@@ -54,8 +54,8 @@ describe('Get all games route', () => {
         const userId = "3ac4d14f-51ce-49f5-bcaa-db5e66e4ff31";
         await getAllGames(helper.getRequestWithSession(userId), responseMock as unknown as Response, dataSource.getRepository(GameEntity));
 
-        expect(sendSpy).toHaveBeenCalledTimes(1)
-        const returnedGames = JSON.parse(sendSpy.mock.lastCall)['games']
+        expect(jsonSpy).toHaveBeenCalledTimes(1)
+        const returnedGames = jsonSpy.mock.lastCall[0]['games']
         expect(returnedGames.length).toBe(0)
     })
     
@@ -70,8 +70,8 @@ describe('Get all games route', () => {
 
         await getAllGames(helper.getRequestWithSession(userId), responseMock as unknown as Response, dataSource.getRepository(GameEntity));
 
-        expect(sendSpy).toHaveBeenCalledTimes(1)
-        const returnedGames = JSON.parse(sendSpy.mock.lastCall)['games']
+        expect(jsonSpy).toHaveBeenCalledTimes(1)
+        const returnedGames = jsonSpy.mock.lastCall[0]['games']
         expect(returnedGames.length).toBe(2)
         const gameIds: string[] = returnedGames.map((game: GameDto) => game.id)
         expect(gameIds).toContain(game1.id)
@@ -90,8 +90,8 @@ describe('Get all games route', () => {
 
         await getAllGames(helper.getRequestWithSession(userId), responseMock as unknown as Response, dataSource.getRepository(GameEntity));
 
-        expect(sendSpy).toHaveBeenCalledTimes(1)
-        const returnedGames = JSON.parse(sendSpy.mock.lastCall)['games']
+        expect(jsonSpy).toHaveBeenCalledTimes(1)
+        const returnedGames = jsonSpy.mock.lastCall[0]['games']
         expect(returnedGames.length).toBe(1)
         expect(returnedGames[0].id).toEqual(game.id)
     })
@@ -108,8 +108,8 @@ describe('Get all games route', () => {
 
         await getAllGames(helper.getRequestWithSession(userId), responseMock as unknown as Response, dataSource.getRepository(GameEntity));
 
-        expect(sendSpy).toHaveBeenCalledTimes(1)
-        const returnedGames = JSON.parse(sendSpy.mock.lastCall)['games']
+        expect(jsonSpy).toHaveBeenCalledTimes(1)
+        const returnedGames = jsonSpy.mock.lastCall[0]['games']
         expect(returnedGames.length).toBe(0)
     })
 
@@ -131,8 +131,8 @@ describe('Get all games route', () => {
         await dataSource.manager.save(invitation2);
 
         await getAllGames(helper.getRequestWithSession(userId), responseMock as unknown as Response, dataSource.getRepository(GameEntity));
-        expect(sendSpy).toHaveBeenCalledTimes(1)
-        const returnedGames = JSON.parse(sendSpy.mock.lastCall)['games']
+        expect(jsonSpy).toHaveBeenCalledTimes(1)
+        const returnedGames = jsonSpy.mock.lastCall[0]['games']
         expect(returnedGames.length).toBe(2)
         returnedGames.forEach((game: GameDto) => {
             expect(game.invitations).toBeUndefined()
