@@ -11,7 +11,7 @@ import {GameEntity, GameState} from "../../entities/game.entity";
 
 async function getIdFromEmail(req: Request, res: Response, axios: AxiosInstance, playerEmail: InvitePlayerRequestDto) {
     await validateOrReject(playerEmail); // Ensure we do have an email
-    let {data} = await axios.get(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/userId?userEmail=${playerEmail}`, {
+    let {data} = await axios.get(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/userId?userEmail=${playerEmail.playerEmail}`, {
         headers: {cookie: req.headers.cookie}
     })
     const userIdDto: UserIdDto = plainToInstance(UserIdDto, data as object, {excludeExtraneousValues: true})
@@ -29,12 +29,15 @@ export async function invitePlayer(req: Request, res: Response, invitationReposi
     try {
         invitedPlayerId = await getIdFromEmail(req, res, axios, playerEmail);
     } catch (e) {
+        console.log(e)
+        res.statusMessage = "No player found"
         res.sendStatus(404);
         return;
     }
 
     // Check that the player isn't trying to invite themselves
     if (userId === invitedPlayerId){
+        res.statusMessage = "Can't invite self"
         res.sendStatus(412);
         return;
     }
@@ -42,10 +45,12 @@ export async function invitePlayer(req: Request, res: Response, invitationReposi
     // Check preconditions on game
     const game = await gameRepository.findOneBy({id: gameId.gameId})
     if (!game){
+        res.statusMessage = "No game found"
         res.sendStatus(404);
         return;
     }
     if (game.ownerId !== userId){
+        res.statusMessage = "No game found"
         res.sendStatus(404);
         return;
     }

@@ -26,5 +26,5 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     router.post('/disconnect', disconnect);
     router.post('/change-password', guardAuthenticated, jsonToDtoMiddlewareFactory(ChangePasswordDto), (req, res) => changePassword(req, res, userRepository));
     router.get('/session-data', guardAuthenticated, sessionData);
-    router.get('/:userEmail/userId', guardAuthenticated, (req, res) => emailToUserId(req, res, userRepository))
+    router.get('/userId', guardAuthenticated, (req, res) => emailToUserId(req, res, userRepository))
 }
