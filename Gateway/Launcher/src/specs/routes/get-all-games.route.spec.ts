@@ -4,7 +4,7 @@ import {GameEntity, GameState} from "../../entities/game.entity";
 import {InvitationEntity} from "../../entities/invitation.entity";
 import {getAllGames} from "../../api/routes/get-all-games.route";
 import {Request, Response} from "express";
-import {GameDto} from "../../dto/game.dto";
+import {GameResponseDto} from "../../dto/game-response.dto";
 
 class ResponseMock {
     sendStatus() {}
@@ -73,7 +73,7 @@ describe('Get all games route', () => {
         expect(jsonSpy).toHaveBeenCalledTimes(1)
         const returnedGames = jsonSpy.mock.lastCall[0]['games']
         expect(returnedGames.length).toBe(2)
-        const gameIds: string[] = returnedGames.map((game: GameDto) => game.id)
+        const gameIds: string[] = returnedGames.map((game: GameResponseDto) => game.id)
         expect(gameIds).toContain(game1.id)
         expect(gameIds).toContain(game2.id)
     })
@@ -134,7 +134,7 @@ describe('Get all games route', () => {
         expect(jsonSpy).toHaveBeenCalledTimes(1)
         const returnedGames = jsonSpy.mock.lastCall[0]['games']
         expect(returnedGames.length).toBe(2)
-        returnedGames.forEach((game: GameDto) => {
+        returnedGames.forEach((game: GameResponseDto) => {
             expect(game.invitations).toBeUndefined()
         })
     })

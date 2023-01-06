@@ -1,7 +1,7 @@
 import {Expose} from "class-transformer";
 import {IsBoolean, IsNotEmpty, IsString, IsUUID} from "class-validator";
 
-export class InvitationDto {
+export class InvitationResponseDto {
     @IsNotEmpty()
     @IsString()
     @IsUUID()

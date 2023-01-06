@@ -4,7 +4,7 @@ import {GameEntity} from "../entities/game.entity";
 
 import {jsonToDtoMiddlewareFactory} from "./middlewares/json-to-dto.middleware";
 import {requestParamsToDtoMiddlewareFactory} from "./middlewares/request-params-to-dto.middleware";
-import {GetGameDetailRequestDto} from "../dto/get-game-detail-request.dto";
+import {GameIdDto} from "../dto/game-id.dto";
 import {CreateGameRequestDto} from "../specs/dto/create-game-request.dto";
 
 import {getAllGames} from "./routes/get-all-games.route";
@@ -17,6 +17,6 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     const gameRepository: Repository<GameEntity> = dataSource.getRepository(GameEntity)
 
     router.get("/games", (req, res) => getAllGames(req, res, gameRepository))
-    router.get("/games/:gameId", requestParamsToDtoMiddlewareFactory(GetGameDetailRequestDto), (req, res) => getGame(req, res, gameRepository))
+    router.get("/games/:gameId", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => getGame(req, res, gameRepository))
     router.post("/new-game", jsonToDtoMiddlewareFactory(CreateGameRequestDto), (req, res) => newGame(req, res, gameRepository))
 }

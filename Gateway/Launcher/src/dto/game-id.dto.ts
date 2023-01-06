@@ -1,7 +1,7 @@
 import {Expose} from "class-transformer";
 import {IsUUID} from "class-validator";
 
-export class GetGameDetailRequestDto {
+export class GameIdDto {
     @IsUUID()
     @Expose()
     gameId: string
