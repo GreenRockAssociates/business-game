@@ -9,30 +9,31 @@ import {UserIdDto} from "../../dto/user-id.dto";
 import {validateOrReject} from "class-validator";
 import {GameEntity, GameState} from "../../entities/game.entity";
 
+async function getIdFromEmail(req: Request, res: Response, axios: AxiosInstance, playerEmail: InvitePlayerRequestDto) {
+    await validateOrReject(playerEmail); // Ensure we do have an email
+    let {data} = await axios.get(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/userId?userEmail=${playerEmail}`, {
+        headers: {cookie: req.headers.cookie}
+    })
+    const userIdDto: UserIdDto = plainToInstance(UserIdDto, data as object, {excludeExtraneousValues: true})
+    await validateOrReject(userIdDto)
+    return userIdDto.userId;
+}
+
 export async function invitePlayer(req: Request, res: Response, invitationRepository: Repository<InvitationEntity>, gameRepository: Repository<GameEntity>, axios: AxiosInstance) {
     const userId = req.session.userId // Can use it directly because the middleware ensures the data is valid
 
     const gameId: GameIdDto = req.params as unknown as GameIdDto;
     const playerEmail: InvitePlayerRequestDto = req.body;
 
-    // Convert player email to player id
-    let invitedPlayerId
+    let invitedPlayerId;
     try {
-        await validateOrReject(playerEmail); // Ensure we do have an email
-        let {data} = await axios.get(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/userId?userEmail=${playerEmail}`, {
-            headers: {cookie: req.headers.cookie}
-        })
-        data = plainToInstance(UserIdDto, data, {excludeExtraneousValues: true})
-        await validateOrReject(data)
-        invitedPlayerId = data.userId;
+        invitedPlayerId = await getIdFromEmail(req, res, axios, playerEmail);
     } catch (e) {
         res.sendStatus(404);
         return;
     }
-    if(!invitedPlayerId){
-        res.sendStatus(404);
-        return;
-    }
+
+
 
     // Check preconditions on game
     const game = await gameRepository.findOneBy({id: gameId.gameId})
