@@ -33,7 +33,11 @@ export async function invitePlayer(req: Request, res: Response, invitationReposi
         return;
     }
 
-
+    // Check that the player isn't trying to invite themselves
+    if (userId === invitedPlayerId){
+        res.sendStatus(412);
+        return;
+    }
 
     // Check preconditions on game
     const game = await gameRepository.findOneBy({id: gameId.gameId})
@@ -51,7 +55,11 @@ export async function invitePlayer(req: Request, res: Response, invitationReposi
     }
 
     // Create the invitation and save it
-    const invitation = new InvitationEntity(invitedPlayerId, false)
+    const existingInvitation = await invitationRepository.findOneBy({
+        userId: invitedPlayerId,
+        gameId: game.id
+    })
+    const invitation = new InvitationEntity(invitedPlayerId, existingInvitation?.acceptedInvitation ?? false)
     invitation.game = game;
     await invitationRepository.save(invitation);
 

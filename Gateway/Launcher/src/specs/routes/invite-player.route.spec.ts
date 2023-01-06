@@ -90,6 +90,28 @@ describe("New game route", () => {
         expect(invitationFromDb.acceptedInvitation).toBeFalsy();
     })
 
+    it("A player should not be able to invite themselves", async () => {
+        const userId = "0979d995-4dfb-4bcb-8fe9-fdddaa0472cd";
+
+        const game = new GameEntity("df5390c5-6671-4cc9-a915-68a9c040f576", userId);
+        await dataSource.manager.save(game);
+
+        const request = helper.getRequestObject(game.id, userId);
+        const invitedPlayerId = userId;
+        getSpy.mockImplementation(() => {
+            return {
+                data: {
+                    userId: invitedPlayerId
+                }
+            };
+        })
+
+        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+
+        expect(sendStatusSpy).toHaveBeenCalledTimes(1);
+        expect(sendStatusSpy).toHaveBeenCalledWith(412);
+    })
+
     it("Should return 404 if the user is not the owner of the game", async () => {
         const userId = "0979d995-4dfb-4bcb-8fe9-fdddaa0472cd";
 
@@ -238,5 +260,40 @@ describe("New game route", () => {
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
+    })
+
+    it("Inviting a player should be idempotent", async () => {
+        const userId = "0979d995-4dfb-4bcb-8fe9-fdddaa0472cd";
+
+        const game = new GameEntity("df5390c5-6671-4cc9-a915-68a9c040f576", userId);
+        await dataSource.manager.save(game);
+
+        const request = helper.getRequestObject(game.id, userId);
+        const invitedPlayerId = "30b528ee-1a9f-44e4-96b6-208da6c94d5a";
+        getSpy.mockImplementation(() => {
+            return {
+                data: {
+                    userId: invitedPlayerId
+                }
+            };
+        })
+
+        const invitation = new InvitationEntity(invitedPlayerId, true)
+        invitation.game = game;
+        await dataSource.manager.save(invitation);
+
+        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+
+        expect(sendStatusSpy).toHaveBeenCalledTimes(1);
+        expect(sendStatusSpy).toHaveBeenCalledWith(200);
+
+        const invitationsFromDb = await dataSource.getRepository(InvitationEntity).findBy({
+            userId: invitedPlayerId,
+            gameId: game.id
+        })
+        expect(invitationsFromDb.length).toEqual(1); // Verify that there wasn't two insertions
+        const invitationFromDb = invitationsFromDb[0];
+        expect(invitationFromDb).not.toBeNull();
+        expect(invitationFromDb.acceptedInvitation).toBeTruthy(); // Verify that we didn't modify the status
     })
 });
