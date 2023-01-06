@@ -14,6 +14,7 @@ import {changePassword} from "./routes/change-password.route";
 import {guardAuthenticated} from "./middlewares/guard-authenticated.middleware";
 import {guardUnauthenticated} from "./middlewares/guard-unauthenticated.middleware";
 import {sessionData} from "./routes/session-data.route";
+import {emailToUserId} from "./routes/email-to-user-id.route";
 
 export const router = express.Router()
 
@@ -25,4 +26,5 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     router.post('/disconnect', disconnect);
     router.post('/change-password', guardAuthenticated, jsonToDtoMiddlewareFactory(ChangePasswordDto), (req, res) => changePassword(req, res, userRepository));
     router.get('/session-data', guardAuthenticated, sessionData);
+    router.get('/:userEmail/userId', guardAuthenticated, (req, res) => emailToUserId(req, res, userRepository))
 }
