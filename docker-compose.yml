@@ -30,6 +30,6 @@ services:
       POSTGRES_DB: game
       POSTGRES_PASSWORD: postgres
     ports:
-      - 127.0.0.1:5434:5432
+      - 127.0.0.1:5435:5432
     volumes:
       - ./docker/postgres/game:/var/lib/postgresql/data
