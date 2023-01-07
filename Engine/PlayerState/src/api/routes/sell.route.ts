@@ -7,7 +7,7 @@ import {PortfolioEntity} from "../../../../DataSource/src/entities/portfolio.ent
 import {GameIdDto} from "../../dto/game-id.dto";
 
 
-export async function buy(req: Request, res: Response, repository_player: Repository<PlayerEntity>, marketEntityRepository : Repository<MarketEntity>) {
+export async function sell(req: Request, res: Response, repository_player: Repository<PlayerEntity>, marketEntityRepository : Repository<MarketEntity>,portfolioEntityRepository : Repository<PortfolioEntity>) {
     const dto = req.body as BuyandsellDto;
     const gameid = req.params as unknown as GameIdDto;
 
@@ -24,6 +24,7 @@ export async function buy(req: Request, res: Response, repository_player: Reposi
         res.sendStatus(404)
         return
     }
+
     const asset = await marketEntityRepository.findOne({
         where : {
             gameId : gameid.gameID,
@@ -40,23 +41,26 @@ export async function buy(req: Request, res: Response, repository_player: Reposi
         res.sendStatus(404)
         return
     }
-    if ( player.bankAccount < asset.value * dto.quantity){
+
+    const playerasset = player.portfolio.find(asset => asset.assetTicker=== dto.assetId)
+
+    if(!playerasset || playerasset.count< dto.quantity){
         res.sendStatus(412)
         return
     }
-    const playerasset = player.portfolio.find(asset => asset.assetTicker=== dto.assetId)
 
-    if(playerasset){
-        playerasset.count += dto.quantity
-    }else{
-        const newPlayerAsset = new PortfolioEntity();
-        newPlayerAsset.player = player;
-        newPlayerAsset.asset = asset.asset;
-        newPlayerAsset.count = dto.quantity
-        player.portfolio.push(newPlayerAsset)
+    if(playerasset.count===dto.quantity){
+        await portfolioEntityRepository.delete({playerId : dto.playerId,assetTicker : dto.assetId})
     }
-    player.bankAccount -= dto.quantity*asset.value
+    else{
+
+        playerasset.count -= dto.quantity
+
+
+    }
+    player.bankAccount += dto.quantity*asset.value
     await repository_player.save(player)
+
 
     res.sendStatus(200);
 }

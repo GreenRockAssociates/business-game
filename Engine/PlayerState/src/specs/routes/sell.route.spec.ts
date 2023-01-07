@@ -8,7 +8,7 @@ import {MarketEntity} from "../../../../DataSource/src/entities/market.entity";
 import {PortfolioEntity} from "../../../../DataSource/src/entities/portfolio.entity";
 import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
 import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
-import {buy} from "../../api/routes/buy.route";
+import {sell} from "../../api/routes/sell.route";
 class ResponseMock {
     sendStatus() {}
 }
@@ -22,7 +22,7 @@ class helper {
     }
 }
 
-describe("buy route", () => {
+describe("sell route", () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
 
@@ -51,7 +51,8 @@ describe("buy route", () => {
         await dataSource.getRepository(PortfolioEntity).delete({});
         await dataSource.getRepository(PlayerEntity).delete({});
         await dataSource.getRepository(MarketEntity).delete({});
-   })
+        await dataSource.getRepository(MarketEntity).delete({});
+    })
 
     it("should work",async ()=> {
 
@@ -71,10 +72,10 @@ describe("buy route", () => {
         portfolioEntry.asset = asset
         await dataSource.manager.save(portfolioEntry)
 
-        const bodybuy = new BuyandsellDto(100, player.id ,asset.ticker)
+        const bodybuy = new BuyandsellDto(10, player.id ,asset.ticker)
         const parambuy = new GameIdDto(game.id)
 
-        await buy({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity));
+        await sell({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity),dataSource.getRepository(PortfolioEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
         const playerFromDb = await dataSource.getRepository(PlayerEntity).findOne({
@@ -85,11 +86,11 @@ describe("buy route", () => {
                 portfolio : true
             }
         })
-        expect(playerFromDb.bankAccount).toEqual(player.bankAccount - 100)
-        expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(portfolioEntry.count + 100)
+        expect(playerFromDb.bankAccount).toEqual(player.bankAccount + 10)
+        expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toBeCloseTo(portfolioEntry.count -10)
     })
 
-    it("should work knew asset buy",async ()=> { const game = new GameEntity()
+    it("should work exact number of asset",async ()=> { const game = new GameEntity()
         await dataSource.manager.save(game)
         const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
         await dataSource.manager.save(asset);
@@ -99,11 +100,15 @@ describe("buy route", () => {
         await dataSource.manager.save(market)
         const player = new PlayerEntity(100);
         await dataSource.manager.save(player);
-
-        const bodybuy = new BuyandsellDto(100, player.id ,asset.ticker)
+        const portfolioEntry = new PortfolioEntity()
+        portfolioEntry.count = 10.10
+        portfolioEntry.player = player
+        portfolioEntry.asset = asset
+        await dataSource.manager.save(portfolioEntry)
+        const bodybuy = new BuyandsellDto(10.10, player.id ,asset.ticker)
         const parambuy = new GameIdDto(game.id)
 
-        await buy({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity));
+        await sell({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity),dataSource.getRepository(PortfolioEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
         const playerFromDb = await dataSource.getRepository(PlayerEntity).findOne({
@@ -114,9 +119,10 @@ describe("buy route", () => {
                 portfolio : true
             }
         })
-        expect(playerFromDb.bankAccount).toEqual(player.bankAccount - 100)
-        expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(100)} )
-    it("should'nt work not enought money",async ()=> {
+        expect(playerFromDb.bankAccount).toEqual(player.bankAccount +10.10)
+        expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL") == null)
+    } )
+    it("should'nt work not enought asset",async ()=> {
         const game = new GameEntity()
         await dataSource.manager.save(game)
         const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
@@ -136,7 +142,7 @@ describe("buy route", () => {
         const bodybuy = new BuyandsellDto(100, player.id ,asset.ticker)
         const parambuy = new GameIdDto(game.id)
 
-        await buy({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity));
+        await sell({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity),dataSource.getRepository(PortfolioEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledWith(412);
         const playerFromDb = await dataSource.getRepository(PlayerEntity).findOne({
@@ -170,7 +176,7 @@ describe("buy route", () => {
         const bodybuy = new BuyandsellDto(100, player.id ,"TESLALESBATARD")
         const parambuy = new GameIdDto(game.id)
 
-        await buy({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity));
+        await sell({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity),dataSource.getRepository(PortfolioEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
         const playerFromDb = await dataSource.getRepository(PlayerEntity).findOne({
@@ -204,7 +210,7 @@ describe("buy route", () => {
         const bodybuy = new BuyandsellDto(100, "6c0b9100-b86d-4c13-8ab8-83ce347430dd" ,asset.ticker)
         const parambuy = new GameIdDto(game.id)
 
-        await buy({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity));
+        await sell({"body": bodybuy, "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity), dataSource.getRepository(MarketEntity),dataSource.getRepository(PortfolioEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
         const playerFromDb = await dataSource.getRepository(PlayerEntity).findOne({
