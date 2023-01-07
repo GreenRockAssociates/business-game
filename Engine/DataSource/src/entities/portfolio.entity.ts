@@ -15,7 +15,9 @@ export class PortfolioEntity {
     @ManyToOne(() => AssetEntity, (asset) => asset.portfolio)
     asset: AssetEntity
 
-    @ManyToOne(() => PlayerEntity, (player) => player.portfolio)
+    @ManyToOne(() => PlayerEntity, (player) => player.portfolio, {
+        orphanedRowAction: 'delete'
+    })
     player: PlayerEntity
 
     @IsNotEmpty()
