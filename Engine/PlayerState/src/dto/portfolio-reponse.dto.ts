@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumber, IsUUID,IsString,IsPositive,ValidateNested,Type} from "class-validator";
+import {IsNotEmpty, IsNumber, IsUUID,IsString,IsPositive,ValidateNested} from "class-validator";
 import {Expose} from "class-transformer";
 import "reflect-metadata";
 
@@ -22,7 +22,6 @@ export class porfolio {
 export class allportfolioDto {
     @IsNotEmpty()
     @ValidateNested({ each: true })
-    @Type(() => porfolio)
     @Expose()
     portfolio  : porfolio[];
 

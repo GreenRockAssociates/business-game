@@ -24,7 +24,7 @@ class helper {
     }
 }
 
-describe("buy route", () => {
+describe("portfolio route", () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
     let sendSpy: jest.SpyInstance;
@@ -57,7 +57,7 @@ describe("buy route", () => {
         await dataSource.getRepository(MarketEntity).delete({});
     })
 
-    it("should work",async ()=> {
+    it("should work one asset",async ()=> {
 
         const game = new GameEntity()
         await dataSource.manager.save(game)
@@ -87,20 +87,133 @@ describe("buy route", () => {
 
 
     })
+
+    it("should work multi assets",async ()=> {
+
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        const asset2 = new AssetEntity("AMZN", "Amazon", "A ecomerce company", "logo.png")
+        await dataSource.manager.save(asset);
+        await dataSource.manager.save(asset2);
+        const market = new MarketEntity(1,1,true)
+        const market2 = new MarketEntity(1,1,true)
+        market.game = game;
+        market2.game = game;
+        market.assetTicker = asset.ticker;
+        market2.assetTicker = asset2.ticker;
+        await dataSource.manager.save(market)
+        await dataSource.manager.save(market2)
+        const player = new PlayerEntity(100);
+        player.game = game;
+        await dataSource.manager.save(player);
+        const portfolioEntry = new PortfolioEntity()
+        portfolioEntry.count = 10.10
+        portfolioEntry.player = player
+        portfolioEntry.asset = asset
+        await dataSource.manager.save(portfolioEntry)
+        const portfolioEntry2 = new PortfolioEntity()
+        portfolioEntry2.count = 25
+        portfolioEntry2.player = player
+        portfolioEntry2.asset = asset2
+        await dataSource.manager.save(portfolioEntry2)
+
+
+        const parambuy = new IdsDto(game.id,player.id)
+
+
+        await portfolio({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
+
+        expect(sendStatusSpy).toHaveBeenCalledWith(200);
+        expect(sendSpy).toHaveBeenCalledWith(`{"money":100}`);
+
+
+    })
+
+
+
     it("should'nt work player didnt exist",async ()=> {
 
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        await dataSource.manager.save(asset);
+        const market = new MarketEntity(1,1,true)
+        market.game = game;
+        market.assetTicker = asset.ticker;
+        await dataSource.manager.save(market)
+        const player = new PlayerEntity(100);
+        player.game = game;
+        await dataSource.manager.save(player);
+        const portfolioEntry = new PortfolioEntity()
+        portfolioEntry.count = 10.10
+        portfolioEntry.player = player
+        portfolioEntry.asset = asset
+        await dataSource.manager.save(portfolioEntry)
 
+
+        const parambuy = new IdsDto(game.id,"6c0b9100-b86d-4c13-8ab8-83ce347430dd")
+
+
+        await portfolio({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
+
+        expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
     })
 
     it("should'nt work game didnt exist",async ()=> {
 
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        await dataSource.manager.save(asset);
+        const market = new MarketEntity(1,1,true)
+        market.game = game;
+        market.assetTicker = asset.ticker;
+        await dataSource.manager.save(market)
+        const player = new PlayerEntity(100);
+        player.game = game;
+        await dataSource.manager.save(player);
+        const portfolioEntry = new PortfolioEntity()
+        portfolioEntry.count = 10.10
+        portfolioEntry.player = player
+        portfolioEntry.asset = asset
+        await dataSource.manager.save(portfolioEntry)
 
+
+        const parambuy = new IdsDto("6c0b9100-b86d-4c13-8ab8-83ce347430dd",player.id)
+
+
+        await portfolio({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
+
+        expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
     })
 
     it("should'nt work player not in game",async ()=> {
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        await dataSource.manager.save(asset);
+        const market = new MarketEntity(1,1,true)
+        market.game = game;
+        market.assetTicker = asset.ticker;
+        await dataSource.manager.save(market)
+        const player = new PlayerEntity(100);
+        await dataSource.manager.save(player);
+        const portfolioEntry = new PortfolioEntity()
+        portfolioEntry.count = 10.10
+        portfolioEntry.player = player
+        portfolioEntry.asset = asset
+        await dataSource.manager.save(portfolioEntry)
 
+
+        const parambuy = new IdsDto(game.id,player.id)
+
+
+        await portfolio({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
+
+        expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
     })
 

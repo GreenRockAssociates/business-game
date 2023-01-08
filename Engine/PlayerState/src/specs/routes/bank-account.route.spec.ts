@@ -23,7 +23,7 @@ class helper {
     }
 }
 
-describe("buy route", () => {
+describe("bank acount", () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
     let sendSpy: jest.SpyInstance;
