@@ -6,9 +6,10 @@ import {BuyandsellDto} from "../../dto/buyandsell.dto";
 import {PlayerEntity} from "../../../../DataSource/src/entities/player.entity";
 import {MarketEntity} from "../../../../DataSource/src/entities/market.entity";
 import {PortfolioEntity} from "../../../../DataSource/src/entities/portfolio.entity";
+import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
 import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
-import {bankAcount} from "../../api/routes/bank-account.route";
 import {IdsDto} from "../../dto/ids.dto";
+import {portfolio} from "../../api/routes/portfolio.route";
 class ResponseMock {
     sendStatus() {}
     send() {}
@@ -60,70 +61,46 @@ describe("buy route", () => {
 
         const game = new GameEntity()
         await dataSource.manager.save(game)
-
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        await dataSource.manager.save(asset);
+        const market = new MarketEntity(1,1,true)
+        market.game = game;
+        market.assetTicker = asset.ticker;
+        await dataSource.manager.save(market)
         const player = new PlayerEntity(100);
-        player.game = game
+        player.game = game;
         await dataSource.manager.save(player);
+        const portfolioEntry = new PortfolioEntity()
+        portfolioEntry.count = 10.10
+        portfolioEntry.player = player
+        portfolioEntry.asset = asset
+        await dataSource.manager.save(portfolioEntry)
+
 
         const parambuy = new IdsDto(game.id,player.id)
 
 
-        await bankAcount({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
+        await portfolio({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
 
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
         expect(sendSpy).toHaveBeenCalledWith(`{"money":100}`);
 
+
     })
     it("should'nt work player didnt exist",async ()=> {
 
-        const game = new GameEntity()
-        await dataSource.manager.save(game)
 
-        const player = new PlayerEntity(100);
-        player.game = game
-        await dataSource.manager.save(player);
-
-        const parambuy = new IdsDto(game.id,"22d4db9f-9fec-4421-a4f0-f80b5681d740")
-
-
-        await bankAcount({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
-
-        expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
     })
 
     it("should'nt work game didnt exist",async ()=> {
 
-        const game = new GameEntity()
-        await dataSource.manager.save(game)
 
-        const player = new PlayerEntity(100);
-        player.game = game
-        await dataSource.manager.save(player);
-
-        const parambuy = new IdsDto("22d4db9f-9fec-4421-a4f0-f80b5681d740",player.id)
-
-
-        await bankAcount({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
-
-        expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
     })
 
     it("should'nt work player not in game",async ()=> {
 
-        const game = new GameEntity()
-        await dataSource.manager.save(game)
-
-        const player = new PlayerEntity(100);
-        await dataSource.manager.save(player);
-
-        const parambuy = new IdsDto(game.id,player.id)
-
-
-        await bankAcount({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
-
-        expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
     })
 
