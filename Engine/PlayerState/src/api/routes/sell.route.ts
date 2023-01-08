@@ -14,7 +14,7 @@ export async function sell(req: Request, res: Response, repository_player: Repos
 
     const player = await repository_player.findOne({
         where: {
-            id : dto.playerId
+            id : dto.playerId,
         },
         relations: {
             portfolio : true

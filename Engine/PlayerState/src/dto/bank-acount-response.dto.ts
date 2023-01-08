@@ -5,7 +5,7 @@ import "reflect-metadata";
 /**
  * Data transfer object for the bank acount reponses HTTP request
  */
-export class BuyDto {
+export class bankAccountDto {
     @IsNotEmpty()
     @IsNumber()
     @IsPositive()
