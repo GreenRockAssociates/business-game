@@ -3,7 +3,7 @@ import {bankAccountDto} from "../../dto/bank-acount-response.dto";
 import {Repository} from "typeorm";
 import {PlayerEntity} from "../../../../DataSource/src/entities/player.entity";
 import {IdsDto} from "../../dto/ids.dto";
-import {allportfolioDto} from "../../dto/portfolio-reponse.dto";
+import { portfolioDTO} from "../../dto/portfolio-reponse.dto";
 
 
 export async function portfolio(req: Request, res: Response, repository_player: Repository<PlayerEntity>) {
@@ -21,9 +21,14 @@ export async function portfolio(req: Request, res: Response, repository_player: 
     }
 
 
-    //const portfolio = new allportfolioDto()
-
+    let allPortfolio = []
+    for (let i = 0; i < player.portfolio.length; i++) {
+        console.log('here')
+        allPortfolio.push(new portfolioDTO(player.portfolio[i]))
+    }
     res.sendStatus(200);
-    res.send(JSON.stringify(player.portfolio));
+    console.log(allPortfolio)
+
+    res.send(JSON.stringify(allPortfolio));
 
 }
