@@ -1,12 +1,15 @@
-import {IsNotEmpty, IsNumber, IsUUID,IsString,IsPositive,ValidateNested,Type} from "class-validator";
+import {IsNotEmpty, IsNumber, IsUUID,IsString,IsPositive,ValidateNested} from "class-validator";
 import {Expose} from "class-transformer";
 import "reflect-metadata";
+import {PortfolioEntity} from "../../../DataSource/src/entities/portfolio.entity";
+import e from "express";
+
 
 /**
  * Data transfer object for the portfolio HTTP request
  */
 
-export class porfolio {
+export class portfolioDTO {
     @IsNotEmpty()
     @IsString()
     @IsUUID()
@@ -17,18 +20,11 @@ export class porfolio {
     @IsNumber()
     @IsPositive()
     @Expose()
-    quanity: number;
-}
-export class allportfolioDto {
-    @IsNotEmpty()
-    @ValidateNested({ each: true })
-    @Type(() => porfolio)
-    @Expose()
-    portfolio  : porfolio[];
+    quantity: number;
 
+    constructor(entityPort : PortfolioEntity ) {
+        this.assetId = entityPort.assetTicker;
+        this.quantity = entityPort.count
 
-
-    constructor(portfolio : porfolio[]) {
-        this.portfolio  = portfolio ;
     }
 }
