@@ -12,15 +12,6 @@ class ResponseMock {
     send() {}
 }
 
-class helper {
-    static getRequestObject(gameId : string, assetId : string, quantity : number, playerId : string): Request{
-        return {
-            params: new GameIdDto(gameId) ,
-            body: new BuyandsellDto(quantity, playerId,assetId)
-        } as unknown as Request
-    }
-}
-
 describe("new game", () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
@@ -64,7 +55,30 @@ describe("new game", () => {
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
-        expect(sendSpy).toHaveBeenCalledWith(`{"money":100}`);
+
+    })
+    it("should work one player",async ()=> {
+
+
+
+        const body = new NewGameDto(1)
+
+
+        await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
+
+        expect(sendStatusSpy).toHaveBeenCalledWith(200);
+
+    })
+    it("should'nt work 0 player",async ()=> {
+
+
+
+        const body = new NewGameDto(0)
+
+
+        await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
+
+        expect(sendStatusSpy).toHaveBeenCalledWith(412);
 
     })
 

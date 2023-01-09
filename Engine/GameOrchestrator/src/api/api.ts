@@ -13,6 +13,5 @@ export const router = express.Router()
 
 export function registerRoutes(router: Router, dataSource: DataSource){
 
-    router.post('/new-game', NewGameDto, (req, res) => newgame(req, res));
 
 }
