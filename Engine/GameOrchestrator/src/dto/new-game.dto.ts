@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumber, IsPositive,} from "class-validator";
+import {IsNotEmpty, IsNumber, IsPositive, Min,} from "class-validator";
 import {Expose} from "class-transformer";
 import "reflect-metadata";
 
@@ -9,6 +9,7 @@ export class NewGameDto {
     @IsNotEmpty()
     @IsNumber()
     @IsPositive()
+    @Min(1)
     @Expose()
     numberOfPlayers : number;
 
