@@ -29,7 +29,6 @@ export async function invitePlayer(req: Request, res: Response, invitationReposi
     try {
         invitedPlayerId = await getIdFromEmail(req, res, axios, playerEmail);
     } catch (e) {
-        console.log(e)
         res.statusMessage = "No player found"
         res.sendStatus(404);
         return;
