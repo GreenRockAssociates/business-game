@@ -27,7 +27,7 @@ class helper {
     }
 }
 
-describe("New game route", () => {
+describe("Invite player route", () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
 

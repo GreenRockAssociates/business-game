@@ -34,7 +34,7 @@ class helper {
     }
 }
 
-describe('Get unanswered invitations route',  () => {
+describe('User id to player id route',  () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
     let jsonSpy: jest.SpyInstance;
