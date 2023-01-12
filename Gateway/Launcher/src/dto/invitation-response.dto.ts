@@ -6,6 +6,12 @@ export class InvitationResponseDto {
     @IsString()
     @IsUUID()
     @Expose()
+    gameId: string
+
+    @IsNotEmpty()
+    @IsString()
+    @IsUUID()
+    @Expose()
     userId: string
 
     @IsBoolean()
@@ -13,7 +19,8 @@ export class InvitationResponseDto {
     acceptedInvitation: boolean
 
 
-    constructor(userId: string, acceptedInvitation: boolean) {
+    constructor(gameId: string, userId: string, acceptedInvitation: boolean) {
+        this.gameId = gameId;
         this.userId = userId;
         this.acceptedInvitation = acceptedInvitation;
     }

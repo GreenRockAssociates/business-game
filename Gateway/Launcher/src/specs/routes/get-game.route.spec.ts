@@ -116,7 +116,7 @@ describe('Get game route',  () => {
         expect(ownerId).toEqual(game.ownerId);
         expect(name).toEqual(game.name);
         expect(gameState).toEqual(game.gameState);
-        expect(invitations).toEqual([new InvitationResponseDto(userId, true)]);
+        expect(invitations).toEqual([new InvitationResponseDto(game.id, userId, true)]);
     })
 
     it("Should return code 404 if the id doesn't exist even if the player is invited", async () => {
