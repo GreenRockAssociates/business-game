@@ -7,7 +7,7 @@ import {InvitationEntity} from "../entities/invitation.entity";
 import {jsonToDtoMiddlewareFactory} from "./middlewares/json-to-dto.middleware";
 import {requestParamsToDtoMiddlewareFactory} from "./middlewares/request-params-to-dto.middleware";
 import {GameIdDto} from "../dto/game-id.dto";
-import {CreateGameRequestDto} from "../specs/dto/create-game-request.dto";
+import {CreateGameRequestDto} from "../dto/create-game-request.dto";
 import {InvitePlayerRequestDto} from "../dto/invite-player-request.dto";
 
 import {getAllGames} from "./routes/get-all-games.route";
@@ -15,6 +15,8 @@ import {getGame} from "./routes/get-game.route";
 import {newGame} from "./routes/new-game.route";
 import {invitePlayer} from "./routes/invite-player.route";
 import {getUnansweredInvitations} from "./routes/get-unanswered-invitations.route";
+import {answerInvite} from "./routes/answer-invite.route";
+import {AnswerInviteDto} from "../dto/answer-invite.dto";
 
 
 export const router = express.Router()
@@ -28,4 +30,5 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     router.post("/new-game", jsonToDtoMiddlewareFactory(CreateGameRequestDto), (req, res) => newGame(req, res, gameRepository))
     router.put("/games/:gameId/invite", requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(InvitePlayerRequestDto), (req, res) => invitePlayer(req, res, invitationRepository, gameRepository, axios.create()))
     router.get("/invites", (req, res) => getUnansweredInvitations(req, res, invitationRepository));
+    router.put("/invites", jsonToDtoMiddlewareFactory(AnswerInviteDto), (req, res) => answerInvite(req, res, invitationRepository))
 }
