@@ -20,6 +20,7 @@ import {invitePlayer} from "./routes/invite-player.route";
 import {getUnansweredInvitations} from "./routes/get-unanswered-invitations.route";
 import {answerInvite} from "./routes/answer-invite.route";
 import {userIdToPlayerId} from "./routes/user-id-to-player-id.route";
+import {gameIdToEngineId} from "./routes/game-id-to-engine-id.route";
 
 
 export const router = express.Router()
@@ -35,5 +36,6 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     router.put("/games/:gameId/invite", requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(InvitePlayerRequestDto), (req, res) => invitePlayer(req, res, invitationRepository, gameRepository, axios.create()))
     router.get("/invites", (req, res) => getUnansweredInvitations(req, res, invitationRepository));
     router.put("/invites", jsonToDtoMiddlewareFactory(AnswerInviteDto), (req, res) => answerInvite(req, res, invitationRepository));
+    router.get("/games/:gameId/engine-id", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => gameIdToEngineId(req, res, gameRepository))
     router.get("/games/:gameId/players/engine-id", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => userIdToPlayerId(req, res, userIdTranslationEntityRepository))
 }
