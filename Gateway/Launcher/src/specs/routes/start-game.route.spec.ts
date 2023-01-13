@@ -133,8 +133,6 @@ describe("Start game route", () => {
             }
         })
 
-        console.log(gameFromDb)
-
         expect(gameFromDb.userIds.length).toEqual(3);
         expect(gameFromDb.userIds).toContainEqual(new UserIdTranslationEntity(firstInvitedPlayerId, helper.playerIds[0], game.id));
         expect(gameFromDb.userIds).toContainEqual(new UserIdTranslationEntity(secondInvitedPlayerId, helper.playerIds[1], game.id));
