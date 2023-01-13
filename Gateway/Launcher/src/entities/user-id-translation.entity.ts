@@ -13,7 +13,9 @@ export class UserIdTranslationEntity {
     @PrimaryColumn()
     gameId: string
 
-    @ManyToOne(() => GameEntity, (game: GameEntity) => game.userIds)
+    @ManyToOne(() => GameEntity, (game: GameEntity) => game.userIds, {
+        orphanedRowAction: 'delete'
+    })
     game: GameEntity
 
     @IsString()
@@ -21,8 +23,11 @@ export class UserIdTranslationEntity {
     @Column("uuid")
     enginePlayerId: string
 
-    constructor(userId: string, enginePlayerId: string) {
+    constructor(userId: string, enginePlayerId: string, gameId?: string) {
         this.userId = userId;
         this.enginePlayerId = enginePlayerId;
+        if (gameId) {
+            this.gameId = gameId;
+        }
     }
 }

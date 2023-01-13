@@ -39,7 +39,7 @@ export class GameEntity {
     @Column({length: 255, type: "varchar"})
     name: string
 
-    @OneToMany(() => UserIdTranslationEntity, (userIdTranslationEntity: UserIdTranslationEntity) => userIdTranslationEntity.game)
+    @OneToMany(() => UserIdTranslationEntity, (userIdTranslationEntity: UserIdTranslationEntity) => userIdTranslationEntity.game, {cascade: true})
     userIds: UserIdTranslationEntity[]
 
     @OneToMany(() => InvitationEntity, (invitation: InvitationEntity) => invitation.game)
