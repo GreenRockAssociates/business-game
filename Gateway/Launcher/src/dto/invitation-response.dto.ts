@@ -1,7 +1,13 @@
 import {Expose} from "class-transformer";
 import {IsBoolean, IsNotEmpty, IsString, IsUUID} from "class-validator";
 
-export class InvitationDto {
+export class InvitationResponseDto {
+    @IsNotEmpty()
+    @IsString()
+    @IsUUID()
+    @Expose()
+    gameId: string
+
     @IsNotEmpty()
     @IsString()
     @IsUUID()
@@ -13,7 +19,8 @@ export class InvitationDto {
     acceptedInvitation: boolean
 
 
-    constructor(userId: string, acceptedInvitation: boolean) {
+    constructor(gameId: string, userId: string, acceptedInvitation: boolean) {
+        this.gameId = gameId;
         this.userId = userId;
         this.acceptedInvitation = acceptedInvitation;
     }

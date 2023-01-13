@@ -13,7 +13,9 @@ export class InvitationEntity {
     @PrimaryColumn()
     gameId: string
 
-    @ManyToOne(() => GameEntity, (game: GameEntity) => game.invitations)
+    @ManyToOne(() => GameEntity, (game: GameEntity) => game.invitations, {
+        orphanedRowAction: 'delete'
+    })
     game: GameEntity
 
     @Column()

@@ -38,8 +38,6 @@ describe('User entity', () => {
             const user = new UserEntity("John", "Doe", "john.doe@live.com");
             await user.setPassword("password");
 
-            console.log(user)
-
             await dataSource.getRepository(UserEntity.name).save(user);
             const fetchedUser: UserEntity = await dataSource.getRepository(UserEntity.name).findOneBy({
                 id: user.id
@@ -48,14 +46,10 @@ describe('User entity', () => {
             fetchedUser.firstname = "Foo";
             fetchedUser.lastname = "Bar";
 
-            console.log(fetchedUser)
-
             await dataSource.getRepository(UserEntity.name).save(fetchedUser);
             const fetchedUserAfterUpdate: UserEntity = await dataSource.getRepository(UserEntity.name).findOneBy({
                 id: user.id
             }) as UserEntity;
-
-            console.log(fetchedUserAfterUpdate)
 
             expect(fetchedUserAfterUpdate.id).toEqual(user.id);
             expect(fetchedUserAfterUpdate.firstname).toEqual("Foo");

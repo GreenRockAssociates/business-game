@@ -2,16 +2,16 @@ import {Request, Response} from "express";
 import {Repository} from "typeorm";
 import {GameEntity} from "../../entities/game.entity";
 import {instanceToPlain, plainToInstance} from "class-transformer";
-import {GameDto} from "../../dto/game.dto";
+import {GameResponseDto} from "../../dto/game-response.dto";
 import {validateOrReject} from "class-validator";
 import {InvitationEntity} from "../../entities/invitation.entity";
-import {GetGameDetailRequestDto} from "../../dto/get-game-detail-request.dto";
+import {GameIdDto} from "../../dto/game-id.dto";
 
 export async function getGame(req: Request, res: Response, repository: Repository<GameEntity>) {
     const userId = req.session.userId // Can use it directly because the middleware ensures the data is valid
 
     // Able to cast since there was a call to requestParamsToDtoMiddleware earlier in the call chain
-    const requestDTO: GetGameDetailRequestDto = req.params as unknown as GetGameDetailRequestDto
+    const requestDTO: GameIdDto = req.params as unknown as GameIdDto
 
     const game: GameEntity = await repository.findOne({
         relations: {
@@ -34,7 +34,7 @@ export async function getGame(req: Request, res: Response, repository: Repositor
         return;
     }
 
-    const dto = plainToInstance(GameDto, game, {excludeExtraneousValues: true, exposeUnsetFields: false});
+    const dto = plainToInstance(GameResponseDto, game, {excludeExtraneousValues: true, exposeUnsetFields: false});
     try {
         await validateOrReject(dto);
 

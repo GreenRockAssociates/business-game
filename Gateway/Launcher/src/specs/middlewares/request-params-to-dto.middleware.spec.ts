@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import {GetGameDetailRequestDto} from "../../dto/get-game-detail-request.dto";
+import {GameIdDto} from "../../dto/game-id.dto";
 import {requestParamsToDtoMiddlewareFactory} from "../../api/middlewares/request-params-to-dto.middleware";
 import {Trim} from "class-sanitizer";
 import {IsString} from "class-validator";
@@ -29,10 +29,10 @@ describe('RequestParamsToDtoMiddlewareFactory', () => {
             }
         }
 
-        const middleware = requestParamsToDtoMiddlewareFactory(GetGameDetailRequestDto);
+        const middleware = requestParamsToDtoMiddlewareFactory(GameIdDto);
         await middleware(request as unknown as Request, response as unknown as Response, nextSpy as NextFunction);
 
-        expect(request.params instanceof GetGameDetailRequestDto).toEqual(true);
+        expect(request.params instanceof GameIdDto).toEqual(true);
         expect(request.params.gameId).toEqual("fc672170-766c-4471-a74f-e33316f2260d");
     })
 
@@ -67,7 +67,7 @@ describe('RequestParamsToDtoMiddlewareFactory', () => {
             }
         }
 
-        const middleware = requestParamsToDtoMiddlewareFactory(GetGameDetailRequestDto);
+        const middleware = requestParamsToDtoMiddlewareFactory(GameIdDto);
         await middleware(request as unknown as Request, response as unknown as Response, nextSpy as NextFunction);
 
         expect(nextSpy).toHaveBeenCalled();
@@ -81,7 +81,7 @@ describe('RequestParamsToDtoMiddlewareFactory', () => {
             }
         }
 
-        const middleware = requestParamsToDtoMiddlewareFactory(GetGameDetailRequestDto);
+        const middleware = requestParamsToDtoMiddlewareFactory(GameIdDto);
         await middleware(request as unknown as Request, response as unknown as Response, nextSpy as NextFunction);
 
         expect(nextSpy).not.toHaveBeenCalled();
@@ -93,7 +93,7 @@ describe('RequestParamsToDtoMiddlewareFactory', () => {
             params : {}
         }
 
-        const middleware = requestParamsToDtoMiddlewareFactory(GetGameDetailRequestDto);
+        const middleware = requestParamsToDtoMiddlewareFactory(GameIdDto);
         await middleware(request as unknown as Request, response as unknown as Response, nextSpy as NextFunction);
 
         expect(nextSpy).not.toHaveBeenCalled();

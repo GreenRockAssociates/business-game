@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import {Repository} from "typeorm";
 import {GameEntity} from "../../entities/game.entity";
 import {plainToInstance} from "class-transformer";
-import {GameDto} from "../../dto/game.dto";
+import {GameResponseDto} from "../../dto/game-response.dto";
 import {validateOrReject} from "class-validator";
 
 /**
@@ -28,7 +28,7 @@ export async function getAllGames(req: Request, res: Response, repository: Repos
 
     const gameDtos = games.map(game => {
         delete game.invitations // Since only the current user would be returned from the query, delete the invitation list to remove this field from the DTO
-        return plainToInstance(GameDto, game, {excludeExtraneousValues: true, exposeUnsetFields: false})
+        return plainToInstance(GameResponseDto, game, {excludeExtraneousValues: true, exposeUnsetFields: false})
     })
 
     try {

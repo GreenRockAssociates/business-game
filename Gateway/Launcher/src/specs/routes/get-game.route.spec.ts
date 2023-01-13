@@ -4,7 +4,7 @@ import {InvitationEntity} from "../../entities/invitation.entity";
 import {GameEntity} from "../../entities/game.entity";
 import {Request, Response} from "express";
 import {getGame} from "../../api/routes/get-game.route";
-import {InvitationDto} from "../../dto/invitation.dto";
+import {InvitationResponseDto} from "../../dto/invitation-response.dto";
 
 class ResponseMock {
     sendStatus() {}
@@ -116,7 +116,7 @@ describe('Get game route',  () => {
         expect(ownerId).toEqual(game.ownerId);
         expect(name).toEqual(game.name);
         expect(gameState).toEqual(game.gameState);
-        expect(invitations).toEqual([new InvitationDto(userId, true)]);
+        expect(invitations).toEqual([new InvitationResponseDto(game.id, userId, true)]);
     })
 
     it("Should return code 404 if the id doesn't exist even if the player is invited", async () => {

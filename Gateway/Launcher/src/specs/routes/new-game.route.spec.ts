@@ -2,7 +2,7 @@ import {DataSource} from "typeorm";
 import {AppDataSource} from "../../libraries/database";
 import {GameEntity, GameState} from "../../entities/game.entity";
 import {Request, Response} from "express";
-import {CreateGameRequestDto} from "../dto/create-game-request.dto";
+import {CreateGameRequestDto} from "../../dto/create-game-request.dto";
 import {newGame} from "../../api/routes/new-game.route";
 
 class ResponseMock {

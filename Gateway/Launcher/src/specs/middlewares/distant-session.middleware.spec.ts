@@ -2,7 +2,7 @@ import {IncomingHttpHeaders} from "http";
 import {UserSessionData} from "../../interfaces/session-data.interface";
 import {distantSession} from "../../api/middlewares/distant-session.middleware";
 import {Request, Response} from "express";
-import {AuthenticationService} from "../../libraries/authentication-service";
+import {AuthenticationService} from "../../libraries/authentication.service";
 import {AxiosError} from "axios";
 
 class AuthenticationServiceMock {

@@ -1,9 +1,9 @@
 import {GameState} from "../entities/game.entity";
 import {IsNotEmpty, IsString, IsUUID} from "class-validator";
 import {Expose, Type} from "class-transformer";
-import {InvitationDto} from "./invitation.dto";
+import {InvitationResponseDto} from "./invitation-response.dto";
 
-export class GameDto {
+export class GameResponseDto {
     @IsNotEmpty()
     @IsString()
     @IsUUID()
@@ -25,11 +25,11 @@ export class GameDto {
     ownerId: string
 
     @Expose()
-    @Type(() => InvitationDto)
-    invitations?: InvitationDto[]
+    @Type(() => InvitationResponseDto)
+    invitations?: InvitationResponseDto[]
 
 
-    constructor(id: string, name: string, gameState: GameState, ownerId: string, invitations: InvitationDto[]) {
+    constructor(id: string, name: string, gameState: GameState, ownerId: string, invitations: InvitationResponseDto[]) {
         this.id = id;
         this.name = name;
         this.gameState = gameState;
