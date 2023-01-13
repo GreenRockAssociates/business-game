@@ -1,5 +1,5 @@
 import {AxiosInstance, AxiosRequestConfig} from "axios";
-import {AuthenticationService} from "../../libraries/authentication-service";
+import {AuthenticationService} from "../../libraries/authentication.service";
 
 class AxiosMock {
     get(url: string, config?: AxiosRequestConfig<any>) {}

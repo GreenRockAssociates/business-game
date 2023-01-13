@@ -13,7 +13,7 @@ import {AppDataSource} from "./libraries/database";
 import {router, registerRoutes} from "./api/api";
 import {csrfProtection} from "./api/middlewares/csrf-protection.middleware";
 import {distantSession} from "./api/middlewares/distant-session.middleware";
-import {AuthenticationService} from "./libraries/authentication-service";
+import {AuthenticationService} from "./libraries/authentication.service";
 
 // Connect to databases and run the app once the connection is established
 Promise.all([

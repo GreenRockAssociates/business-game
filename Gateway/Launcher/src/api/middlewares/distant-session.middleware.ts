@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from 'express';
-import {AuthenticationService} from "../../libraries/authentication-service";
+import {AuthenticationService} from "../../libraries/authentication.service";
 
 /**
  * Fetches the user session from the authentication service and populates req.session with a valid UUID
