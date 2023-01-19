@@ -11,6 +11,8 @@ import cors from 'cors';
 // Custom files
 import {router, registerRoutes} from "./api/api";
 import {csrfProtection} from "./api/middlewares/csrf-protection.middleware";
+import {resolvePlayerSession} from "./api/middlewares/resolve-player-session.middleware";
+import {LauncherService} from "./libraries/launcher.service";
 
 const app = express();
 app.set('trust proxy', 1);
@@ -28,6 +30,10 @@ app.use(csrfProtection);
 
 // Parse request body as json
 app.use(express.json());
+
+// Translate the user id and game id to their engine counterpart to hydrate the session data for the next routes
+const launcherService = new LauncherService()
+app.use((req, res, next) => resolvePlayerSession(req, res, next, launcherService));
 
 // Configuration des routes
 registerRoutes(router)
