@@ -1,6 +1,11 @@
-version: '3.1'
+version: '3.8'
 
 services:
+  authentication:
+    build: Gateway/Authentication/
+    ports:
+      - 127.0.0.1:30000:30000
+
   postgres-iam:
     image: postgres
     environment:
@@ -11,6 +16,7 @@ services:
       - 127.0.0.1:5433:5432
     volumes:
       - ./docker/postgres/iam:/var/lib/postgresql/data
+
 
   redis-iam:
     image: redis
@@ -33,6 +39,11 @@ services:
       - 127.0.0.1:5434:5432
     volumes:
       - ./docker/postgres/launcher:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   postgres-game:
     image: postgres
@@ -44,3 +55,8 @@ services:
       - 127.0.0.1:5435:5432
     volumes:
       - ./docker/postgres/game:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
