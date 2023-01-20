@@ -37,7 +37,7 @@ app.use((req, res, next) => resolvePlayerSession(req, res, next, launcherService
 
 // Configuration des routes
 registerRoutes(router)
-app.use(process.env.SERVICE_URL_PREFIX, router)
+app.use(`${process.env.SERVICE_URL_PREFIX}/:gameId`, router)
 
 // Custom error handling to avoid leaking stack trace
 app.use((err: any, req: Request, res: Response, _: NextFunction) => {
