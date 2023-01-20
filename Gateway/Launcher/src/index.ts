@@ -1,7 +1,7 @@
 // Configure environment variables
 // Do this before imports so that all modules can use the environment variables
 import dotenv from 'dotenv';
-dotenv.config({path: '.env'});
+dotenv.config({path: __dirname + '/.env'});
 
 // Libs
 import express, {Request, Response, NextFunction} from 'express';
@@ -15,44 +15,53 @@ import {csrfProtection} from "./api/middlewares/csrf-protection.middleware";
 import {distantSession} from "./api/middlewares/distant-session.middleware";
 import {AuthenticationService} from "./libraries/authentication.service";
 
-// Connect to databases and run the app once the connection is established
-Promise.all([
-    AppDataSource.initialize(),
-]).then(() => {
-    console.log("Database connected")
+// Connect to database and run the app once the connection is established
+async function startServer() {
+    console.log("Waiting for db to start")
+    // Give enough time for the db to start
+    await new Promise(r => setTimeout(r, 2000));
+    console.log("Wait over")
 
-    const app = express();
-    app.set('trust proxy', 1);
+    Promise.all([
+        AppDataSource.initialize(),
+    ]).then(() => {
+        console.log("Database connected")
 
-    // Enable CORS
-    app.use(cors({
-        origin: process.env.CORS_URL,
-        credentials: true,
-        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-    }))
+        const app = express();
+        app.set('trust proxy', 1);
 
-    // CSRF Mitigation
-    app.use(cookieParser());
-    app.use(csrfProtection);
+        // Enable CORS
+        app.use(cors({
+            origin: process.env.CORS_URL,
+            credentials: true,
+            optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+        }))
 
-    // Parse request body as json
-    app.use(express.json());
+        // CSRF Mitigation
+        app.use(cookieParser());
+        app.use(csrfProtection);
 
-    // Get session data from authentication service
-    const authenticationService = new AuthenticationService()
-    app.use((req, res, next) => distantSession(req, res, next, authenticationService))
+        // Parse request body as json
+        app.use(express.json());
 
-    // Configuration des routes
-    registerRoutes(router, AppDataSource)
-    app.use(process.env.SERVICE_URL_PREFIX, router)
+        // Get session data from authentication service
+        const authenticationService = new AuthenticationService()
+        app.use((req, res, next) => distantSession(req, res, next, authenticationService))
 
-    // Custom error handling to avoid leaking stack trace
-    app.use((err: any, req: Request, res: Response, _: NextFunction) => {
-        res.sendStatus(err?.statusCode ?? 500);
+        // Configuration des routes
+        registerRoutes(router, AppDataSource)
+        app.use(process.env.SERVICE_URL_PREFIX, router)
+
+        // Custom error handling to avoid leaking stack trace
+        app.use((err: any, req: Request, res: Response, _: NextFunction) => {
+            res.sendStatus(err?.statusCode ?? 500);
+        })
+
+        const port = process.env.APP_PORT;
+        app.listen(port, () => {
+            console.log(`Launcher service is running on port ${port}.`);
+        });
     })
+}
 
-    const port = process.env.APP_PORT;
-    app.listen(port, () => {
-        console.log(`Launcher service is running on port ${port}.`);
-    });
-})
+startServer();
