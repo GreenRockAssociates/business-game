@@ -3,6 +3,8 @@
 import dotenv from 'dotenv';
 dotenv.config({path: '.env'});
 
+console.log(process.env.REDIS_URL);
+
 // Libs
 import express, {Request, Response, NextFunction} from 'express';
 import session from "express-session";

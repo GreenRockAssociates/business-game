@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "tsc && cp .env ./dist/.env",
-    "start": "node dist/index.js",
+    "start": "node ./dist/index.js",
     "serve": "nodemon src/index.ts",
     "test": "jest --runInBand"
   },
