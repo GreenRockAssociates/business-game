@@ -14,6 +14,7 @@ export async function userIdToPlayerId(req: Request, res: Response, userIdTransl
     })
 
     if (!translationEntity) {
+        res.statusMessage = "No translation for this user"
         res.sendStatus(404);
         return;
     }
