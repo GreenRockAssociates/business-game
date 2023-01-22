@@ -11,8 +11,6 @@ import cors from 'cors';
 // Custom files
 import {router, registerRoutes} from "./api/api";
 import {csrfProtection} from "./api/middlewares/csrf-protection.middleware";
-import {resolvePlayerSession} from "./api/middlewares/resolve-player-session.middleware";
-import {LauncherService} from "./libraries/launcher.service";
 
 const app = express();
 app.set('trust proxy', 1);
@@ -31,13 +29,9 @@ app.use(csrfProtection);
 // Parse request body as json
 app.use(express.json());
 
-// Translate the user id and game id to their engine counterpart to hydrate the session data for the next routes
-const launcherService = new LauncherService()
-app.use((req, res, next) => resolvePlayerSession(req, res, next, launcherService));
-
 // Configuration des routes
 registerRoutes(router)
-app.use(`${process.env.SERVICE_URL_PREFIX}/:gameId`, router)
+app.use(`${process.env.SERVICE_URL_PREFIX}`, router)
 
 // Custom error handling to avoid leaking stack trace
 app.use((err: any, req: Request, res: Response, _: NextFunction) => {
@@ -46,5 +40,5 @@ app.use((err: any, req: Request, res: Response, _: NextFunction) => {
 
 const port = process.env.APP_PORT;
 app.listen(port, () => {
-    console.log(`Launcher service is running on port ${port}.`);
+    console.log(`Query service is running on port ${port}.`);
 });

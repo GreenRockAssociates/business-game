@@ -10,7 +10,5 @@ export const router = express.Router()
 
 export function registerRoutes(router: Router){
     const launcherService = new LauncherService();
-    router.use((req: Request, res: Response, next: NextFunction) => resolvePlayerSession(req, res, next, launcherService));
-
-
+    router.use("/:gameId", (req: Request, res: Response, next: NextFunction) => resolvePlayerSession(req, res, next, launcherService));
 }
