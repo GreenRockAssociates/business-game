@@ -5,11 +5,13 @@ services:
     build: Gateway/Authentication/
     ports:
       - 127.0.0.1:30000:30000
+    restart: unless-stopped
 
   launcher:
     build: Gateway/Launcher/
     ports:
       - 127.0.0.1:30001:30001
+    restart: unless-stopped
 
   postgres-iam:
     image: postgres
