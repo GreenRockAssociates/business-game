@@ -2,6 +2,7 @@ import {Request, Response, NextFunction} from "express";
 import {LauncherService} from "../../libraries/launcher.service";
 import {GameIdDto} from "../../dto/game-id.dto";
 import {validateOrReject} from "class-validator";
+import {AxiosError} from "axios";
 
 /**
  * Fetches the player id and game id from the launcher service, and populates req.session with the response
@@ -36,8 +37,13 @@ export async function resolvePlayerSession(req: Request, res: Response, next: Ne
             gameIdInEngine,
             playerId
         }
-    } catch (_) {
-        res.sendStatus(400);
+    } catch (e) {
+        // Echo error from launcher service
+        const status = (e as AxiosError).response.status;
+        if (status === 404 || status === 412){
+            res.statusMessage = (e as AxiosError).response.statusText;
+        }
+        res.sendStatus(status ?? 400);
         return;
     }
 
