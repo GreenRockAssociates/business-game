@@ -1,7 +1,7 @@
 // Configure environment variables
 // Do this before imports so that all modules can use the environment variables
 import dotenv from 'dotenv';
-dotenv.config({path: '.env'});
+dotenv.config({path: __dirname + '/.env'});
 
 // Libs
 import express, {Request, Response, NextFunction} from 'express';
@@ -23,55 +23,64 @@ import {router, registerRoutes} from "./api/api";
 import {csrfProtection} from "./api/middlewares/csrf-protection.middleware";
 
 // Connect to databases and run the app once the connection is established
-Promise.all([
-    AppDataSource.initialize(),
-    redisClient.connect()
-]).then(() => {
-    console.log("Database connected")
+async function startServer(){
+    console.log("Waiting for db to start")
+    // Give enough time for the db to start
+    await new Promise(r => setTimeout(r, 2000));
+    console.log("Wait over")
 
-    const app = express();
-    app.set('trust proxy', 1);
+    Promise.all([
+        AppDataSource.initialize(),
+        redisClient.connect()
+    ]).then(() => {
+        console.log("Database connected")
 
-    // Enable CORS
-    app.use(cors({
-        origin: process.env.CORS_URL,
-        credentials: true,
-        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-    }))
+        const app = express();
+        app.set('trust proxy', 1);
 
-    // CSRF Mitigation
-    app.use(cookieParser());
-    app.use(csrfProtection);
+        // Enable CORS
+        app.use(cors({
+            origin: process.env.CORS_URL,
+            credentials: true,
+            optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+        }))
 
-    // Session
-    app.use(session({
-        secret: process.env.SECRET,
-        saveUninitialized: false,
-        resave: false,
-        proxy: true,
-        cookie: {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "prod",
-            maxAge: 365*24*60*60*1000, // 1 an
-            sameSite: true
-        },
-        store: new RedisStore({ client: redisClient })
-    }))
+        // CSRF Mitigation
+        app.use(cookieParser());
+        app.use(csrfProtection);
 
-    // Parse request body as json
-    app.use(express.json());
+        // Session
+        app.use(session({
+            secret: process.env.SECRET,
+            saveUninitialized: false,
+            resave: false,
+            proxy: true,
+            cookie: {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "prod",
+                maxAge: 365*24*60*60*1000, // 1 an
+                sameSite: true
+            },
+            store: new RedisStore({ client: redisClient })
+        }))
 
-    // Configuration des routes
-    registerRoutes(router, AppDataSource)
-    app.use(process.env.SERVICE_URL_PREFIX, router)
+        // Parse request body as json
+        app.use(express.json());
 
-    // Custom error handling to avoid leaking stack trace
-    app.use((err: any, req: Request, res: Response, _: NextFunction) => {
-        res.sendStatus(err?.statusCode ?? 500);
+        // Configuration des routes
+        registerRoutes(router, AppDataSource)
+        app.use(process.env.SERVICE_URL_PREFIX, router)
+
+        // Custom error handling to avoid leaking stack trace
+        app.use((err: any, req: Request, res: Response, _: NextFunction) => {
+            res.sendStatus(err?.statusCode ?? 500);
+        })
+
+        const port = process.env.APP_PORT;
+        app.listen(port, () => {
+            console.log(`Authentication service is running on port ${port}.`);
+        });
     })
+}
 
-    const port = process.env.APP_PORT;
-    app.listen(port, () => {
-        console.log(`Authentication service is running on port ${port}.`);
-    });
-})
+startServer();
