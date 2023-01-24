@@ -4,7 +4,7 @@ import {instanceToPlain} from "class-transformer";
 import {AxiosError} from "axios";
 import {PortfolioDto} from "../../../dto/portfolio.dto";
 
-export function GetPortfolioRoute(playerStateService: PlayerStateService) {
+export function getPortfolioRouteFactory(playerStateService: PlayerStateService) {
     return async (req: Request, res: Response) => {
         try {
             const portfolio: PortfolioDto = await playerStateService.getPortfolio(req.session);

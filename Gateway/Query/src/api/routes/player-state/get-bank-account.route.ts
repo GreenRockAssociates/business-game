@@ -4,7 +4,7 @@ import {BankAcountDto} from "../../../dto/bank-acount.dto";
 import {instanceToPlain} from "class-transformer";
 import {AxiosError} from "axios";
 
-export function GetBankAccountRouteFactory(playerStateService: PlayerStateService) {
+export function getBankAccountRouteFactory(playerStateService: PlayerStateService) {
     return async (req: Request, res: Response) => {
         try {
             const bankAcount: BankAcountDto = await playerStateService.getBankAccount(req.session);
