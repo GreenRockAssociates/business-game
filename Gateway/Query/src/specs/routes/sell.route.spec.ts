@@ -1,12 +1,12 @@
 import {PlayerStateService} from "../../libraries/player-state.service";
 import {Request, Response} from "express";
-import {buyRouteFactory} from "../../api/routes/player-state/buy.route";
 import {BuySellInternalRequestDto} from "../../dto/buy-sell-internal-request.dto";
 import {PlayerSessionData} from "../../interfaces/session-data.interface";
 import {AxiosError} from "axios";
+import {sellRouteFactory} from "../../api/routes/player-state/sell.route";
 
 class MockPlayerStateService {
-    buy() {
+    sell() {
     }
 }
 
@@ -40,29 +40,29 @@ class Helper {
     }
 }
 
-describe("Buy route", () => {
+describe("Sell route", () => {
     let mockPlayerStateService: PlayerStateService;
-    let buySpy: jest.SpyInstance;
+    let sellSpy: jest.SpyInstance;
 
     let mockResponse: Response;
     let sendStatusSpy: jest.SpyInstance;
 
-    let buyRoute: (req: Request, res: Response) => Promise<void>
+    let sellRoute: (req: Request, res: Response) => Promise<void>
 
     beforeEach(() => {
         mockPlayerStateService = new MockPlayerStateService() as unknown as PlayerStateService;
-        buySpy = jest.spyOn(mockPlayerStateService, "buy")
+        sellSpy = jest.spyOn(mockPlayerStateService, "sell")
 
         mockResponse = new MockResponse() as unknown as Response;
         sendStatusSpy = jest.spyOn(mockResponse, "sendStatus");
 
-        buyRoute = buyRouteFactory(mockPlayerStateService);
+        sellRoute = sellRouteFactory(mockPlayerStateService);
     })
 
     it("Should return 200 on correct parameters", async () => {
         const request = Helper.getValidRequest();
 
-        await buyRoute(request, mockResponse);
+        await sellRoute(request, mockResponse);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
@@ -72,7 +72,7 @@ describe("Buy route", () => {
         const request = Helper.getValidRequest();
         request.body = new BuySellInternalRequestDto("", "", -1)
 
-        await buyRoute(request, mockResponse);
+        await sellRoute(request, mockResponse);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(400);
@@ -80,7 +80,7 @@ describe("Buy route", () => {
 
     it("Should echo error codes from the backend", async () => {
         const request = Helper.getValidRequest();
-        buySpy.mockImplementation(() => {throw new AxiosError("", "404", undefined, undefined, {
+        sellSpy.mockImplementation(() => {throw new AxiosError("", "404", undefined, undefined, {
             config: undefined,
             data: undefined,
             headers: undefined,
@@ -88,7 +88,7 @@ describe("Buy route", () => {
             status: 404}
         )})
 
-        await buyRoute(request, mockResponse);
+        await sellRoute(request, mockResponse);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -96,9 +96,9 @@ describe("Buy route", () => {
 
     it("Should return 500 in case of unknown error", async () => {
         const request = Helper.getValidRequest();
-        buySpy.mockImplementation(() => {throw new Error("test")})
+        sellSpy.mockImplementation(() => {throw new Error("test")})
 
-        await buyRoute(request, mockResponse);
+        await sellRoute(request, mockResponse);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(500);
@@ -107,9 +107,9 @@ describe("Buy route", () => {
     it("Should pass the correct parameters to PlayerStateService", async () => {
         const request = Helper.getValidRequest();
 
-        await buyRoute(request, mockResponse);
+        await sellRoute(request, mockResponse);
 
-        expect(buySpy).toHaveBeenCalledTimes(1);
-        expect(buySpy).toHaveBeenCalledWith(Helper.getValidSession(), Helper.getValidBody());
+        expect(sellSpy).toHaveBeenCalledTimes(1);
+        expect(sellSpy).toHaveBeenCalledWith(Helper.getValidSession(), Helper.getValidBody());
     })
 })
