@@ -5,6 +5,12 @@ import {resolvePlayerSession} from "./middlewares/resolve-player-session.middlew
 import {PlayerStateService} from "../libraries/player-state.service";
 import {getPortfolioRouteFactory} from "./routes/player-state/get-portfolio.route";
 import {getBankAccountRouteFactory} from "./routes/player-state/get-bank-account.route";
+import {MarketAnalysisService} from "../libraries/market-analysis.service";
+import {requestParamsToDtoMiddlewareFactory} from "./middlewares/request-params-to-dto.middleware";
+import {AssetTickerDto} from "../dto/asset-ticker.dto";
+import {getAssetDetailRouteFactory} from "./routes/market-analysis/get-asset-detail.route";
+import {getAssetAnalysisRouteFactory} from "./routes/market-analysis/get-asset-analysis.route";
+import {getMarketRateRouteFactory} from "./routes/market-analysis/get-market-rate.route";
 
 
 export const router = express.Router()
@@ -16,4 +22,9 @@ export function registerRoutes(router: Router){
     const playerStateServie = new PlayerStateService();
     router.get(":gameId/player/portfolio", getPortfolioRouteFactory(playerStateServie))
     router.get(":gameId/player/bank-account", getBankAccountRouteFactory(playerStateServie))
+
+    const marketAnalysisService = new MarketAnalysisService();
+    router.get(":gameId/market/market-rate", getMarketRateRouteFactory(marketAnalysisService));
+    router.get(":gameId/market/asset/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetDetailRouteFactory(marketAnalysisService));
+    router.get(":gameId/market/analysis/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetAnalysisRouteFactory(marketAnalysisService));
 }
