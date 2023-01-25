@@ -11,6 +11,10 @@ import {AssetTickerDto} from "../dto/asset-ticker.dto";
 import {getAssetDetailRouteFactory} from "./routes/market-analysis/get-asset-detail.route";
 import {getAssetAnalysisRouteFactory} from "./routes/market-analysis/get-asset-analysis.route";
 import {getMarketRateRouteFactory} from "./routes/market-analysis/get-market-rate.route";
+import {AssetHealthService} from "../libraries/asset-health.service";
+import {getAllNewsRouteFactory} from "./routes/asset-health/get-all-news.route";
+import {getNewsForAssetRouteFactory} from "./routes/asset-health/get-news-for-asset.route";
+import {getAssetHealthDataRoute} from "./routes/asset-health/get-asset-health-data.route";
 
 
 export const router = express.Router()
@@ -27,4 +31,9 @@ export function registerRoutes(router: Router){
     router.get(":gameId/market/market-rate", getMarketRateRouteFactory(marketAnalysisService));
     router.get(":gameId/market/asset/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetDetailRouteFactory(marketAnalysisService));
     router.get(":gameId/market/analysis/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetAnalysisRouteFactory(marketAnalysisService));
+
+    const assetHealthService = new AssetHealthService();
+    router.get(":gameId/asset-health/news", getAllNewsRouteFactory(assetHealthService))
+    router.get(":gameId/asset-health/news/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getNewsForAssetRouteFactory(assetHealthService))
+    router.get(":gameId/asset-health/health/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetHealthDataRoute(assetHealthService))
 }
