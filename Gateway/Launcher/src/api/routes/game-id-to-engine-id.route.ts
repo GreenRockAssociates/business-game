@@ -19,11 +19,13 @@ export async function gameIdToEngineId(req: Request, res: Response, gameReposito
     })
 
     if (!gameEntity){
+        res.statusMessage = "No game found"
         res.sendStatus(404);
         return;
     }
 
     if (!gameEntity.engineId || gameEntity.gameState === GameState.CREATED){
+        res.statusMessage = "Game hasn't started yet"
         res.sendStatus(412);
         return;
     }
