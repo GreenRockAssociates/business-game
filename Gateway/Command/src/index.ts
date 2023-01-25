@@ -1,7 +1,7 @@
 // Configure environment variables
 // Do this before imports so that all modules can use the environment variables
 import dotenv from 'dotenv';
-dotenv.config({path: '.env'});
+dotenv.config({path: __dirname + '/.env'});
 
 // Libs
 import express, {Request, Response, NextFunction} from 'express';
