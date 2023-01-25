@@ -40,5 +40,5 @@ app.use((err: any, req: Request, res: Response, _: NextFunction) => {
 
 const port = process.env.APP_PORT;
 app.listen(port, () => {
-    console.log(`Query service is running on port ${port}.`);
+    console.log(`Command service is running on port ${port}.`);
 });
