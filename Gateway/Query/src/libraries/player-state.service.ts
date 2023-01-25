@@ -1,22 +1,11 @@
 import {HttpService} from "./http.service";
 import {PlayerSessionData} from "../interfaces/session-data.interface";
-import {BuySellInternalRequestDto} from "../dto/buy-sell-internal-request.dto";
 import {PortfolioDto} from "../dto/portfolio.dto";
 import {BankAcountDto} from "../dto/bank-acount.dto";
 
 export class PlayerStateService {
     readonly httpService: HttpService
     readonly baseServiceUrl: string
-
-    async buy(sessionData: PlayerSessionData, body: BuySellInternalRequestDto): Promise<number> {
-        const url = `${this.baseServiceUrl}/${sessionData.gameIdInEngine}/player/buy`;
-        return this.httpService.executePostRequest(url, body);
-    }
-
-    async sell(sessionData: PlayerSessionData, body: BuySellInternalRequestDto): Promise<number> {
-        const url = `${this.baseServiceUrl}/${sessionData.gameIdInEngine}/player/sell`;
-        return this.httpService.executePostRequest(url, body);
-    }
 
     async getPortfolio(sessionData: PlayerSessionData): Promise<PortfolioDto> {
         const url = `${this.baseServiceUrl}/${sessionData.gameIdInEngine}/player/${sessionData.playerId}/portfolio`;
