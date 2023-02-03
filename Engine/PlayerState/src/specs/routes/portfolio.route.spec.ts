@@ -84,6 +84,7 @@ describe("portfolio route", () => {
 
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
         expect(sendSpy).toHaveBeenCalledWith(`[{"assetId":"AAPL","quantity":10.1}]`);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
 
     })
@@ -127,6 +128,7 @@ describe("portfolio route", () => {
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
         expect(sendSpy).toHaveBeenCalledWith(`[{"assetId":"AAPL","quantity":10.1},{"assetId":"AMZN","quantity":25}]`);
 
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
 
@@ -158,6 +160,7 @@ describe("portfolio route", () => {
         await portfolio({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
 
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
 
@@ -187,6 +190,7 @@ describe("portfolio route", () => {
         await portfolio({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
 
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
 
@@ -214,6 +218,7 @@ describe("portfolio route", () => {
         await portfolio({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
 
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
 
