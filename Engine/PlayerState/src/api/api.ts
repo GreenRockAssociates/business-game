@@ -20,8 +20,8 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     const marketEntityRepository = dataSource.getRepository(MarketEntity);
     const portfolioEntityRepository = dataSource.getRepository(PortfolioEntity);
 
-    router.get(':gameID/player/:playerID/portfolio', requestParamsToDtoMiddlewareFactory(IdsDto), (req: Request, res: Response) => portfolio(req, res, playerEntityRepository));
-    router.get(':gameID/player/:playerID/bank-account', requestParamsToDtoMiddlewareFactory(IdsDto), (req: Request, res: Response) => bankAcount(req, res, playerEntityRepository));
-    router.post(':gameID/player/buy', requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(BuyandsellDto), (req: Request, res: Response) => buy(req, res, playerEntityRepository, marketEntityRepository))
-    router.post(':gameID/player/sell', requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(BuyandsellDto), (req: Request, res: Response) => sell(req, res, playerEntityRepository, marketEntityRepository, portfolioEntityRepository))
+    router.get('/:gameID/player/:playerID/portfolio', requestParamsToDtoMiddlewareFactory(IdsDto), (req: Request, res: Response) => portfolio(req, res, playerEntityRepository));
+    router.get('/:gameID/player/:playerID/bank-account', requestParamsToDtoMiddlewareFactory(IdsDto), (req: Request, res: Response) => bankAcount(req, res, playerEntityRepository));
+    router.post('/:gameID/player/buy', requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(BuyandsellDto), (req: Request, res: Response) => buy(req, res, playerEntityRepository, marketEntityRepository))
+    router.post('/:gameID/player/sell', requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(BuyandsellDto), (req: Request, res: Response) => sell(req, res, playerEntityRepository, marketEntityRepository, portfolioEntityRepository))
 }

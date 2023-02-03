@@ -26,7 +26,4 @@ export async function newgame(req: Request, res: Response, repositoryPlayer : Re
     }
     const jsonresponse = new newgameResponseDto(newgame.id,temp)
     res.json(jsonresponse)
-    res.sendStatus(200)
-
-
 }
