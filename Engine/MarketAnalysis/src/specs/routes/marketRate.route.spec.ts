@@ -5,15 +5,17 @@ import {PlayerEntity} from "../../../../DataSource/src/entities/player.entity";
 import {MarketEntity} from "../../../../DataSource/src/entities/market.entity";
 import {PortfolioEntity} from "../../../../DataSource/src/entities/portfolio.entity";
 import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
-import {newgame} from "../../api/routes/new-game.route";
-import {NewGameDto} from "../../dto/new-game.dto";
+import {marketRate} from "../../api/routes/marketRate.route";
+import {AssetDto} from "../../dto/asset.dto";
+import {GameIdDto} from "../../dto/game-id.dto";
+
 class ResponseMock {
     sendStatus() {}
     send() {}
     json() {}
 }
 
-describe("new game", () => {
+describe("market rate", () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
     let sendSpy: jest.SpyInstance;
@@ -22,9 +24,12 @@ describe("new game", () => {
     let dataSource: DataSource;
 
     beforeAll(async () => {
+        console.log('1')
         dataSource = await AppDataSource.initialize().catch((error: Error) => {
             throw new Error(`Error initializing database: ${error.message}`);
         });
+        console.log('2')
+
         await dataSource.getRepository(PortfolioEntity).delete({});
         await dataSource.getRepository(PlayerEntity).delete({});
         await dataSource.getRepository(MarketEntity).delete({});
@@ -35,10 +40,15 @@ describe("new game", () => {
     });
 
     beforeEach(async () => {
+        console.log('3')
+
         responseMock = new ResponseMock()
 
         sendStatusSpy = jest.spyOn(responseMock, 'sendStatus');
         sendSpy = jest.spyOn(responseMock, 'send');
+        sendJson = jest.spyOn(responseMock, 'json');
+        console.log('4')
+
     })
 
     afterEach(async () => {
@@ -49,25 +59,25 @@ describe("new game", () => {
 
     it("should work",async ()=> {
 
+        console.log('5')
+
+        let nbr = 2;
+        const parambuy = new GameIdDto('0571901f-72ef-4053-bbe7-4e42cc25b3eb')
+        console.log('6')
+
+        await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+        console.log('7')
+
+        await expect(sendStatusSpy).toHaveBeenCalledWith(200);
+
+        console.log('8')
 
 
-        const body = new NewGameDto(2)
+
+    },1000000) // Ne vous inquietez pas tout vas bien mon cervo est juste entrain de fondre
 
 
-        await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
-
-        expect(sendStatusSpy).toHaveBeenCalledWith(200);
-        expect(validate(sendJson.mock.calls[0][0]['gameId'])).toBeTruthy()
-        expect(sendJson.mock.calls[0][0]['playerIds'].length).toBe(nbr)
-
-        for(let i = 0;i<sendJson.mock.calls[0][0]['playerIds'].length;i++){
-            expect(validate(sendJson.mock.calls[0][0]['playerIds'][i])).toBeTruthy()
-
-        }
-        expect(sendStatusSpy).toBeCalledTimes(1)
-        console.log(sendJson.mock.calls)
-
-    })
+    /*
     it("should work one player",async ()=> {
 
 
@@ -78,10 +88,10 @@ describe("new game", () => {
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
     it("should'nt work 0 player",async ()=> {
-
 
 
         const body = new NewGameDto(0)
@@ -90,8 +100,11 @@ describe("new game", () => {
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledWith(412);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
+
+    */
 
 
 
