@@ -24,16 +24,16 @@ export function registerRoutes(router: Router){
     router.use("/:gameId", (req: Request, res: Response, next: NextFunction) => resolvePlayerSession(req, res, next, launcherService));
 
     const playerStateServie = new PlayerStateService();
-    router.get(":gameId/player/portfolio", getPortfolioRouteFactory(playerStateServie))
-    router.get(":gameId/player/bank-account", getBankAccountRouteFactory(playerStateServie))
+    router.get("/:gameId/player/portfolio", getPortfolioRouteFactory(playerStateServie))
+    router.get("/:gameId/player/bank-account", getBankAccountRouteFactory(playerStateServie))
 
     const marketAnalysisService = new MarketAnalysisService();
-    router.get(":gameId/market/market-rate", getMarketRateRouteFactory(marketAnalysisService));
-    router.get(":gameId/market/asset/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetDetailRouteFactory(marketAnalysisService));
-    router.get(":gameId/market/analysis/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetAnalysisRouteFactory(marketAnalysisService));
+    router.get("/:gameId/market/market-rate", getMarketRateRouteFactory(marketAnalysisService));
+    router.get("/:gameId/market/asset/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetDetailRouteFactory(marketAnalysisService));
+    router.get("/:gameId/market/analysis/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetAnalysisRouteFactory(marketAnalysisService));
 
     const assetHealthService = new AssetHealthService();
-    router.get(":gameId/asset-health/news", getAllNewsRouteFactory(assetHealthService))
-    router.get(":gameId/asset-health/news/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getNewsForAssetRouteFactory(assetHealthService))
-    router.get(":gameId/asset-health/health/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetHealthDataRoute(assetHealthService))
+    router.get("/:gameId/asset-health/news", getAllNewsRouteFactory(assetHealthService))
+    router.get("/:gameId/asset-health/news/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getNewsForAssetRouteFactory(assetHealthService))
+    router.get("/:gameId/asset-health/health/:assetTicker", requestParamsToDtoMiddlewareFactory(AssetTickerDto), getAssetHealthDataRoute(assetHealthService))
 }
