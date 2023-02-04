@@ -1,15 +1,17 @@
 import {Expose} from "class-transformer";
-import {IsNotEmpty, IsString, IsUUID} from "class-validator";
+import {IsInt, IsNotEmpty, IsPositive, IsString, Matches} from "class-validator";
 
 export class AssetHealthResponseDto {
     @Expose()
-    @IsUUID()
+    @IsString()
+    @Matches(/^[A-Z]{4,5}$/) // Ensure the ticker has a valid format : 4 to 5 uppercase characters
     assetTicker: string
 
     @Expose()
-    @IsString()
+    @IsInt()
+    @IsPositive()
     @IsNotEmpty()
-    generatedTick: string
+    generatedTick: number
 
     @Expose()
     @IsString()
@@ -17,7 +19,7 @@ export class AssetHealthResponseDto {
     assetRating: string
 
 
-    constructor(assetTicker: string, generatedTick: string, assetRating: string) {
+    constructor(assetTicker: string, generatedTick: number, assetRating: string) {
         this.assetTicker = assetTicker;
         this.generatedTick = generatedTick;
         this.assetRating = assetRating;

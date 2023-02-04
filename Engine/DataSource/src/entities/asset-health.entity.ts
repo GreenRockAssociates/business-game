@@ -28,4 +28,10 @@ export class AssetHealthEntity {
     @MaxLength(255)
     @Column()
     assetRating: string
+
+
+    constructor(generatedTick: number, assetRating: string) {
+        this.generatedTick = generatedTick;
+        this.assetRating = assetRating;
+    }
 }
