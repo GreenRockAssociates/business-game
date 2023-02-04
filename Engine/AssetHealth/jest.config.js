@@ -3,4 +3,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   globalSetup: "./src/specs/jestGlobalSetup.js",
+  moduleNameMapper: {
+    '^@AppDataSource/(.*)$': '<rootDir>/../DataSource/src/$1'
+  },
 };

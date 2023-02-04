@@ -8,7 +8,7 @@ import express, {NextFunction, Request, Response} from 'express';
 import {AppDataSource} from "@AppDataSource/index";
 import {registerRoutes, router} from "./api/api";
 
-dotenv.config({path: '.env'});
+dotenv.config({path: __dirname + '/.env'});
 
 // Connect to databases and run the app once the connection is established
 Promise.all([

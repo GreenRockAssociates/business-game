@@ -6,11 +6,11 @@ export class GameIdDto {
 
     @IsUUID()
     @Expose()
-    gameID : string
+    gameId : string
 
     constructor(gameId: string) {
 
-        this.gameID = gameId;
+        this.gameId = gameId;
     }
 
 }
