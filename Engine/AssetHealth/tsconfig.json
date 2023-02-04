@@ -12,9 +12,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "typeRoots": ["./src/types", "./node_modules/@types"],
-    "paths": {
-      "@AppDataSource/*": ["../DataSource/src/*"]
-    }
   },
   "include": ["src/**/*"]
 }

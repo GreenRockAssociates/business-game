@@ -1,7 +1,7 @@
 import express, {Router} from 'express';
 import {DataSource, Repository} from "typeorm";
-import {NewsReportEntity} from "@AppDataSource/entities/news-report.entity";
-import {AssetHealthEntity} from "@AppDataSource/entities/asset-health.entity";
+import {NewsReportEntity} from "../../../DataSource/src/entities/news-report.entity";
+import {AssetHealthEntity} from "../../../DataSource/src/entities/asset-health.entity";
 import {getAllNewsRouteFactory} from "./routes/get-all-news.route";
 import {getAllNewsForAssetRouteFactory} from "./routes/get-all-news-for-asset.route";
 import {getAssetHealthRouteFactory} from "./routes/get-asset-health.route";

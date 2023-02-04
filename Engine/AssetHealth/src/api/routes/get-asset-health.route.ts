@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import {Repository} from "typeorm";
-import {AssetHealthEntity} from "@AppDataSource/entities/asset-health.entity";
+import {AssetHealthEntity} from "../../../../DataSource/src/entities/asset-health.entity";
 import {GameIdAndAssetTickerDto} from "../../dto/game-id-and-asset-ticker.dto";
 import {plainToInstance} from "class-transformer";
 import {AssetHealthResponseDto} from "../../dto/asset-health-response.dto";

@@ -1,14 +1,14 @@
 import {DataSource} from "typeorm";
 import {AssetHealthFixture} from "../asset-health-fixture";
-import {AppDataSource} from "@AppDataSource/index";
+import {AppDataSource} from "../../../../DataSource/src/index";
 import {getMockResponseSpies, MockResponse} from "../mock-response";
 import {MockRequest} from "../mock-request";
 import {Request, Response} from "express";
-import {AssetHealthEntity} from "@AppDataSource/entities/asset-health.entity";
+import {AssetHealthEntity} from "../../../../DataSource/src/entities/asset-health.entity";
 import {getAssetHealthRouteFactory} from "../../api/routes/get-asset-health.route";
 import {AssetHealthResponseDto} from "../../dto/asset-health-response.dto";
-import {GameEntity} from "@AppDataSource/entities/game.entity";
-import {AssetEntity} from "@AppDataSource/entities/asset.entity";
+import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
+import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
 
 describe("Get asset health", () => {
     let response: Response;

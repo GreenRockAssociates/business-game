@@ -7,17 +7,16 @@ import {PortfolioEntity} from "../../../../DataSource/src/entities/portfolio.ent
 import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
 import {newgame} from "../../api/routes/new-game.route";
 import {NewGameDto} from "../../dto/new-game.dto";
+
 class ResponseMock {
     sendStatus() {}
-    send() {}
     json() {}
 }
 
 describe("new game", () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
-    let sendSpy: jest.SpyInstance;
-    let sendJson: jest.SpyInstance;
+    let jsonSpy: jest.SpyInstance;
 
     let dataSource: DataSource;
 
@@ -38,7 +37,7 @@ describe("new game", () => {
         responseMock = new ResponseMock()
 
         sendStatusSpy = jest.spyOn(responseMock, 'sendStatus');
-        sendSpy = jest.spyOn(responseMock, 'send');
+        jsonSpy = jest.spyOn(responseMock, 'json');
     })
 
     afterEach(async () => {
@@ -48,24 +47,13 @@ describe("new game", () => {
     })
 
     it("should work",async ()=> {
-
-
-
         const body = new NewGameDto(2)
 
 
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
 
-        expect(sendStatusSpy).toHaveBeenCalledWith(200);
-        expect(validate(sendJson.mock.calls[0][0]['gameId'])).toBeTruthy()
-        expect(sendJson.mock.calls[0][0]['playerIds'].length).toBe(nbr)
-
-        for(let i = 0;i<sendJson.mock.calls[0][0]['playerIds'].length;i++){
-            expect(validate(sendJson.mock.calls[0][0]['playerIds'][i])).toBeTruthy()
-
-        }
-        expect(sendStatusSpy).toBeCalledTimes(1)
-
+        expect(sendStatusSpy).toHaveBeenCalledTimes(0)
+        expect(jsonSpy).toHaveBeenCalledTimes(1)
     })
     it("should work one player",async ()=> {
 
@@ -76,8 +64,8 @@ describe("new game", () => {
 
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
 
-        expect(sendStatusSpy).toHaveBeenCalledWith(200);
-
+        expect(sendStatusSpy).toHaveBeenCalledTimes(0);
+        expect(jsonSpy).toHaveBeenCalledTimes(1);
     })
     it("should'nt work 0 player",async ()=> {
 

@@ -1,8 +1,8 @@
 import {DataSource} from "typeorm";
-import {AppDataSource} from "@AppDataSource/index";
+import {AppDataSource} from "../../../../DataSource/src/index";
 import {getMockResponseSpies, MockResponse} from "../mock-response";
 import {NewsFixture} from "../news-fixture";
-import {NewsReportEntity} from "@AppDataSource/entities/news-report.entity";
+import {NewsReportEntity} from "../../../../DataSource/src/entities/news-report.entity";
 import {Request, Response} from "express";
 import {MockRequest} from "../mock-request";
 import {NewsReportDto, NewsResponseDto} from "../../dto/news-response.dto";

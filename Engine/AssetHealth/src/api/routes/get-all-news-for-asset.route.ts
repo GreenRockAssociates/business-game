@@ -1,5 +1,5 @@
 import {Repository} from "typeorm";
-import {NewsReportEntity} from "@AppDataSource/entities/news-report.entity";
+import {NewsReportEntity} from "../../../../DataSource/src/entities/news-report.entity";
 import {Request, Response} from "express";
 import {NewsReportDto, NewsResponseDto} from "../../dto/news-response.dto";
 import {plainToInstance} from "class-transformer";

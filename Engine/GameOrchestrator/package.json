@@ -14,8 +14,8 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "build": "tsc && cp .env ./dist/.env",
-    "start": "node dist/index.js",
+    "build": "tsc && cp src/.env ./dist/GameOrchestrator/src/.env",
+    "start": "node dist/GameOrchestrator/src/index.js",
     "serve": "nodemon src/index.ts",
     "test": "jest --runInBand"
   },

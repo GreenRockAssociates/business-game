@@ -1,7 +1,7 @@
 import {DataSource} from "typeorm";
-import {GameEntity} from "@AppDataSource/entities/game.entity";
-import {AssetEntity} from "@AppDataSource/entities/asset.entity";
-import {AssetHealthEntity} from "@AppDataSource/entities/asset-health.entity";
+import {GameEntity} from "../../../DataSource/src/entities/game.entity";
+import {AssetEntity} from "../../../DataSource/src/entities/asset.entity";
+import {AssetHealthEntity} from "../../../DataSource/src/entities/asset-health.entity";
 
 export interface AssetOpts {
     ticker: string;
