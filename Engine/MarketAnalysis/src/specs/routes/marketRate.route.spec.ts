@@ -61,20 +61,42 @@ describe("market rate", () => {
 
         console.log('5')
 
-        let nbr = 2;
-        const parambuy = new GameIdDto('0571901f-72ef-4053-bbe7-4e42cc25b3eb')
-        console.log('6')
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        const asset2 = new AssetEntity("AMZN", "Amazon", "A ecomerce company", "logo.png")
+        await dataSource.manager.save(asset);
+        await dataSource.manager.save(asset2);
+        const market = new MarketEntity(1,1,true)
+        const market2 = new MarketEntity(1,100,true)
+        const market3 = new MarketEntity(2,2,true)
+        const market4 = new MarketEntity(2,300,true)
+        const market5 = new MarketEntity(3,400,true)
+        market.game = game;
+        market2.game = game;
+        market3.game = game;
+        market4.game = game;
+        market5.game = game;
+        market.assetTicker = asset.ticker;
+        market2.assetTicker = asset2.ticker;
+        market3.assetTicker = asset.ticker;
+        market4.assetTicker = asset2.ticker;
+        market5.assetTicker = asset2.ticker;
+        await dataSource.manager.save(market)
+        await dataSource.manager.save(market2)
+        await dataSource.manager.save(market3)
+        await dataSource.manager.save(market4)
+        await dataSource.manager.save(market5)
+
+        const parambuy = new GameIdDto(game.id)
 
         await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
         console.log('7')
 
         await expect(sendStatusSpy).toHaveBeenCalledWith(200);
 
-        console.log('8')
 
-
-
-    },1000000) // Ne vous inquietez pas tout vas bien mon cervo est juste entrain de fondre
+    })
 
 
     /*
