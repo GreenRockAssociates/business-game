@@ -6,7 +6,6 @@ import {MarketEntity} from "../../../../DataSource/src/entities/market.entity";
 import {PortfolioEntity} from "../../../../DataSource/src/entities/portfolio.entity";
 import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
 import {marketRate} from "../../api/routes/marketRate.route";
-import {AssetDto} from "../../dto/asset.dto";
 import {GameIdDto} from "../../dto/game-id.dto";
 import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
 
@@ -85,9 +84,9 @@ describe("market rate", () => {
         await dataSource.manager.save(market4)
         await dataSource.manager.save(market5)
 
-        const parambuy = new GameIdDto(game.id)
+        const param = new GameIdDto(game.id)
 
-        await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+        await marketRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
 
         await expect(sendJson).toHaveBeenCalledWith([{"Assetvalues": [{"GameTick": 1, "tradable": true, "value": 100}, {"GameTick": 2, "tradable": true, "value": 300}, {"GameTick": 3, "tradable": true, "value": 400}], "Description": "A ecomerce company", "IdGame": game.id, "Logo": "logo.png", "Name": "Amazon", "Ticker": "AMZN"}, {"Assetvalues": [{"GameTick": 1, "tradable": true, "value": 1}, {"GameTick": 2, "tradable": true, "value": 2}], "Description": "A tech company", "IdGame":  game.id, "Logo": "logo.png", "Name": "Apple", "Ticker": "AAPL"}]);
 
@@ -111,9 +110,9 @@ describe("market rate", () => {
         await dataSource.manager.save(market)
         await dataSource.manager.save(market3)
 
-        const parambuy = new GameIdDto(game.id)
+        const param = new GameIdDto(game.id)
 
-        await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+        await marketRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
 
         await expect(sendJson).toHaveBeenCalledWith([{"Assetvalues": [{"GameTick": 1, "tradable": true, "value": 1}, {"GameTick": 2, "tradable": true, "value": 2}], "Description": "A tech company", "IdGame":  game.id, "Logo": "logo.png", "Name": "Apple", "Ticker": "AAPL"}]);
 
@@ -125,9 +124,9 @@ describe("market rate", () => {
         const game = new GameEntity()
         await dataSource.manager.save(game)
 
-        const parambuy = new GameIdDto(game.id)
+        const param = new GameIdDto(game.id)
 
-        await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+        await marketRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
 
         await expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
@@ -138,9 +137,9 @@ describe("market rate", () => {
     it("should'nt work 0 game",async ()=> {
 
 
-        const parambuy = new GameIdDto("14e16078-07af-454c-8083-493682c70c70")
+        const param = new GameIdDto("14e16078-07af-454c-8083-493682c70c70")
 
-        await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+        await marketRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
 
         await expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
