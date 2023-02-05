@@ -8,6 +8,7 @@ import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
 import {marketRate} from "../../api/routes/marketRate.route";
 import {AssetDto} from "../../dto/asset.dto";
 import {GameIdDto} from "../../dto/game-id.dto";
+import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
 
 class ResponseMock {
     sendStatus() {}
@@ -24,11 +25,9 @@ describe("market rate", () => {
     let dataSource: DataSource;
 
     beforeAll(async () => {
-        console.log('1')
         dataSource = await AppDataSource.initialize().catch((error: Error) => {
             throw new Error(`Error initializing database: ${error.message}`);
         });
-        console.log('2')
 
         await dataSource.getRepository(PortfolioEntity).delete({});
         await dataSource.getRepository(PlayerEntity).delete({});
@@ -40,14 +39,12 @@ describe("market rate", () => {
     });
 
     beforeEach(async () => {
-        console.log('3')
 
         responseMock = new ResponseMock()
 
         sendStatusSpy = jest.spyOn(responseMock, 'sendStatus');
         sendSpy = jest.spyOn(responseMock, 'send');
         sendJson = jest.spyOn(responseMock, 'json');
-        console.log('4')
 
     })
 
@@ -55,11 +52,11 @@ describe("market rate", () => {
         await dataSource.getRepository(PortfolioEntity).delete({});
         await dataSource.getRepository(PlayerEntity).delete({});
         await dataSource.getRepository(MarketEntity).delete({});
+        await dataSource.getRepository(GameEntity).delete({});
     })
 
     it("should work",async ()=> {
 
-        console.log('5')
 
         const game = new GameEntity()
         await dataSource.manager.save(game)
@@ -91,43 +88,64 @@ describe("market rate", () => {
         const parambuy = new GameIdDto(game.id)
 
         await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
-        console.log('7')
 
-        await expect(sendStatusSpy).toHaveBeenCalledWith(200);
+        await expect(sendJson).toHaveBeenCalledWith([{"Assetvalues": [{"GameTick": 1, "tradable": true, "value": 100}, {"GameTick": 2, "tradable": true, "value": 300}, {"GameTick": 3, "tradable": true, "value": 400}], "Description": "A ecomerce company", "IdGame": game.id, "Logo": "logo.png", "Name": "Amazon", "Ticker": "AMZN"}, {"Assetvalues": [{"GameTick": 1, "tradable": true, "value": 1}, {"GameTick": 2, "tradable": true, "value": 2}], "Description": "A tech company", "IdGame":  game.id, "Logo": "logo.png", "Name": "Apple", "Ticker": "AAPL"}]);
 
 
     })
 
 
-    /*
-    it("should work one player",async ()=> {
+
+    it("should work one asset",async ()=> {
+
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        await dataSource.manager.save(asset);
+        const market = new MarketEntity(1,1,true)
+        const market3 = new MarketEntity(2,2,true)
+        market.game = game;
+        market3.game = game;
+        market.assetTicker = asset.ticker;
+        market3.assetTicker = asset.ticker;
+        await dataSource.manager.save(market)
+        await dataSource.manager.save(market3)
+
+        const parambuy = new GameIdDto(game.id)
+
+        await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+
+        await expect(sendJson).toHaveBeenCalledWith([{"Assetvalues": [{"GameTick": 1, "tradable": true, "value": 1}, {"GameTick": 2, "tradable": true, "value": 2}], "Description": "A tech company", "IdGame":  game.id, "Logo": "logo.png", "Name": "Apple", "Ticker": "AAPL"}]);
 
 
-
-        const body = new NewGameDto(1)
-
-
-        await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
-
-        expect(sendStatusSpy).toHaveBeenCalledWith(200);
-        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
-    it("should'nt work 0 player",async ()=> {
+    it("should'nt work 0 asset",async ()=> {
 
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
 
-        const body = new NewGameDto(0)
+        const parambuy = new GameIdDto(game.id)
 
+        await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
 
-        await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
+        await expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
-        expect(sendStatusSpy).toHaveBeenCalledWith(412);
-        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
 
-    */
 
+    it("should'nt work 0 game",async ()=> {
+
+
+        const parambuy = new GameIdDto("14e16078-07af-454c-8083-493682c70c70")
+
+        await marketRate({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+
+        await expect(sendStatusSpy).toHaveBeenCalledWith(404);
+
+
+    })
 
 
 })

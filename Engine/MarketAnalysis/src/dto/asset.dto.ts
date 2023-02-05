@@ -12,9 +12,6 @@ export class AssetDto{
     @Expose()
     IdGame : string;
 
-    @IsUUID()
-    @Expose()
-    IdAsset : string;
 
     @IsString()
     @IsNotEmpty()
@@ -41,9 +38,8 @@ export class AssetDto{
     Assetvalues : assetStateDto[]
 
 
-    constructor(IdGame: string, IdAsset: string, Name: string, Ticker: string, Description: string, Logo: string, Assetvalues: assetStateDto[]) {
+    constructor(IdGame: string, Name: string, Ticker: string, Description: string, Logo: string, Assetvalues: assetStateDto[] = []) {
         this.IdGame = IdGame;
-        this.IdAsset = IdAsset;
         this.Name = Name;
         this.Ticker = Ticker;
         this.Description = Description;

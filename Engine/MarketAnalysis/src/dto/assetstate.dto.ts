@@ -7,9 +7,6 @@ import "reflect-metadata";
  */
 export class assetStateDto{
 
-    @IsString()
-    @Expose()
-    AssetTicker : string;
 
     @IsNumber()
     @Expose()
@@ -25,8 +22,7 @@ export class assetStateDto{
     tradable : boolean;
 
 
-    constructor(AssetTicker: string, GameTick: number, value: number, tradable: boolean) {
-        this.AssetTicker = AssetTicker;
+    constructor( GameTick: number, value: number, tradable: boolean) {
         this.GameTick = GameTick;
         this.value = value;
         this.tradable = tradable;
