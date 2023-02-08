@@ -2,12 +2,14 @@ import {DataSource} from "typeorm";
 import {NewsReportEntity} from "../../../DataSource/src/entities/news-report.entity";
 import {GameEntity} from "../../../DataSource/src/entities/game.entity";
 import {AssetEntity} from "../../../DataSource/src/entities/asset.entity";
+import {SectorEntity} from "../../../DataSource/src/entities/sector.entity";
 
 export interface AssetOpts {
     ticker: string;
     name: string;
     description: string;
     logo: string;
+    sectors: string[];
 }
 
 export interface NewsReportOpts {
@@ -31,6 +33,12 @@ export class NewsFixture {
 
     async insertAsset(opts?: Partial<AssetOpts>): Promise<AssetEntity> {
         const asset = new AssetEntity(opts?.ticker ?? "APPL", opts?.name ?? "Apple", opts?.description ?? "A tech company", opts?.logo ?? "logo.png")
+        if (opts?.sectors){
+            asset.sectors = [];
+            opts?.sectors?.forEach(sector => {
+                asset.sectors.push(new SectorEntity(sector));
+            })
+        }
         await this.dataSource.manager.save(asset);
 
         return asset;
