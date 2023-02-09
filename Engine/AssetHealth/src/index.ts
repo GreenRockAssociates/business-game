@@ -9,8 +9,6 @@ import express, {NextFunction, Request, Response} from 'express';
 import {AppDataSource} from "../../DataSource/src/index";
 import {registerRoutes, router} from "./api/api";
 
-
-
 // Connect to databases and run the app once the connection is established
 Promise.all([
     AppDataSource.initialize(),

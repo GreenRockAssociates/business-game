@@ -41,7 +41,7 @@ async function saveNewsReport(newsReportEntity: NewsReportEntity, newsReportRepo
     await newsReportRepository.save(newsReportEntity);
 }
 
-export function GenerateNewsRouteFactory(newsReportRepository: Repository<NewsReportEntity>, assetRepository: Repository<AssetEntity>, gameRepository: Repository<GameEntity>, newsGenerators: INewsGenerator[]){
+export function generateNewsRouteFactory(newsReportRepository: Repository<NewsReportEntity>, assetRepository: Repository<AssetEntity>, gameRepository: Repository<GameEntity>, newsGenerators: INewsGenerator[]){
     return async (req: Request, res: Response) => {
         const gameIdDto: GameIdDto = req.params as unknown as GameIdDto;
         const currentTickDto: CurrentTickDto = req.body as unknown as CurrentTickDto;

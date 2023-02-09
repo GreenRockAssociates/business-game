@@ -56,6 +56,7 @@ export class NewsFixture {
 
     async resetDB(){
         await this.dataSource.getRepository(AssetEntity).delete({})
+        await this.dataSource.getRepository(SectorEntity).delete({})
         await this.dataSource.getRepository(NewsReportEntity).delete({})
         await this.dataSource.getRepository(GameEntity).delete({})
     }

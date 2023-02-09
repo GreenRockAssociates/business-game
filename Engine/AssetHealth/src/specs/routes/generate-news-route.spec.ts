@@ -7,7 +7,7 @@ import {NewsReportEntity} from "../../../../DataSource/src/entities/news-report.
 import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
 import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
 import { MockRequest } from "../mock-request";
-import {GenerateNewsRouteFactory} from "../../api/routes/generate-news.route";
+import {generateNewsRouteFactory} from "../../api/routes/generate-news.route";
 import {
     GenericCompanyNewsGenerator,
     GenericNewsTemplate,
@@ -66,7 +66,7 @@ describe("Get all news route", () => {
             1
         ))]
 
-        await (GenerateNewsRouteFactory(newsReportRepository, assetRepository, gameRepository, generators)(request, response));
+        await (generateNewsRouteFactory(newsReportRepository, assetRepository, gameRepository, generators)(request, response));
 
         const newsReportFromDb: NewsReportEntity = (await newsReportRepository.find({
             relations: {
@@ -95,7 +95,7 @@ describe("Get all news route", () => {
             1
         ))]
 
-        await (GenerateNewsRouteFactory(newsReportRepository, assetRepository, gameRepository, generators)(request, response));
+        await (generateNewsRouteFactory(newsReportRepository, assetRepository, gameRepository, generators)(request, response));
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -114,7 +114,7 @@ describe("Get all news route", () => {
             "Technology"
         ))]
 
-        await (GenerateNewsRouteFactory(newsReportRepository, assetRepository, gameRepository, generators)(request, response));
+        await (generateNewsRouteFactory(newsReportRepository, assetRepository, gameRepository, generators)(request, response));
 
         const newsReportFromDb: NewsReportEntity = (await newsReportRepository.find({
             relations: {
@@ -131,5 +131,21 @@ describe("Get all news route", () => {
         expect(newsReportFromDb.content).toEqual("Technology lorem ipsum");
         expect(newsReportFromDb.assets.map(asset => asset.ticker)).toEqual([asset1.ticker, asset2.ticker]);
         expect(newsReportFromDb.game).toEqual(game);
+    })
+
+    it("Should handle a database with no assets", async () => {
+        const request: Request = new MockRequest( {gameId: game.id}, {currentTick: 10}) as unknown as Request;
+
+        const generators = [new SpecificSectorNewsGenerator(new SpecificNewsTemplate(
+            "Technology lorem ipsum",
+            "Technology lorem ipsum",
+            1,
+            "Technology"
+        ))]
+
+        await (generateNewsRouteFactory(newsReportRepository, assetRepository, gameRepository, generators)(request, response));
+
+        expect(sendStatusSpy).toHaveBeenCalledTimes(1);
+        expect(sendStatusSpy).toHaveBeenCalledWith(201);
     })
 })
