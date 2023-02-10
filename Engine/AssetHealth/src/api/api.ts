@@ -22,7 +22,7 @@ export const router = express.Router()
 export function registerRoutes(router: Router, dataSource: DataSource){
     // Read the news template file
     // Use readFileSync as this function is only called during the server bootstraping and therefore blocking the program doesn't matter
-    const templateFileContent: string = fs.readFileSync(path.join(__dirname, '../static/templateNewsList.json'), {encoding: 'utf-8'});
+    const templateFileContent: string = fs.readFileSync(path.join(__dirname, '../../static/templateNewsList.json'), {encoding: 'utf-8'});
     const newsGenerators = parseNewsTemplateJson(templateFileContent);
 
     const newsReportRepository: Repository<NewsReportEntity> = dataSource.getRepository(NewsReportEntity);
