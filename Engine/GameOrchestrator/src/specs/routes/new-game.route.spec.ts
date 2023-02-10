@@ -16,7 +16,7 @@ class ResponseMock {
 describe("new game", () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
-    let jsonSpy: jest.SpyInstance;
+    let sendJson: jest.SpyInstance;
 
     let dataSource: DataSource;
 
@@ -37,7 +37,6 @@ describe("new game", () => {
         responseMock = new ResponseMock()
 
         sendStatusSpy = jest.spyOn(responseMock, 'sendStatus');
-        sendSpy = jest.spyOn(responseMock, 'send');
         sendJson = jest.spyOn(responseMock, 'json');
 
     })
@@ -53,7 +52,6 @@ describe("new game", () => {
         let nbr = 2;
         const body = new NewGameDto(nbr)
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
-        expect(sendStatusSpy).toHaveBeenCalledWith(200);
         expect(validate(sendJson.mock.calls[0][0]['gameId'])).toBeTruthy()
         expect(sendJson.mock.calls[0][0]['playerIds'].length).toBe(nbr)
 
@@ -61,8 +59,7 @@ describe("new game", () => {
             expect(validate(sendJson.mock.calls[0][0]['playerIds'][i])).toBeTruthy()
 
         }
-        expect(sendStatusSpy).toBeCalledTimes(1)
-        console.log(sendJson.mock.calls)
+        expect(sendJson).toBeCalledTimes(1)
 
 
     })
@@ -75,8 +72,7 @@ describe("new game", () => {
 
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
 
-        expect(sendStatusSpy).toHaveBeenCalledWith(200);
-        expect(sendStatusSpy).toBeCalledTimes(1)
+        expect(sendJson).toBeCalledTimes(1)
 
 
     })
@@ -92,7 +88,5 @@ describe("new game", () => {
         expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
-
-
 
 })
