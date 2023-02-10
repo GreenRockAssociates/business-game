@@ -4,11 +4,11 @@ import {AppDataSource} from "../../../../DataSource/src/index";
 import {getMockResponseSpies, MockResponse} from "../mock-response";
 import {MockRequest} from "../mock-request";
 import {Request, Response} from "express";
-import {AssetHealthEntity} from "../../../../DataSource/src/entities/asset-health.entity";
 import {getAssetHealthRouteFactory} from "../../api/routes/get-asset-health.route";
 import {AssetHealthResponseDto} from "../../dto/asset-health-response.dto";
-import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
 import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
+import {AssetHealthEntity} from "../../../../DataSource/src/entities/asset-health.entity";
+import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
 
 describe("Get asset health", () => {
     let response: Response;
