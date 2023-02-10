@@ -87,6 +87,8 @@ describe("buy route", () => {
         })
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount - 100)
         expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(portfolioEntry.count + 100)
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
     })
 
     it("should work knew asset buy",async ()=> { const game = new GameEntity()
@@ -114,8 +116,10 @@ describe("buy route", () => {
                 portfolio : true
             }
         })
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount - 100)
-        expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(100)} )
+        expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(100)}    )
     it("should'nt work not enought money",async ()=> {
         const game = new GameEntity()
         await dataSource.manager.save(game)
@@ -147,6 +151,8 @@ describe("buy route", () => {
                 portfolio : true
             }
         })
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount)
         expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(portfolioEntry.count )
 
@@ -181,6 +187,8 @@ describe("buy route", () => {
                 portfolio : true
             }
         })
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount )
         expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(portfolioEntry.count )} )
     it("should'nt work player not existing",async ()=> {
@@ -215,6 +223,8 @@ describe("buy route", () => {
                 portfolio : true
             }
         })
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount )
         expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(portfolioEntry.count )
     })

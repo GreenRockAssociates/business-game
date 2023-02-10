@@ -37,7 +37,9 @@ describe("new game", () => {
         responseMock = new ResponseMock()
 
         sendStatusSpy = jest.spyOn(responseMock, 'sendStatus');
-        jsonSpy = jest.spyOn(responseMock, 'json');
+        sendSpy = jest.spyOn(responseMock, 'send');
+        sendJson = jest.spyOn(responseMock, 'json');
+
     })
 
     afterEach(async () => {
@@ -47,13 +49,22 @@ describe("new game", () => {
     })
 
     it("should work",async ()=> {
-        const body = new NewGameDto(2)
-
-
+        let validate = require('uuid-validate');
+        let nbr = 2;
+        const body = new NewGameDto(nbr)
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
+        expect(sendStatusSpy).toHaveBeenCalledWith(200);
+        expect(validate(sendJson.mock.calls[0][0]['gameId'])).toBeTruthy()
+        expect(sendJson.mock.calls[0][0]['playerIds'].length).toBe(nbr)
 
-        expect(sendStatusSpy).toHaveBeenCalledTimes(0)
-        expect(jsonSpy).toHaveBeenCalledTimes(1)
+        for(let i = 0;i<sendJson.mock.calls[0][0]['playerIds'].length;i++){
+            expect(validate(sendJson.mock.calls[0][0]['playerIds'][i])).toBeTruthy()
+
+        }
+        expect(sendStatusSpy).toBeCalledTimes(1)
+        console.log(sendJson.mock.calls)
+
+
     })
     it("should work one player",async ()=> {
 
@@ -64,11 +75,12 @@ describe("new game", () => {
 
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
 
-        expect(sendStatusSpy).toHaveBeenCalledTimes(0);
-        expect(jsonSpy).toHaveBeenCalledTimes(1);
+        expect(sendStatusSpy).toHaveBeenCalledWith(200);
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
+
     })
     it("should'nt work 0 player",async ()=> {
-
 
 
         const body = new NewGameDto(0)
@@ -77,6 +89,7 @@ describe("new game", () => {
         await newgame({ "body": body} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),dataSource.getRepository(GameEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledWith(412);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
 

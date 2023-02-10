@@ -72,6 +72,7 @@ describe("bank acount", () => {
 
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
         expect(sendSpy).toHaveBeenCalledWith(`{"money":100}`);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
     it("should'nt work player didnt exist",async ()=> {
@@ -89,6 +90,7 @@ describe("bank acount", () => {
         await bankAcount({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
 
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
 
@@ -107,6 +109,7 @@ describe("bank acount", () => {
         await bankAcount({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
 
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
 
@@ -124,6 +127,7 @@ describe("bank acount", () => {
         await bankAcount({ "params": parambuy} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(PlayerEntity),);
 
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
+        expect(sendStatusSpy).toBeCalledTimes(1)
 
     })
 

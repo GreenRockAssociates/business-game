@@ -88,6 +88,8 @@ describe("sell route", () => {
         })
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount + 10)
         expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toBeCloseTo(portfolioEntry.count -10)
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
     })
 
     it("should work exact number of asset",async ()=> { const game = new GameEntity()
@@ -121,6 +123,8 @@ describe("sell route", () => {
         })
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount +10.10)
         expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL") == null)
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
     } )
     it("should'nt work not enought asset",async ()=> {
         const game = new GameEntity()
@@ -155,6 +159,8 @@ describe("sell route", () => {
         })
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount)
         expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(portfolioEntry.count )
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
 
     } )
     it("should'nt work asset not existing",async ()=> { const game = new GameEntity()
@@ -188,6 +194,8 @@ describe("sell route", () => {
             }
         })
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount )
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
         expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(portfolioEntry.count )} )
     it("should'nt work player not existing",async ()=> {
 
@@ -223,5 +231,7 @@ describe("sell route", () => {
         })
         expect(playerFromDb.bankAccount).toEqual(player.bankAccount )
         expect(playerFromDb.portfolio.find(asset => asset.assetTicker === "AAPL").count).toEqual(portfolioEntry.count )
+        expect(sendStatusSpy).toBeCalledTimes(1)
+
     })
 })
