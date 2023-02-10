@@ -4,16 +4,18 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
+    "@types/express": "^4.17.14",
     "@types/jest": "^29.2.4",
     "@types/node": "^18.11.12",
     "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "build": "tsc && cp .env ./dist/.env",
-    "start": "node dist/index.js",
+    "build": "tsc && cp src/.env ./dist/GameOrchestrator/src/.env",
+    "start": "node dist/GameOrchestrator/src/index.js",
     "serve": "nodemon src/index.ts",
     "test": "jest --runInBand"
   },
@@ -21,8 +23,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^4.17.15",
-    "@types/validator": "^13.7.10",
     "class-sanitizer": "^1.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -30,7 +30,6 @@
     "express": "^4.18.2",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.11",
-    "uuid-validate": "^0.0.3"
+    "typeorm": "^0.3.11"
   }
 }

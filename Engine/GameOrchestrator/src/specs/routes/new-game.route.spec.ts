@@ -10,15 +10,13 @@ import {NewGameDto} from "../../dto/new-game.dto";
 
 class ResponseMock {
     sendStatus() {}
-    send() {}
     json() {}
 }
 
 describe("new game", () => {
     let responseMock: ResponseMock
     let sendStatusSpy: jest.SpyInstance;
-    let sendSpy: jest.SpyInstance;
-    let sendJson: jest.SpyInstance;
+    let jsonSpy: jest.SpyInstance;
 
     let dataSource: DataSource;
 
@@ -41,6 +39,7 @@ describe("new game", () => {
         sendStatusSpy = jest.spyOn(responseMock, 'sendStatus');
         sendSpy = jest.spyOn(responseMock, 'send');
         sendJson = jest.spyOn(responseMock, 'json');
+
     })
 
     afterEach(async () => {
@@ -65,6 +64,7 @@ describe("new game", () => {
         expect(sendStatusSpy).toBeCalledTimes(1)
         console.log(sendJson.mock.calls)
 
+
     })
     it("should work one player",async ()=> {
 
@@ -77,6 +77,7 @@ describe("new game", () => {
 
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
         expect(sendStatusSpy).toBeCalledTimes(1)
+
 
     })
     it("should'nt work 0 player",async ()=> {

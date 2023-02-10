@@ -1,5 +1,4 @@
 import {DataSource} from "typeorm"
-import "reflect-metadata";
 import {ValidationSubscriber} from "../subcribers/validation.subscriber";
 
 export const AppDataSource = new DataSource({
@@ -7,8 +6,8 @@ export const AppDataSource = new DataSource({
     url: process.env[`TYPEORM_URL`],
     database: "iam",
     synchronize: true,
-    logging: process.env.NODE_ENV !== "prod",
-    entities: ['src/**/**.entity{.ts,.js}'],
+    logging: process.env.NODE_ENV !== "production",
+    entities: [__dirname + '/../entities/**.entity{.ts,.js}'],
     subscribers: [ValidationSubscriber],
     migrations: [],
 })
