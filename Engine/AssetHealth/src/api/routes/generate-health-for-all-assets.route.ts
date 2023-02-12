@@ -5,6 +5,7 @@ import {AssetHealthEntity} from "../../../../DataSource/src/entities/asset-healt
 import {Request, Response} from "express";
 import {GameIdDto} from "../../dto/game-id.dto";
 import {CurrentTickDto} from "../../dto/current-tick.dto";
+import {COMPANY_RATING_VALUES} from "../../constants/health.constants";
 
 class InvalidTickValue{}
 
@@ -18,9 +19,8 @@ async function getAllAssets(assetRepository: Repository<AssetEntity>): Promise<A
     return assetRepository.find();
 }
 
-const ratingValues = ["AAA", "AA", "A", "B", "C", "D", "E", "F"];
 function shiftNote(assetRating: string) {
-    let noteIndex = ratingValues.indexOf(assetRating);
+    let noteIndex = COMPANY_RATING_VALUES.indexOf(assetRating);
     const p = Math.random();
     if (p < 0.1) { // 10% to increase the note by 2 levels
         noteIndex -= 2
@@ -34,10 +34,10 @@ function shiftNote(assetRating: string) {
         noteIndex += 2
     }
     // Bound the note
-    noteIndex = Math.min(noteIndex, ratingValues.length);
+    noteIndex = Math.min(noteIndex, COMPANY_RATING_VALUES.length);
     noteIndex = Math.max(0, noteIndex);
     // Get the new note string
-    return ratingValues[noteIndex];
+    return COMPANY_RATING_VALUES[noteIndex];
 }
 
 async function generateNewHealthValue(asset: AssetEntity, game: GameEntity, healthRepository: Repository<AssetHealthEntity>, currentTick: number): Promise<void> {
@@ -56,7 +56,7 @@ async function generateNewHealthValue(asset: AssetEntity, game: GameEntity, heal
     }
 
     // If there exists a note, use it, otherwise use the average value and move it a bit
-    const newNote: string = shiftNote(previousHealth?.assetRating ?? ratingValues[ratingValues.length / 2]);
+    const newNote: string = shiftNote(previousHealth?.assetRating ?? COMPANY_RATING_VALUES[COMPANY_RATING_VALUES.length / 2]);
 
     const newHealth = new AssetHealthEntity(currentTick, newNote);
     newHealth.asset = asset;
