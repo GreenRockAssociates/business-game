@@ -1,6 +1,4 @@
 import {Request, Response} from "express";
-import {CurrentTickDto} from "../../dto/current-tick.dto";
-import {GameIdDto} from "../../dto/game-id.dto";
 import {Repository} from "typeorm";
 import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
 import {AssetHealthEntity} from "../../../../DataSource/src/entities/asset-health.entity";
@@ -11,6 +9,7 @@ import {
 } from "../../constants/health.constants";
 import {EvolutionVectorResponseDto} from "../../dto/evolution-vector-response.dto";
 import {validateOrReject} from "class-validator";
+import {GameIdAndCurrentTickDto} from "../../dto/game-id-and-current-tick.dto";
 
 /**
  * Smooth the news impact factor over time, and disable completely its impact after a certain number of ticks, by
@@ -87,22 +86,21 @@ async function getGrowthProbability(gameId: string, asset: AssetEntity, currentT
     return 0.5 + newsImpact + healthImpact;
 }
 
-export function ComputeEvolutionVectorRouteFactory(assetRepository: Repository<AssetEntity>, assetHealthRepository: Repository<AssetHealthEntity>, newsReportRepository: Repository<NewsReportEntity>){
+export function computeEvolutionVectorRouteFactory(assetRepository: Repository<AssetEntity>, assetHealthRepository: Repository<AssetHealthEntity>, newsReportRepository: Repository<NewsReportEntity>){
     return async (req: Request, res: Response) => {
-        const gameIdDto: GameIdDto = req.params as unknown as GameIdDto;
-        const currentTickDto: CurrentTickDto = req.body as unknown as CurrentTickDto;
+        const gameIdAndCurrentTickDto: GameIdAndCurrentTickDto = req.params as unknown as GameIdAndCurrentTickDto;
 
         const allAssets: AssetEntity[] = await assetRepository.find();
 
         let evolutionVector: Map<string, number> = new Map();
         await Promise.all(
             allAssets.map(async asset => {
-                const growthProbability: number = await getGrowthProbability(gameIdDto.gameId, asset, currentTickDto.currentTick, assetHealthRepository, newsReportRepository);
+                const growthProbability: number = await getGrowthProbability(gameIdAndCurrentTickDto.gameId, asset, gameIdAndCurrentTickDto.currentTick, assetHealthRepository, newsReportRepository);
                 evolutionVector.set(asset.ticker, growthProbability);
             })
         );
 
-        const response: EvolutionVectorResponseDto = new EvolutionVectorResponseDto(evolutionVector, currentTickDto.currentTick);
+        const response: EvolutionVectorResponseDto = new EvolutionVectorResponseDto(evolutionVector, gameIdAndCurrentTickDto.currentTick);
         try {
             await validateOrReject(response);
             res.json(response);

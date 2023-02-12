@@ -8,7 +8,7 @@ import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
 import {AssetHealthEntity} from "../../../../DataSource/src/entities/asset-health.entity";
 import {NewsReportEntity} from "../../../../DataSource/src/entities/news-report.entity";
 import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
-import {ComputeEvolutionVectorRouteFactory} from "../../api/routes/compute-evolution-vector.route";
+import {computeEvolutionVectorRouteFactory} from "../../api/routes/compute-evolution-vector.route";
 import {NewsFixture} from "../news-fixture";
 import {EvolutionVectorResponseDto} from "../../dto/evolution-vector-response.dto";
 
@@ -45,7 +45,7 @@ describe("Compute evolution vector route", () => {
         await newsReportRepository.delete({});
         await dataSource.getRepository(GameEntity).delete({});
 
-        route = ComputeEvolutionVectorRouteFactory(assetRepository, healthRepository, newsReportRepository);
+        route = computeEvolutionVectorRouteFactory(assetRepository, healthRepository, newsReportRepository);
     })
 
     afterAll(async () => {

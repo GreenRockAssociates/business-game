@@ -16,6 +16,8 @@ import path from "path";
 import {jsonToDtoMiddlewareFactory} from "./middlewares/json-to-dto.middleware";
 import {CurrentTickDto} from "../dto/current-tick.dto";
 import {generateNewsRouteFactory} from "./routes/generate-news.route";
+import {computeEvolutionVectorRouteFactory} from "./routes/compute-evolution-vector.route";
+import {GameIdAndCurrentTickDto} from "../dto/game-id-and-current-tick.dto";
 
 export const router = express.Router()
 
@@ -35,4 +37,5 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     const assetHealthRepository: Repository<AssetHealthEntity> = dataSource.getRepository(AssetHealthEntity);
     router.get("/:gameId/asset-health/health/:assetTicker", requestParamsToDtoMiddlewareFactory(GameIdAndAssetTickerDto), getAssetHealthRouteFactory(assetHealthRepository));
     router.post("/:gameId/asset-health/health", requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(CurrentTickDto), getAssetHealthRouteFactory(assetHealthRepository));
+    router.post("/:gameId/asset-health/evolution-vector/:currentTick", requestParamsToDtoMiddlewareFactory(GameIdAndCurrentTickDto), computeEvolutionVectorRouteFactory(assetRepository, assetHealthRepository, newsReportRepository));
 }
