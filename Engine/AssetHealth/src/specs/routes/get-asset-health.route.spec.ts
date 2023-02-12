@@ -4,11 +4,11 @@ import {AppDataSource} from "../../../../DataSource/src/index";
 import {getMockResponseSpies, MockResponse} from "../mock-response";
 import {MockRequest} from "../mock-request";
 import {Request, Response} from "express";
-import {AssetHealthEntity} from "../../../../DataSource/src/entities/asset-health.entity";
 import {getAssetHealthRouteFactory} from "../../api/routes/get-asset-health.route";
 import {AssetHealthResponseDto} from "../../dto/asset-health-response.dto";
-import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
 import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
+import {AssetHealthEntity} from "../../../../DataSource/src/entities/asset-health.entity";
+import {GameEntity} from "../../../../DataSource/src/entities/game.entity";
 
 describe("Get asset health", () => {
     let response: Response;
@@ -42,7 +42,7 @@ describe("Get asset health", () => {
 
     it("Should return the asset health", async () => {
         const assetHealthEntity: AssetHealthEntity = await assetHealthFixture.insertHealthData();
-        const request = new MockRequest(assetHealthEntity.game.id, assetHealthEntity.asset.ticker) as unknown as Request;
+        const request = new MockRequest({gameId: assetHealthEntity.game.id, assetTicker: assetHealthEntity.asset.ticker}) as unknown as Request;
 
         await getAssetHealthRouteFactory(dataSource.getRepository(AssetHealthEntity))(request, response);
 
@@ -57,7 +57,7 @@ describe("Get asset health", () => {
         await assetHealthFixture.insertHealthData({game, asset, assetRating: "A", generatedTick: 1});
         const assetHealthEntity2: AssetHealthEntity = await assetHealthFixture.insertHealthData({game, asset, assetRating: "AA", generatedTick: 2});
 
-        const request = new MockRequest(game.id, asset.ticker) as unknown as Request;
+        const request = new MockRequest({gameId: game.id, assetTicker: asset.ticker}) as unknown as Request;
 
         await getAssetHealthRouteFactory(dataSource.getRepository(AssetHealthEntity))(request, response);
 
@@ -68,7 +68,7 @@ describe("Get asset health", () => {
 
     it("Should return 404 if the game doesn't exist", async () => {
         const asset: AssetEntity = await assetHealthFixture.insertAsset();
-        const request = new MockRequest("385101bb-0382-41c6-931b-0557347206be", asset.ticker) as unknown as Request;
+        const request = new MockRequest({gameId: "385101bb-0382-41c6-931b-0557347206be", assetTicker: asset.ticker}) as unknown as Request;
 
         await getAssetHealthRouteFactory(dataSource.getRepository(AssetHealthEntity))(request, response);
 
@@ -79,7 +79,7 @@ describe("Get asset health", () => {
 
     it("Should return 404 if the asset doesn't exist", async () => {
         const game: GameEntity = await assetHealthFixture.insertGame();
-        const request = new MockRequest(game.id, "MSFT") as unknown as Request;
+        const request = new MockRequest({gameId: game.id, assetTicker: "MSFT"}) as unknown as Request;
 
         await getAssetHealthRouteFactory(dataSource.getRepository(AssetHealthEntity))(request, response);
 
@@ -91,7 +91,7 @@ describe("Get asset health", () => {
     it("Should return 404 if there is no entry", async () => {
         const game: GameEntity = await assetHealthFixture.insertGame();
         const asset: AssetEntity = await assetHealthFixture.insertAsset();
-        const request = new MockRequest(game.id, asset.ticker) as unknown as Request;
+        const request = new MockRequest({gameId: game.id, assetTicker: asset.ticker}) as unknown as Request;
 
         await getAssetHealthRouteFactory(dataSource.getRepository(AssetHealthEntity))(request, response);
 

@@ -1,0 +1,118 @@
+{
+  "globalNews": [
+    {
+      "title": "Le barrage de Hoover s'effondre.",
+      "content": "Suite à des manquements dans la maintenance, le barrage de Hoover aux États-Unis s'est effondré tard dans la soirée. Plus de 80 000 personnes sont portées disparues, et des millions d'autres sont dans des conditions de précarité critique alors que l'accès à l'eau et l'électricité n'est plus garanti dans une bonne partie de l'Ouest des États-Unis.",
+      "impact": -4.0
+    },
+    {
+      "title": "Le Covid continue à faire des ravages en Chine",
+      "content": "Alors que le gouvernement chinois lève enfin ses restrictions liés au covid, l'épidémie reprend de plus belle dans le pays. Les grands centres urbains sont particulièrement touchés,notamment Shanghai.",
+      "impact": -2.0
+    },
+    {
+      "title": "[[country]] remporte la coupe du monde de football !",
+      "content": "Après une confrontation acharnée en finale, [[country]] repart avec une nouvelle étoile sur le maillot de son équipe. La coupe du monde, très critiquée par les activistes écologistes, s'est finalement terminée sur un record d'audience.",
+      "impact": 0.4
+    },
+    {
+      "title": "[[country]] signe un nouveau traité de coopération avec l’Union Européenne.",
+      "content": "Grâce à ce traité de coopération commerciale et environnementale, [[country]] et l'Union Européenne sont plus engagés que jamais dans leurs engagements futurs.",
+      "impact": 0.2
+    },
+    {
+      "title": "La banque centrale d'un pays annonce un changement de politique monétaire.",
+      "content": "La FED annonce qu'elle revoit à la baisse les taux d'intérêts pour ralentir l'inflation croissante aux USA. Le marché a réagi favorablement a ce développement. ",
+      "impact": 5.0
+    },
+    {
+      "title": "Une nouvelle percée médicale est annoncée.",
+      "content": "Les laboratoires de recherche de [[country]] ont annoncés la mise au point d'un nouveau traitement pour la leucémie.",
+      "impact": 1.0
+    },
+    {
+      "title": "Une importante cyberattaque est signalée.",
+      "content": "Les services gouvernementaux de [[country]] subissent actuellement une cyberattaque de grande ampleur. L'identité des pirates n'est pas connue, mais les soupçons se porte vers la Corée du Nord.",
+      "impact": 0.0
+    },
+    {
+      "title": "Le taux de chômage augmente lors du dernier trimestre",
+      "content": "Malgré les efforts du gouvernement, les dernières mesures montrent que le nombre de chômeur a augmenté lors du trimestre. ",
+      "impact": -4.0
+    },
+    {
+      "title": "La crise énergétique européenne continue",
+      "content": "Malgré les efforts des gouvernements européens, le prix de l'énergie continue de grimper a mesure que l'hiver progresse.",
+      "impact": -3.0
+    },
+    {
+      "title": "[[country]] désigné pour accueillir les prochains Jeux Olympiques.",
+      "content": "Après de nombreux débats, [[country]] à réussir à faire accepter sa candidature comme pays d'accueil des jeux olympiques. Une mise à jour des équipements sportifs du pays a déjà été annoncé par le gouvernement.",
+      "impact": 1.0
+    },
+    {
+      "title": "[[country]] a tenu ses élections présidentielles.",
+      "content": "Après une campagne agitée, [[country]] a réélu son président sortant. Il est prévu qu'il continue sur sa lancée politique du précédent mandat. ",
+      "impact": 1.0
+    },
+    {
+      "title": "[[country]]  annonce la fermeture de ses centrales à charbon dans le cadre d’un programme de transition écologique.",
+      "content": "En accord avec les traités conclus lors de la COP 26, le gouvernement de [[country]] prévoit de fermer la totalité de ses centrales à charbon à l'horizon 2035, remplacées dans le mixe énergétique pour des énergies renouvelables.",
+      "impact": 0.0
+    },
+    {
+      "title": "[[country]]  met en place un nouveau fond d’investissement.",
+      "content": "Afin de réindustrialisé son pays, le dirigeant de [[country]] a annoncé la création d'un fond d'investissement très largement doté. Piloté par le gouvernement, le fond financera des projets visant à créer des emplois locaux dans les anciens centres industriels.",
+      "impact": 0.0
+    }
+  ],
+  "genericCompanyNews": [
+    {
+      "title": "[[company]] enregistre des résultats records après le lancement de leur nouveau produit.",
+      "content": "[[company]] lance aujourd'hui son nouveau produit, une vraie révolution. 200 000 personnes ont été comptabilisées hier soir devant ses magasins partout dans le monde. Les analystes s'attendent à des profits records au prochain trimestre.",
+      "impact": 7.0
+    },
+    {
+      "title": "Scandale financier chez [[company]]",
+      "content": "La justice américaine a annoncé l'ouverture d'une enquête sur [[company]] après avoir constaté des irrégularités dans la trésorerie de l'entreprise.",
+      "impact": -3.0
+    },
+    {
+      "title": "[[company]] annonce le lancement de son propre Métavers",
+      "content": "Visiblement conquis aux possibilités de ce nouveau concept de réalité virtuelle, le PDG de [[company]] annonce qu'il est très enthousiaste quant au futur de celle-ci, et entend positionner son entreprise comme un acteur clé du secteur",
+      "impact": 1.0
+    },
+    {
+      "title": "[[company]] annonce un nouveau partenariat dans la technologie blockchain.",
+      "content": "Suivant les tendances d'investissement dans le secteur de la tech, [[company]] annonce un partenariat avec une startup du secteur. ",
+      "impact": 2.0
+    },
+    {
+      "title": "La cote de crédit de [[company]] est revue à la baisse.",
+      "content": "Suite à l'annonce des résultats financiers inférieurs à ceux promis par la direction de l'entreprise, sa cote de crédit a été modifié à la baisse par le secteur bancaire. L'entreprise entre peut-être dans un cycle de ralentissement de croissance.",
+      "impact": -3.0
+    },
+    {
+      "title": "Une importante cyberattaque est signalée.",
+      "content": "Les serveurs de [[company]] sont actuellement pris en otage par des pirates informatiques. Ces attaques de plus en plus fréquentes déstabilisent grandement le secteur de [[sector]]",
+      "impact": 0.0
+    },
+    {
+      "title": "[[company]] annonce une fusion",
+      "content": "[[company]] annonce une fusion avec son rival national historique afin de devenir compétitif sur la scène internationale. Les détails seront connus ultérieurement.",
+      "impact": 0.0
+    }
+  ],
+  "genericSectorNews": [
+    {
+      "title": "Nouvelles régulations européennes pour les entreprises de [[sector]] !",
+      "content": "Avec ces nouvelles directives et critères de qualité sur les produits de [[sector]], l'Union Européenne prends de court les fabricants et les oblige à revoir leurs méthodes de productions.",
+      "impact": 0.0
+    },
+    {
+      "title": "[[sector]] de nouveau touché par la guerre en Ukraine",
+      "content": "Alors que le conflit semble s'enliser de plus en plus, [[sector]] fait face à de nouveaux défis logistiques pour palier l'absence de matières premières ukrainiennes vitales à l'industrie.",
+      "impact": -4.0
+    }
+  ]
+}

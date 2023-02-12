@@ -40,7 +40,7 @@ describe("Get all news for asset route", () => {
 
     it("Should fetch all the news from the DB if they exist", async () => {
         const newsReportEntity: NewsReportEntity = await newsFixture.insertNewsReport();
-        const request: Request = new MockRequest(newsReportEntity.game.id, newsReportEntity.assets[0].ticker) as unknown as Request;
+        const request: Request = new MockRequest({gameId: newsReportEntity.game.id, assetTicker: newsReportEntity.assets[0].ticker}) as unknown as Request;
 
         await getAllNewsForAssetRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 
@@ -55,7 +55,7 @@ describe("Get all news for asset route", () => {
         const asset = await newsFixture.insertAsset();
         await newsFixture.insertNewsReport({assets: [asset]});
         const newsReportEntity: NewsReportEntity = await newsFixture.insertNewsReport({assets: [asset]});
-        const request: Request = new MockRequest(newsReportEntity.game.id, newsReportEntity.assets[0].ticker) as unknown as Request;
+        const request: Request = new MockRequest({gameId: newsReportEntity.game.id, assetTicker: newsReportEntity.assets[0].ticker}) as unknown as Request;
 
         await getAllNewsForAssetRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 
@@ -71,7 +71,7 @@ describe("Get all news for asset route", () => {
         const asset = await newsFixture.insertAsset();
         const newsReportEntity1: NewsReportEntity = await newsFixture.insertNewsReport({game: game, assets: [asset]});
         const newsReportEntity2: NewsReportEntity = await newsFixture.insertNewsReport({game: game, assets: [asset]});
-        const request: Request = new MockRequest(game.id, asset.ticker) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, assetTicker: asset.ticker}) as unknown as Request;
 
         await getAllNewsForAssetRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 
@@ -84,7 +84,7 @@ describe("Get all news for asset route", () => {
     })
 
     it("Should return empty list if no news in DB", async () => {
-        const request: Request = new MockRequest("ee02d831-119b-4717-ae01-0a4444d8bcdb") as unknown as Request;
+        const request: Request = new MockRequest({gameId: "ee02d831-119b-4717-ae01-0a4444d8bcdb"}) as unknown as Request;
 
         await getAllNewsForAssetRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 
@@ -102,7 +102,7 @@ describe("Get all news for asset route", () => {
         await newsFixture.insertNewsReport({game: game, assets: [asset2]});
         const newsReportEntity3: NewsReportEntity = await newsFixture.insertNewsReport({game: game, assets: [asset1, asset2]});
 
-        const request: Request = new MockRequest(game.id, asset1.ticker) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, assetTicker: asset1.ticker}) as unknown as Request;
 
         await getAllNewsForAssetRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 
@@ -125,7 +125,7 @@ describe("Get all news for asset route", () => {
         const newsReportEntity3: NewsReportEntity = await newsFixture.insertNewsReport({game: game1, assets: [asset1, asset2]});
         await newsFixture.insertNewsReport({game: game2, assets: [asset1, asset2]});
 
-        const request: Request = new MockRequest(game1.id, asset1.ticker) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game1.id, assetTicker: asset1.ticker}) as unknown as Request;
 
         await getAllNewsForAssetRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 

@@ -40,7 +40,7 @@ describe("Get all news route", () => {
 
     it("Should fetch all the news from the DB if they exist", async () => {
         const newsReportEntity: NewsReportEntity = await newsFixture.insertNewsReport();
-        const request: Request = new MockRequest(newsReportEntity.game.id) as unknown as Request;
+        const request: Request = new MockRequest({gameId: newsReportEntity.game.id}) as unknown as Request;
 
         await getAllNewsRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 
@@ -55,7 +55,7 @@ describe("Get all news route", () => {
         const asset = await newsFixture.insertAsset();
         await newsFixture.insertNewsReport({assets: [asset]});
         const newsReportEntity: NewsReportEntity = await newsFixture.insertNewsReport({assets: [asset]});
-        const request: Request = new MockRequest(newsReportEntity.game.id) as unknown as Request;
+        const request: Request = new MockRequest({gameId: newsReportEntity.game.id}) as unknown as Request;
 
         await getAllNewsRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 
@@ -71,7 +71,7 @@ describe("Get all news route", () => {
         const asset = await newsFixture.insertAsset();
         const newsReportEntity1: NewsReportEntity = await newsFixture.insertNewsReport({game: game, assets: [asset]});
         const newsReportEntity2: NewsReportEntity = await newsFixture.insertNewsReport({game: game, assets: [asset]});
-        const request: Request = new MockRequest(game.id) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id}) as unknown as Request;
 
         await getAllNewsRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 
@@ -84,7 +84,7 @@ describe("Get all news route", () => {
     })
 
     it("Should return empty list if no news in DB", async () => {
-        const request: Request = new MockRequest("ee02d831-119b-4717-ae01-0a4444d8bcdb") as unknown as Request;
+        const request: Request = new MockRequest({gameId: "ee02d831-119b-4717-ae01-0a4444d8bcdb"}) as unknown as Request;
 
         await getAllNewsRouteFactory(dataSource.getRepository(NewsReportEntity))(request, response);
 
