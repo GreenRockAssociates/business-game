@@ -37,5 +37,5 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     const assetHealthRepository: Repository<AssetHealthEntity> = dataSource.getRepository(AssetHealthEntity);
     router.get("/:gameId/asset-health/health/:assetTicker", requestParamsToDtoMiddlewareFactory(GameIdAndAssetTickerDto), getAssetHealthRouteFactory(assetHealthRepository));
     router.post("/:gameId/asset-health/health", requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(CurrentTickDto), getAssetHealthRouteFactory(assetHealthRepository));
-    router.post("/:gameId/asset-health/evolution-vector/:currentTick", requestParamsToDtoMiddlewareFactory(GameIdAndCurrentTickDto), computeEvolutionVectorRouteFactory(assetRepository, assetHealthRepository, newsReportRepository));
+    router.get("/:gameId/asset-health/evolution-vector/:currentTick", requestParamsToDtoMiddlewareFactory(GameIdAndCurrentTickDto), computeEvolutionVectorRouteFactory(assetRepository, assetHealthRepository, newsReportRepository));
 }
