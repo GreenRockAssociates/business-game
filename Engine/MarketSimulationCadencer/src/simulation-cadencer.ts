@@ -15,7 +15,7 @@ export class SimulationCadencer {
     dataSource: DataSource;
     gameRepository: GameRepository;
 
-    constructor(rabbitMQInteractor: RabbitMqInteractor, dataSource: any, gameRepository: GameRepository = new GameRepository()) {
+    constructor(rabbitMQInteractor: RabbitMqInteractor, dataSource: any, gameRepository: GameRepository) {
         this.rabbitMQInteractor = rabbitMQInteractor;
         this.dataSource = dataSource as DataSource; // Cast in here because Typescript doesn't like the DataSource type in the constructor parameters
         this.gameRepository = gameRepository;
