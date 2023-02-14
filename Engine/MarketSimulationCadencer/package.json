@@ -30,6 +30,7 @@
     "dotenv": "^16.0.3",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.11"
+    "typeorm": "^0.3.11",
+    "axios": "^1.2.1"
   }
 }

@@ -1,5 +1,5 @@
 import {Expose} from "class-transformer";
-import {IsUUID} from "class-validator";
+import {IsNumber, IsPositive, IsUUID} from "class-validator";
 
 export class MarketSimulationOutgoingMessageDTO {
     @Expose()
@@ -7,14 +7,19 @@ export class MarketSimulationOutgoingMessageDTO {
     gameId: string;
 
     @Expose()
+    @IsNumber()
+    @IsPositive()
+    currentTick: number;
+
+    @Expose()
     marketState: Map<string, number>;
 
     @Expose()
     evolutionVector: Map<string, number>;
 
-
-    constructor(gameId: string, marketState: Map<string, number>, evolutionVector: Map<string, number>) {
+    constructor(gameId: string, currentTick: number, marketState: Map<string, number>, evolutionVector: Map<string, number>) {
         this.gameId = gameId;
+        this.currentTick = currentTick;
         this.marketState = marketState;
         this.evolutionVector = evolutionVector;
     }
