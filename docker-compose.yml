@@ -115,3 +115,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  rabbit-mq-game:
+    image: rabbitmq
+    ports:
+      - 127.0.0.1:5673:5672
+    volumes:
+      - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./docker/rabbitmq/log/:/var/log/rabbitmq
