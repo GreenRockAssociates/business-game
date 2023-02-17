@@ -72,7 +72,7 @@ describe("Compute evolution vector route", () => {
         await assetHealthFixture.insertHealthData({asset, game});
         await newsFixture.insertNewsReport({assets: [asset], game});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
@@ -80,7 +80,7 @@ describe("Compute evolution vector route", () => {
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
             new Map<string, number>([
-                ["APPL", 0.5733629943868181]
+                ["APPL", 0.5676359967924676]
             ]),
             10
         ));
@@ -93,7 +93,7 @@ describe("Compute evolution vector route", () => {
         await assetHealthFixture.insertHealthData({asset: asset2, game});
         await newsFixture.insertNewsReport({assets: [asset1, asset2], game});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
@@ -101,8 +101,8 @@ describe("Compute evolution vector route", () => {
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
             new Map<string, number>([
-                ["APPL", 0.5733629943868181],
-                ["MSFT", 0.5733629943868181]
+                ["APPL", 0.5676359967924676],
+                ["MSFT", 0.5676359967924676]
             ]),
             10
         ));
@@ -112,7 +112,7 @@ describe("Compute evolution vector route", () => {
         const asset = await assetHealthFixture.insertAsset();
         await assetHealthFixture.insertHealthData({asset, game});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
@@ -130,7 +130,7 @@ describe("Compute evolution vector route", () => {
         const asset = await assetHealthFixture.insertAsset();
         await assetHealthFixture.insertHealthData({asset, game, generatedTick: 10});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
@@ -149,7 +149,7 @@ describe("Compute evolution vector route", () => {
         await assetHealthFixture.insertHealthData({asset, game});
         await assetHealthFixture.insertHealthData({asset, game, generatedTick: 20, assetRating: "AAA"});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 100}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 100}) as unknown as Request;
 
         await route(request, response);
 
@@ -165,9 +165,9 @@ describe("Compute evolution vector route", () => {
 
     it("Should properly compute the probability of an asset with only one news", async () => {
         const asset = await assetHealthFixture.insertAsset();
-        await newsFixture.insertNewsReport({assets: [asset], game});
+        await newsFixture.insertNewsReport({assets: [asset], game, influenceFactor: -5});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
@@ -175,7 +175,25 @@ describe("Compute evolution vector route", () => {
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
             new Map<string, number>([
-                ["APPL", 0.5133629943868181]
+                ["APPL", 0.49045500400941566]
+            ]),
+            10
+        ));
+    })
+
+    it("Should properly compute the probability of an asset negative news", async () => {
+        const asset = await assetHealthFixture.insertAsset();
+        await newsFixture.insertNewsReport({assets: [asset], game});
+
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
+
+        await route(request, response);
+
+        expect(sendStatusSpy).not.toHaveBeenCalled();
+        expect(jsonSpy).toHaveBeenCalledTimes(1);
+        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
+            new Map<string, number>([
+                ["APPL", 0.5076359967924675]
             ]),
             10
         ));
@@ -186,7 +204,7 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 2});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
@@ -194,7 +212,7 @@ describe("Compute evolution vector route", () => {
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
             new Map<string, number>([
-                ["APPL", 0.520682720000005]
+                ["APPL", 0.51181869714286]
             ]),
             10
         ));
@@ -206,7 +224,7 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 2});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 3});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
@@ -214,7 +232,7 @@ describe("Compute evolution vector route", () => {
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
             new Map<string, number>([
-                ["APPL", 0.5225143709356688]
+                ["APPL", 0.5128653548203821]
             ]),
             10
         ));
@@ -227,7 +245,7 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 3});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 4});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
@@ -235,7 +253,7 @@ describe("Compute evolution vector route", () => {
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
             new Map<string, number>([
-                ["APPL", 0.5194048945307251]
+                ["APPL", 0.5110885111604143]
             ]),
             10
         ));
@@ -246,7 +264,7 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 800});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 1000}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 1000}) as unknown as Request;
 
         await route(request, response);
 
@@ -254,7 +272,7 @@ describe("Compute evolution vector route", () => {
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
             new Map<string, number>([
-                ["APPL", 0.5956467402624454]
+                ["APPL", 0.5546552801499688]
             ]),
             1000
         ));
@@ -265,7 +283,7 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 2});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 1000}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 1000}) as unknown as Request;
 
         await route(request, response);
 
@@ -282,7 +300,7 @@ describe("Compute evolution vector route", () => {
     it("Should properly compute the probability of an asset with no health and no news", async () => {
         await assetHealthFixture.insertAsset();
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 1000}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 1000}) as unknown as Request;
 
         await route(request, response);
 

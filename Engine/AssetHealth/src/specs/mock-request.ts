@@ -1,10 +1,11 @@
 class Params {
     gameId?: string;
-    assetTicker?: string
+    assetTicker?: string;
+    currentTick?: number;
 }
 
 class Body {
-    currentTick?: number
+    currentTick?: number;
 }
 
 export class MockRequest {
