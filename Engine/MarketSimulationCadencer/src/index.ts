@@ -20,5 +20,6 @@ Promise.all([
 
     const gameRepository = new GameRepository();
     await rabbitMQInteractor.registerListeners(gameRepository)
-    new SimulationCadencer(rabbitMQInteractor, AppDataSource, gameRepository);
+    const simulationCadencer = new SimulationCadencer(rabbitMQInteractor, AppDataSource, gameRepository);
+    simulationCadencer.startCadencing();
 })

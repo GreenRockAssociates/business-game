@@ -3,7 +3,7 @@ import {IsNumber, IsPositive} from "class-validator";
 
 export class EvolutionVectorResponseDto {
     @Expose()
-    vector: Map<string, number>;
+    vector: [string, number][];
 
     @Expose()
     @IsNumber()
@@ -11,8 +11,16 @@ export class EvolutionVectorResponseDto {
     tick: number;
 
 
-    constructor(vector: Map<string, number>, tick: number) {
+    constructor(vector: [string, number][], tick: number) {
         this.vector = vector;
         this.tick = tick;
+    }
+
+    getVector(): Map<string, number> {
+        return new Map(this.vector);
+    }
+
+    setVector(vector: Map<string, number>){
+        this.vector = [...vector];
     }
 }

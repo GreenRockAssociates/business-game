@@ -9,18 +9,34 @@ export class MarketSimulationOutgoingMessageDTO {
     @Expose()
     @IsNumber()
     @IsPositive()
-    currentTick: number;
+    tick: number;
 
     @Expose()
-    marketState: Map<string, number>;
+    marketState: [string, number][];
 
     @Expose()
-    evolutionVector: Map<string, number>;
+    evolutionVector: [string, number][];
 
-    constructor(gameId: string, currentTick: number, marketState: Map<string, number>, evolutionVector: Map<string, number>) {
+    constructor(gameId: string, tick: number, marketState: [string, number][], evolutionVector: [string, number][]) {
         this.gameId = gameId;
-        this.currentTick = currentTick;
+        this.tick = tick;
         this.marketState = marketState;
         this.evolutionVector = evolutionVector;
+    }
+
+    getMarketState(): Map<string, number> {
+        return new Map(this.marketState);
+    }
+
+    setMarketState(map: Map<string, number>){
+        this.marketState = [...map];
+    }
+
+    getEvolutionVector(): Map<string, number> {
+        return new Map(this.evolutionVector);
+    }
+
+    setEvolutionVector(map: Map<string, number>){
+        this.evolutionVector = [...map];
     }
 }

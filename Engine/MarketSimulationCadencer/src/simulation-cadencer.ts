@@ -4,23 +4,37 @@ import {GAME_TICK_DURATION_IN_MS, MARKET_CLOSING_HOUR, MARKET_OPENING_HOUR} from
 import {MarketSimulationOutgoingMessageDTO} from "./dto/market-simulation-outgoing-message.dto";
 import {DataSource} from "typeorm";
 import {MarketEntity} from "../../DataSource/src/entities/market.entity";
-import axios from "axios";
+import axios, {AxiosInstance} from "axios";
 import {plainToInstance} from "class-transformer";
 import {EvolutionVectorResponseDto} from "./dto/evolution-vector-response.dto";
 import {validateOrReject} from "class-validator";
 import {sanitize} from "class-sanitizer";
 
+export class Time {
+    getCurrentDate(): Date {
+        return new Date();
+    }
+
+    getCurrentTime(): number {
+        return Date.now();
+    }
+}
+
 export class SimulationCadencer {
     rabbitMQInteractor: RabbitMqInteractor;
     dataSource: DataSource;
     gameRepository: GameRepository;
+    axiosInstance: AxiosInstance;
+    time: Time;
 
-    constructor(rabbitMQInteractor: RabbitMqInteractor, dataSource: any, gameRepository: GameRepository) {
+    cadence: boolean = true;
+
+    constructor(rabbitMQInteractor: RabbitMqInteractor, dataSource: any, gameRepository: GameRepository, axiosInstance: AxiosInstance = axios.create(), time: Time = new Time()) {
         this.rabbitMQInteractor = rabbitMQInteractor;
         this.dataSource = dataSource as DataSource; // Cast in here because Typescript doesn't like the DataSource type in the constructor parameters
         this.gameRepository = gameRepository;
-
-        this.cadence();
+        this.axiosInstance = axiosInstance;
+        this.time = time;
     }
 
     /**
@@ -29,9 +43,9 @@ export class SimulationCadencer {
      * There may be a bit more delay between each tick than wanted, but never less
      * @private
      */
-    private async cadence() {
-        while (true){
-            const expectedEndTime = Date.now() + GAME_TICK_DURATION_IN_MS;
+    async startCadencing() {
+        while (this.cadence){
+            const expectedEndTime = this.time.getCurrentTime() + GAME_TICK_DURATION_IN_MS;
 
             await Promise.all(
                 this.gameRepository.getAllGames().map(gameId => this.generateNewTickForGame(gameId))
@@ -42,7 +56,7 @@ export class SimulationCadencer {
     }
 
     private async sleepUntilNextTick(expectedEndTime: number) {
-        const currentDate = new Date()
+        const currentDate = this.time.getCurrentDate()
 
         // If we are outside the market hours, change the endTime to be at 8AM on the next/current day (depending on if we are before or after midnight)
         if (currentDate.getHours() >= MARKET_CLOSING_HOUR){
@@ -56,8 +70,8 @@ export class SimulationCadencer {
             expectedEndTime = endDate.getTime();
         }
 
-        await new Promise(r => setTimeout(r, expectedEndTime - Date.now())); // Sleep for the remaining duration
-        while (Date.now() < expectedEndTime){} // Busy wait to equalize the eventual drift of setTimeout
+        await new Promise(r => {setTimeout(r, expectedEndTime - this.time.getCurrentTime() - 20)}); // Sleep for a bit less than the remaining duration
+        while (this.time.getCurrentTime() < expectedEndTime){} // Busy wait to equalize the eventual drift of setTimeout
     }
 
     private async generateNewTickForGame(gameId: string) {
@@ -68,7 +82,10 @@ export class SimulationCadencer {
                 this.getEvolutionVectorForGame(gameId, currentTick)
             ])
 
-            await this.rabbitMQInteractor.sendToMarketSimulateQueue(new MarketSimulationOutgoingMessageDTO(gameId, currentTick, marketState, evolutionVector))
+            const message = new MarketSimulationOutgoingMessageDTO(gameId, currentTick+1, null, null);
+            message.setMarketState(marketState);
+            message.setEvolutionVector(evolutionVector);
+            await this.rabbitMQInteractor.sendToMarketSimulateQueue(message);
 
             // TODO: have a chance to generate a News and new market health values
         } catch (_) {
@@ -103,13 +120,13 @@ export class SimulationCadencer {
     }
 
     private async getEvolutionVectorForGame(gameId: string, currentTick: number): Promise<Map<string, number>> {
-        const response = await axios.get(`${process.env.BASE_SERVER_URL}${process.env.ASSET_HEALTH_SERVICE_PREFIX}/${gameId}/asset-health/evolution-vector/${currentTick}`);
+        const response = await this.axiosInstance.get(`${process.env.BASE_SERVER_URL}${process.env.ASSET_HEALTH_SERVICE_PREFIX}/${gameId}/asset-health/evolution-vector/${currentTick}`);
 
         const responsePlain: object = JSON.parse(response.data);
         const responseDto: EvolutionVectorResponseDto = plainToInstance(EvolutionVectorResponseDto, responsePlain, {excludeExtraneousValues: true});
         await validateOrReject(responseDto);
         sanitize(responseDto);
 
-        return responseDto.vector;
+        return responseDto.getVector();
     }
 }
