@@ -8,12 +8,13 @@ import {MarketStateOutgoingMessageDto} from "../dto/market-state-outgoing-messag
 import {DataSource} from "typeorm";
 
 export class RabbitMqInteractor {
+    private connection: Connection;
     private channel: Channel;
 
     private async connectToRabbitMQ(url: string){
-        const connection: Connection = await client.connect(url)
+        this.connection = await client.connect(url);
 
-        this.channel = await connection.createChannel()
+        this.channel = await this.connection.createChannel();
     }
 
     private async assertQueues() {
@@ -24,6 +25,11 @@ export class RabbitMqInteractor {
     async initialize(url: string){
         await this.connectToRabbitMQ(url);
         await this.assertQueues();
+    }
+
+    async close(){
+        await this.channel.close();
+        await this.connection.close();
     }
 
     registerListeners(dataSource: any) {
