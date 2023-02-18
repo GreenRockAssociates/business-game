@@ -76,14 +76,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5676359967924676]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5676359967924676]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of multiple asset", async () => {
@@ -97,15 +96,14 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5676359967924676],
+            ["MSFT", 0.5676359967924676]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5676359967924676],
-                ["MSFT", 0.5676359967924676]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only health data", async () => {
@@ -116,14 +114,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.56]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.56]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with health data on the same tick", async () => {
@@ -134,14 +131,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.56]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.56]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with multiple health data", async () => {
@@ -153,14 +149,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 100);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.6]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.6]
-            ]),
-            100
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only one news", async () => {
@@ -171,14 +166,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.49045500400941566]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.49045500400941566]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset negative news", async () => {
@@ -189,14 +183,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5076359967924675]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5076359967924675]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only two news", async () => {
@@ -208,14 +201,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.51181869714286]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.51181869714286]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only three news", async () => {
@@ -228,14 +220,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5128653548203821]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5128653548203821]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only more than three news", async () => {
@@ -249,14 +240,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5110885111604143]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5110885111604143]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with an outdated news and some valid news", async () => {
@@ -268,14 +258,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 1000);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5546552801499688]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5546552801499688]
-            ]),
-            1000
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only outdated news", async () => {
@@ -287,14 +276,13 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 1000);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5]
-            ]),
-            1000
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with no health and no news", async () => {
@@ -304,13 +292,12 @@ describe("Compute evolution vector route", () => {
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 1000);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5]
-            ]),
-            1000
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 })

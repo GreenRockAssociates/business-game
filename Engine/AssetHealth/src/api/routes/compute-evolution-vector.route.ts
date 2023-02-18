@@ -108,7 +108,8 @@ export function computeEvolutionVectorRouteFactory(assetRepository: Repository<A
             })
         );
 
-        const response: EvolutionVectorResponseDto = new EvolutionVectorResponseDto(evolutionVector, gameIdAndCurrentTickDto.currentTick);
+        const response: EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, gameIdAndCurrentTickDto.currentTick);
+        response.setEvolutionVector(evolutionVector);
         try {
             await validateOrReject(response);
             res.json(response);
