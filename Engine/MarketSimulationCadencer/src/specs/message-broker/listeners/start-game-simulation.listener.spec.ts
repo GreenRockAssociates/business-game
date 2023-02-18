@@ -1,6 +1,6 @@
-import {GameRepository} from "../../game-repository";
-import {startGameSimulationListenerFactory} from "../../message-broker/listeners/start-game-simulation.listener";
-import {AddGameIncomingMessageDto} from "../../dto/add-game-incoming-message.dto";
+import {GameRepository} from "../../../game-repository";
+import {startGameSimulationListenerFactory} from "../../../message-broker/listeners/start-game-simulation.listener";
+import {AddGameIncomingMessageDto} from "../../../dto/add-game-incoming-message.dto";
 
 describe("Start game simulation listener", () => {
     let gameRepository: GameRepository;

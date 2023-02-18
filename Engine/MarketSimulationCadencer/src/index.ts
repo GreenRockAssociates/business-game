@@ -21,5 +21,10 @@ Promise.all([
     const gameRepository = new GameRepository();
     await rabbitMQInteractor.registerListeners(gameRepository)
     const simulationCadencer = new SimulationCadencer(rabbitMQInteractor, AppDataSource, gameRepository);
-    simulationCadencer.startCadencing();
+
+    // This enters a loop that will only end when the program stops producing new ticks
+    await simulationCadencer.startCadencing();
+
+    // Clean up
+    await rabbitMQInteractor.close();
 })
