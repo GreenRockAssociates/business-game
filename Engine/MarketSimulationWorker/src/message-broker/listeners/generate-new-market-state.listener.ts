@@ -1,4 +1,4 @@
-import {MarketSimulationIncommingMessageDTO} from "../../dto/market-simulation-incomming-message.dto";
+import {MarketSimulationIncomingMessageDTO} from "../../dto/market-simulation-incoming-message.dto";
 import {RabbitMqInteractor} from "../rabbit-mq-interactor";
 import {NormalDistribution} from "../../libraries/normal-distribution";
 import {DataSource} from "typeorm";
@@ -9,6 +9,16 @@ import {MarketStateOutgoingMessageDto} from "../../dto/market-state-outgoing-mes
 
 function generatePriceVariation(price: number): number {
     return NormalDistribution.generate(0.5, 0.15) * price / 120;
+}
+
+/**
+ * This method returns `value` truncated to keep only the first `decimalsToKeep` decimal places
+ * @param value
+ * @param decimalsToKeep
+ */
+function truncateNumber(value: number, decimalsToKeep: number) {
+    let multiplier = Math.pow(10, decimalsToKeep || 0);
+    return Math.floor(value * multiplier) / multiplier;
 }
 
 function applyRandomStep(currentMarketState: Map<string, number>, evolutionVector: Map<string, number>): Map<string, number> {
@@ -22,6 +32,8 @@ function applyRandomStep(currentMarketState: Map<string, number>, evolutionVecto
         } else {
             newPrice -= variation;
         }
+
+        newPrice = truncateNumber(newPrice, 2);
 
         newMarketState.set(asset, newPrice);
     })
@@ -47,8 +59,8 @@ async function saveNewMarketState(newMarketState: Map<string, number>, dataSourc
     }))
 }
 
-export function GenerateNewMarketStateListenerFactory(rabbitMqInteractor: RabbitMqInteractor, dataSource: DataSource){
-    return async (message: MarketSimulationIncommingMessageDTO) => {
+export function generateNewMarketStateListenerFactory(rabbitMqInteractor: RabbitMqInteractor, dataSource: DataSource){
+    return async (message: MarketSimulationIncomingMessageDTO) => {
         const tick = message.tick;
         const gameId = message.gameId;
         const marketState: Map<string, number> = message.getMarketState();

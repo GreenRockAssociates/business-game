@@ -1,9 +1,9 @@
 import client, {Channel, Connection, ConsumeMessage} from "amqplib";
-import {MarketSimulationIncommingMessageDTO} from "../dto/market-simulation-incomming-message.dto";
+import {MarketSimulationIncomingMessageDTO} from "../dto/market-simulation-incomming-message.dto";
 import {validateOrReject} from "class-validator";
 import {MARKET_SIMULATION_QUEUE_NAME, MARKET_STATE_QUEUE_NAME} from "../constants/rabbit-mq.constants";
 import {bindDtoToListener} from "../dto/bind-dto-to-listener";
-import {GenerateNewMarketStateListenerFactory} from "./listeners/generate-new-market-state.listener";
+import {generateNewMarketStateListenerFactory} from "./listeners/generate-new-market-state.listener";
 import {MarketStateOutgoingMessageDto} from "../dto/market-state-outgoing-message.dto";
 import {DataSource} from "typeorm";
 
@@ -35,7 +35,7 @@ export class RabbitMqInteractor {
     registerListeners(dataSource: any) {
         // Define the constant list of listeners on each queue
         const queueToFunctionMap = new Map<string, (msg: ConsumeMessage) => void>([
-            [MARKET_SIMULATION_QUEUE_NAME, bindDtoToListener(MarketSimulationIncommingMessageDTO, GenerateNewMarketStateListenerFactory(this, dataSource as DataSource))]
+            [MARKET_SIMULATION_QUEUE_NAME, bindDtoToListener(MarketSimulationIncomingMessageDTO, generateNewMarketStateListenerFactory(this, dataSource as DataSource))]
         ])
 
         // Register each one

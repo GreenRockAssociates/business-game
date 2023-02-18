@@ -1,7 +1,7 @@
 import {Expose} from "class-transformer";
 import {IsNumber, IsPositive, IsUUID} from "class-validator";
 
-export class MarketSimulationIncommingMessageDTO {
+export class MarketSimulationIncomingMessageDTO {
     @Expose()
     @IsUUID()
     gameId: string;
