@@ -1,14 +1,15 @@
 import {GameRepository} from "./game-repository";
 import {RabbitMqInteractor} from "./message-broker/rabbit-mq-interactor";
-import {GAME_TICK_DURATION_IN_MS, MARKET_CLOSING_HOUR, MARKET_OPENING_HOUR} from "./constants/game-cadencing.constants";
+import {
+    GAME_TICK_DURATION_IN_MS,
+    MARKET_CLOSING_HOUR,
+    MARKET_OPENING_HOUR, NEW_NEWS_REPORT_PROBABILITY,
+    TIME_BETWEEN_NEW_HEALTH_IN_TICK, TIME_BETWEEN_NEW_NEWS_REPORT_ATTEMPT_IN_TICK
+} from "./constants/game-cadencing.constants";
 import {MarketSimulationOutgoingMessageDTO} from "./dto/market-simulation-outgoing-message.dto";
 import {DataSource} from "typeorm";
 import {MarketEntity} from "../../DataSource/src/entities/market.entity";
-import axios, {AxiosInstance} from "axios";
-import {plainToInstance} from "class-transformer";
-import {EvolutionVectorResponseDto} from "./dto/evolution-vector-response.dto";
-import {validateOrReject} from "class-validator";
-import {sanitize} from "class-sanitizer";
+import {AssetHealthService} from "./libraries/asset-health.service";
 
 export class Time {
     getCurrentDate(): Date {
@@ -24,16 +25,16 @@ export class SimulationCadencer {
     rabbitMQInteractor: RabbitMqInteractor;
     dataSource: DataSource;
     gameRepository: GameRepository;
-    axiosInstance: AxiosInstance;
+    assetHealthService: AssetHealthService;
     time: Time;
 
     cadence: boolean = true;
 
-    constructor(rabbitMQInteractor: RabbitMqInteractor, dataSource: any, gameRepository: GameRepository, axiosInstance: AxiosInstance = axios.create(), time: Time = new Time()) {
+    constructor(rabbitMQInteractor: RabbitMqInteractor, dataSource: any, gameRepository: GameRepository, assetHealthService: AssetHealthService = new AssetHealthService(), time: Time = new Time()) {
         this.rabbitMQInteractor = rabbitMQInteractor;
         this.dataSource = dataSource as DataSource; // Cast in here because Typescript doesn't like the DataSource type in the constructor parameters
         this.gameRepository = gameRepository;
-        this.axiosInstance = axiosInstance;
+        this.assetHealthService = assetHealthService;
         this.time = time;
     }
 
@@ -77,18 +78,14 @@ export class SimulationCadencer {
     private async generateNewTickForGame(gameId: string) {
         try {
             const currentTick: number = await this.getCurrentTickForGame(gameId);
-            const [marketState, evolutionVector] = await Promise.all([
-                this.getCurrentMarketStateForGame(gameId, currentTick),
-                this.getEvolutionVectorForGame(gameId, currentTick)
-            ])
 
-            const message = new MarketSimulationOutgoingMessageDTO(gameId, currentTick+1, null, null);
-            message.setMarketState(marketState);
-            message.setEvolutionVector(evolutionVector);
-            await this.rabbitMQInteractor.sendToMarketSimulateQueue(message);
-
-            // TODO: have a chance to generate a News and new market health values
-        } catch (_) {
+            await Promise.all([
+                this.orderComputeMarketEvolution(gameId, currentTick),
+                this.tryGenerateNewHealthData(gameId, currentTick),
+                this.tryGenerateNewNewsReport(gameId, currentTick)
+            ]);
+        } catch (e) {
+            console.log(e)
             console.error(`Cannot generate tick for game ${gameId}`);
         }
     }
@@ -107,6 +104,18 @@ export class SimulationCadencer {
         })).tick;
     }
 
+    private async orderComputeMarketEvolution(gameId: string, currentTick: number): Promise<void> {
+        const [marketState, evolutionVector] = await Promise.all([
+            this.getCurrentMarketStateForGame(gameId, currentTick),
+            this.assetHealthService.getEvolutionVectorForGame(gameId, currentTick)
+        ])
+
+        const message = new MarketSimulationOutgoingMessageDTO(gameId, currentTick+1, null, null);
+        message.setMarketState(marketState);
+        message.setEvolutionVector(evolutionVector);
+        await this.rabbitMQInteractor.sendToMarketSimulateQueue(message);
+    }
+
     private async getCurrentMarketStateForGame(gameId: string, currentTick: number): Promise<Map<string, number>> {
         const market: MarketEntity[] = await this.dataSource.getRepository(MarketEntity).find({
             where: {
@@ -119,14 +128,15 @@ export class SimulationCadencer {
         return new Map(market.map(marketEntry => [marketEntry.assetTicker, marketEntry.value]));
     }
 
-    private async getEvolutionVectorForGame(gameId: string, currentTick: number): Promise<Map<string, number>> {
-        const response = await this.axiosInstance.get(`${process.env.BASE_SERVER_URL}${process.env.ASSET_HEALTH_SERVICE_PREFIX}/${gameId}/asset-health/evolution-vector/${currentTick}`);
+    private async tryGenerateNewHealthData(gameId: string, currentTick: number): Promise<void> {
+        if (currentTick % TIME_BETWEEN_NEW_HEALTH_IN_TICK === 0){
+            await this.assetHealthService.generateNewHealthDataForGame(gameId, currentTick);
+        }
+    }
 
-        const responsePlain: object = JSON.parse(response.data);
-        const responseDto: EvolutionVectorResponseDto = plainToInstance(EvolutionVectorResponseDto, responsePlain, {excludeExtraneousValues: true});
-        await validateOrReject(responseDto);
-        sanitize(responseDto);
-
-        return responseDto.getVector();
+    private async tryGenerateNewNewsReport(gameId: string, currentTick: number): Promise<void> {
+        if (currentTick % TIME_BETWEEN_NEW_NEWS_REPORT_ATTEMPT_IN_TICK === 0 && Math.random() < NEW_NEWS_REPORT_PROBABILITY){
+            await this.assetHealthService.generateNewsReportForGame(gameId, currentTick);
+        }
     }
 }
