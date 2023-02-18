@@ -5,12 +5,12 @@
 FROM node:19.4 AS builder
 
 WORKDIR /usr/src/app
-RUN mkdir MarketSimulationCadencer
+RUN mkdir MarketSimulationWorker
 RUN mkdir DataSource
 
-COPY MarketSimulationCadencer/package*.json ./MarketSimulationCadencer
-COPY MarketSimulationCadencer/tsconfig*.json ./MarketSimulationCadencer
-COPY MarketSimulationCadencer/src ./MarketSimulationCadencer/src
+COPY MarketSimulationWorker/package*.json ./MarketSimulationWorker
+COPY MarketSimulationWorker/tsconfig*.json ./MarketSimulationWorker
+COPY MarketSimulationWorker/src ./MarketSimulationWorker/src
 COPY DataSource/package*.json ./DataSource
 COPY DataSource/tsconfig*.json ./DataSource
 COPY DataSource/src ./DataSource/src
@@ -18,7 +18,7 @@ COPY DataSource/src ./DataSource/src
 WORKDIR /usr/src/app/DataSource
 RUN npm ci --quiet
 
-WORKDIR /usr/src/app/MarketSimulationCadencer
+WORKDIR /usr/src/app/MarketSimulationWorker
 RUN rm ./src/.env
 RUN mv ./src/.env-docker ./src/.env
 RUN npm ci --quiet && npm run build
@@ -33,12 +33,12 @@ FROM node:19.4-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY MarketSimulationCadencer/package*.json ./
+COPY MarketSimulationWorker/package*.json ./
 RUN npm ci --quiet --only=production
 
 EXPOSE 40004
 
 ## We just need the build to execute the command
-COPY --from=builder /usr/src/app/MarketSimulationCadencer/dist ./dist
+COPY --from=builder /usr/src/app/MarketSimulationWorker/dist ./dist
 
 CMD ["npm", "run", "start"]
