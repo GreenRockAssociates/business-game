@@ -1,7 +1,7 @@
 import client, {Channel, Connection, ConsumeMessage} from "amqplib";
-import {MarketSimulationIncomingMessageDTO} from "../dto/market-simulation-incomming-message.dto";
+import {MarketSimulationIncomingMessageDTO} from "../dto/market-simulation-incoming-message.dto";
 import {validateOrReject} from "class-validator";
-import {MARKET_SIMULATION_QUEUE_NAME, MARKET_STATE_QUEUE_NAME} from "../constants/rabbit-mq.constants";
+import {MARKET_SIMULATION_QUEUE_NAME, MARKET_STATE_EXCHANGE_NAME} from "../constants/rabbit-mq.constants";
 import {bindDtoToListener} from "../dto/bind-dto-to-listener";
 import {generateNewMarketStateListenerFactory} from "./listeners/generate-new-market-state.listener";
 import {MarketStateOutgoingMessageDto} from "../dto/market-state-outgoing-message.dto";
@@ -19,7 +19,7 @@ export class RabbitMqInteractor {
 
     private async assertQueues() {
         await this.channel.assertQueue(MARKET_SIMULATION_QUEUE_NAME);
-        await this.channel.assertQueue(MARKET_STATE_QUEUE_NAME);
+        await this.channel.assertExchange(MARKET_STATE_EXCHANGE_NAME, 'fanout', {durable: false});
     }
 
     async initialize(url: string){
@@ -51,8 +51,8 @@ export class RabbitMqInteractor {
         return Buffer.from(JSON.stringify(message));
     }
 
-    async sendToMarketStateQueue(message: MarketStateOutgoingMessageDto){
+    async sendToMarketStateExchange(message: MarketStateOutgoingMessageDto){
         await validateOrReject(message);
-        this.channel.sendToQueue(MARKET_STATE_QUEUE_NAME, this.toBuffer(message));
+        this.channel.publish(MARKET_STATE_EXCHANGE_NAME, '', this.toBuffer(message));
     }
 }

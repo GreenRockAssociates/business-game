@@ -70,6 +70,6 @@ export function generateNewMarketStateListenerFactory(rabbitMqInteractor: Rabbit
 
         await saveNewMarketState(newMarketState, dataSource, gameId, tick);
 
-        await rabbitMqInteractor.sendToMarketStateQueue(new MarketStateOutgoingMessageDto(gameId, tick, [...newMarketState]));
+        await rabbitMqInteractor.sendToMarketStateExchange(new MarketStateOutgoingMessageDto(gameId, tick, [...newMarketState]));
     }
 }
