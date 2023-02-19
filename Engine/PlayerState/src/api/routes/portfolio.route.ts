@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import {bankAccountDto} from "../../dto/bank-acount-response.dto";
 import {Repository} from "typeorm";
 import {PlayerEntity} from "../../../../DataSource/src/entities/player.entity";
 import {IdsDto} from "../../dto/ids.dto";
@@ -23,11 +22,9 @@ export async function portfolio(req: Request, res: Response, repository_player: 
 
     let allPortfolio = []
     for (let i = 0; i < player.portfolio.length; i++) {
-        console.log('here')
         allPortfolio.push(new portfolioDTO(player.portfolio[i]))
     }
     res.sendStatus(200);
-    console.log(allPortfolio)
 
     res.send(JSON.stringify(allPortfolio));
 
