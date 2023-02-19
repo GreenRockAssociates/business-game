@@ -21,7 +21,7 @@ export class MarketConnectionRepository {
         }
     }
 
-    getConnectionsForGame(gameId: string){
+    getConnectionsForGame(gameId: string): WebSocket[]{
         return this.marketIdToConnectionListMap.get(gameId);
     }
 
