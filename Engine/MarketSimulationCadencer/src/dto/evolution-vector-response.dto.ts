@@ -16,11 +16,11 @@ export class EvolutionVectorResponseDto {
         this.tick = tick;
     }
 
-    getEvolutionVector(): Map<string, number> {
+    getVector(): Map<string, number> {
         return new Map(this.vector);
     }
 
-    setEvolutionVector(map: Map<string, number>){
-        this.vector = [...map];
+    setVector(vector: Map<string, number>){
+        this.vector = [...vector];
     }
 }

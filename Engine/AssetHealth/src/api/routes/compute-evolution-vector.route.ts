@@ -12,28 +12,36 @@ import {validateOrReject} from "class-validator";
 import {GameIdAndCurrentTickDto} from "../../dto/game-id-and-current-tick.dto";
 
 /**
- * Smooth the news impact factor over time, and disable completely its impact after a certain number of ticks, by
- * computing a scaling factor so the impact is not 100% right away
+ * Returns a value between 0 and 1 corresponding to how much of the news impact should be applied depending on its age.
+ *
+ * Used to smooth the news impact over time, and disable completely its impact after a certain number of ticks.
  * @param generatedTick
  * @param currentTick
  */
-function newsModifierForTick(generatedTick: number, currentTick: number): number {
+function newsPowerOverTime(generatedTick: number, currentTick: number): number {
     const newsAge = currentTick - generatedTick;
     if (newsAge > MAX_NEWS_AGE){
         return 0;
     }
 
     const x = newsAge/102.5;
-    return (x / (Math.pow((x - 0.5), 2) + 0.75)) / 10;
+    return (x / (Math.pow((x - 0.5), 2) + 0.75));
 }
 
 /**
- * Translates the [-10 ; 10] scale if the news impact to a smaller range compatible with the probability
+ * Translates the [-10 ; 10] scale of the news impact to a smaller range of [-0.2 ; 0.2] compatible with the probability
  * @param influenceFactor
+ */
+function newsInfluenceFactorToRealImpact(influenceFactor: number): number {
+    return influenceFactor / 50;
+}
+
+/**
+ * Reduce the impact of the news to take into account the fact that it is not the most recent one
  * @param freshness
  */
-function newsInfluenceFactorToRealImpact(influenceFactor: number, freshness: number): number {
-    return (1 + influenceFactor / 10) * (1 - freshness / 3);
+function newsFreshnessPower(freshness: number): number {
+    return 1 - (freshness / 3);
 }
 
 async function getNewsImpact(gameId: string, asset: AssetEntity, currentTick: number, newsReportRepository: Repository<NewsReportEntity>): Promise<number> {
@@ -52,8 +60,8 @@ async function getNewsImpact(gameId: string, asset: AssetEntity, currentTick: nu
 
     let impact = 0;
     latestNews.forEach((newsReport, index) => {
-        // For each news, compute its impact and scale it according to its age
-        impact += newsInfluenceFactorToRealImpact(newsReport.influenceFactor, index) * newsModifierForTick(newsReport.generatedTick, currentTick);
+        // For each news, compute its impact and scale it according to its age and position in the news cycle
+        impact += newsPowerOverTime(newsReport.generatedTick, currentTick) * newsInfluenceFactorToRealImpact(newsReport.influenceFactor) * newsFreshnessPower(index);
     })
 
     return impact;
@@ -100,7 +108,8 @@ export function computeEvolutionVectorRouteFactory(assetRepository: Repository<A
             })
         );
 
-        const response: EvolutionVectorResponseDto = new EvolutionVectorResponseDto(evolutionVector, gameIdAndCurrentTickDto.currentTick);
+        const response: EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, gameIdAndCurrentTickDto.currentTick);
+        response.setEvolutionVector(evolutionVector);
         try {
             await validateOrReject(response);
             res.json(response);

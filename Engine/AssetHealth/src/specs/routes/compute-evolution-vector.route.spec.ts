@@ -72,18 +72,17 @@ describe("Compute evolution vector route", () => {
         await assetHealthFixture.insertHealthData({asset, game});
         await newsFixture.insertNewsReport({assets: [asset], game});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5676359967924676]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5733629943868181]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of multiple asset", async () => {
@@ -93,55 +92,52 @@ describe("Compute evolution vector route", () => {
         await assetHealthFixture.insertHealthData({asset: asset2, game});
         await newsFixture.insertNewsReport({assets: [asset1, asset2], game});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5676359967924676],
+            ["MSFT", 0.5676359967924676]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5733629943868181],
-                ["MSFT", 0.5733629943868181]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only health data", async () => {
         const asset = await assetHealthFixture.insertAsset();
         await assetHealthFixture.insertHealthData({asset, game});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.56]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.56]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with health data on the same tick", async () => {
         const asset = await assetHealthFixture.insertAsset();
         await assetHealthFixture.insertHealthData({asset, game, generatedTick: 10});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.56]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.56]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with multiple health data", async () => {
@@ -149,36 +145,51 @@ describe("Compute evolution vector route", () => {
         await assetHealthFixture.insertHealthData({asset, game});
         await assetHealthFixture.insertHealthData({asset, game, generatedTick: 20, assetRating: "AAA"});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 100}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 100}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 100);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.6]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.6]
-            ]),
-            100
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only one news", async () => {
         const asset = await assetHealthFixture.insertAsset();
-        await newsFixture.insertNewsReport({assets: [asset], game});
+        await newsFixture.insertNewsReport({assets: [asset], game, influenceFactor: -5});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.49045500400941566]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5133629943868181]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
+    })
+
+    it("Should properly compute the probability of an asset negative news", async () => {
+        const asset = await assetHealthFixture.insertAsset();
+        await newsFixture.insertNewsReport({assets: [asset], game});
+
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
+
+        await route(request, response);
+
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5076359967924675]
+        ]))
+        expect(sendStatusSpy).not.toHaveBeenCalled();
+        expect(jsonSpy).toHaveBeenCalledTimes(1);
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only two news", async () => {
@@ -186,18 +197,17 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 2});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.51181869714286]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.520682720000005]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only three news", async () => {
@@ -206,18 +216,17 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 2});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 3});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5128653548203821]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5225143709356688]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only more than three news", async () => {
@@ -227,18 +236,17 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 3});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 4});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 10}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 10}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 10);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5110885111604143]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5194048945307251]
-            ]),
-            10
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with an outdated news and some valid news", async () => {
@@ -246,18 +254,17 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 800});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 1000}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 1000}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 1000);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5546552801499688]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5956467402624454]
-            ]),
-            1000
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with only outdated news", async () => {
@@ -265,34 +272,32 @@ describe("Compute evolution vector route", () => {
         await newsFixture.insertNewsReport({assets: [asset], game});
         await newsFixture.insertNewsReport({assets: [asset], game, generatedTick: 2});
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 1000}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 1000}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 1000);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5]
-            ]),
-            1000
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 
     it("Should properly compute the probability of an asset with no health and no news", async () => {
         await assetHealthFixture.insertAsset();
 
-        const request: Request = new MockRequest({gameId: game.id}, {currentTick: 1000}) as unknown as Request;
+        const request: Request = new MockRequest({gameId: game.id, currentTick: 1000}) as unknown as Request;
 
         await route(request, response);
 
+        const expectedEvolutionVectorResponseDto : EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, 1000);
+        expectedEvolutionVectorResponseDto.setEvolutionVector(new Map<string, number>([
+            ["APPL", 0.5]
+        ]))
         expect(sendStatusSpy).not.toHaveBeenCalled();
         expect(jsonSpy).toHaveBeenCalledTimes(1);
-        expect(jsonSpy).toHaveBeenCalledWith(new EvolutionVectorResponseDto(
-            new Map<string, number>([
-                ["APPL", 0.5]
-            ]),
-            1000
-        ));
+        expect(jsonSpy).toHaveBeenCalledWith(expectedEvolutionVectorResponseDto);
     })
 })
