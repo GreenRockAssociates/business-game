@@ -1,7 +1,7 @@
 import {WebSocketServer} from "ws";
 import {connectionRequestToSessionDataListenerFactory} from "./listeners/connection-request-to-session-data.listener";
 import {LauncherService} from "../libraries/launcher.service";
-import {MarketConnectionRepository} from "./MarketConnectionRepository";
+import {MarketConnectionRepository} from "./market-connection-repository";
 
 export class MarketUpdatesWebSocketServer {
     port: number;
