@@ -13,8 +13,6 @@ export class NewGameDto {
     @Expose()
     numberOfPlayers : number;
 
-
-
     constructor(numberOfPlayers: number) {
         this.numberOfPlayers = numberOfPlayers;
     }
