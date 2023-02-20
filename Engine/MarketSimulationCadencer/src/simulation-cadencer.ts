@@ -84,8 +84,7 @@ export class SimulationCadencer {
                 this.tryGenerateNewHealthData(gameId, currentTick),
                 this.tryGenerateNewNewsReport(gameId, currentTick)
             ]);
-        } catch (e) {
-            console.log(e)
+        } catch (_) {
             console.error(`Cannot generate tick for game ${gameId}`);
         }
     }
