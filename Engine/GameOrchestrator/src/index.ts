@@ -7,12 +7,17 @@ import express, {NextFunction, Request, Response} from 'express';
 // Custom files
 import {AppDataSource} from "../../DataSource/src/index";
 import {registerRoutes, router} from "./api/api";
+import {RabbitMqInteractor} from "./message-broker/rabbit-mq-interactor";
+
+const rabbitMqInteractor: RabbitMqInteractor = new RabbitMqInteractor();
 
 // Connect to databases and run the app once the connection is established
 Promise.all([
     AppDataSource.initialize(),
+    rabbitMqInteractor.initialize(process.env.RABBIT_MQ_URL)
 ]).then(() => {
     console.log("Database connected")
+    console.log("Connection to RabbitMQ ok")
 
     const app = express();
     app.set('trust proxy', 1);
@@ -21,7 +26,7 @@ Promise.all([
     app.use(express.json());
 
     // Configuration des routes
-    registerRoutes(router, AppDataSource)
+    registerRoutes(router, AppDataSource, rabbitMqInteractor)
     app.use(process.env.SERVICE_URL_PREFIX, router)
 
     // Custom error handling to avoid leaking stack trace
