@@ -1,0 +1,22 @@
+<div class="min-h-screen flex justify-center items-center">
+  <div class="bg-dark-500 rounded p-5">
+    <div class="max-w-[300px]">
+      <img src="../../../assets/logo_GRA_no-bg.png" class="object-contain" alt="logo"/>
+    </div>
+    <a [routerLink]="'/register'" class="underline">Create an account</a>
+    <form [formGroup]="form" class="my-4 flex flex-col gap-6">
+      <div class="flex flex-col">
+        <label for="email" class="mb-2 text-light-500">Email </label>
+        <input id="email" type="text" formControlName="email" class="bg-dark-300">
+      </div>
+      <div class="flex flex-col">
+        <label for="password" class="mb-2 text-light-500">Password </label>
+        <input id="password" type="password" formControlName="password" class="bg-dark-300">
+      </div>
+      <button class="w-full rounded p-2 flex justify-between bg-primary text-dark-900 text-center">
+        <p>Sign in</p>
+        <fa-icon [icon]="faChevronRight"></fa-icon>
+      </button>
+    </form>
+  </div>
+</div>
