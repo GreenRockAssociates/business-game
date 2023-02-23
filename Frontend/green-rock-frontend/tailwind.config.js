@@ -6,12 +6,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'light': '#DFD5D5',
+        'light': {
+          0: '#FFFFFF',
+          400: '#DCDCDC',
+          500: '#BEBEBE'
+        },
         'dark': {
-          500: '#4E455E',
-          600: '#443D52',
-          700: '#3A3446',
-        }
+          400: '#464646',
+          500: '#3C3C3C',
+          600: '#323232',
+          700: '#282828',
+          800: '#1E1E1E',
+          900: '#141414',
+        },
+        'primary': '#FFD78A',
+        'secondary': '#F4902D',
       },
     },
   },
