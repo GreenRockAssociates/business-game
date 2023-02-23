@@ -20,7 +20,11 @@ module.exports = {
           800: '#1E1E1E',
           900: '#141414',
         },
-        'primary': '#FFD78A',
+        'primary': {
+          0: '#FFF1D6',
+          500: '#FFD78A',
+          900: '#FFBF47'
+        },
         'secondary': '#F4902D',
       },
     },

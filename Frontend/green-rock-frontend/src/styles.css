@@ -7,6 +7,6 @@
 }
 
 .gradient {
-  @apply from-primary to-secondary
+  @apply from-primary-500 to-secondary
 }
 

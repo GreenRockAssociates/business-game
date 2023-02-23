@@ -3,15 +3,17 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
   faChevronRight = faChevronRight;
 
   form: FormGroup = this.formBuilder.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
@@ -23,6 +25,12 @@ export class LoginComponent implements OnInit {
     ],
     password: [
       {type: 'required', message: 'Password is required'},
+    ],
+    firstName: [
+      {type: 'required', message: 'First name is required'},
+    ],
+    lastName: [
+      {type: 'required', message: 'Last name is required'},
     ]
   }
 
@@ -32,7 +40,8 @@ export class LoginComponent implements OnInit {
   }
 
   submitForm(){
-    console.log("login")
+    console.log("register")
     console.log(this.form)
   }
+
 }
