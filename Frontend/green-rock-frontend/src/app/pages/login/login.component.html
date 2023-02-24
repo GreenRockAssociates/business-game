@@ -3,14 +3,17 @@
     <div class="max-w-[300px]">
       <img src="../../../assets/logo_GRA_no-bg.png" class="object-contain" alt="logo"/>
     </div>
+    <p *ngIf="invalidCredentials" class="text-red-400">Invalid credentials !</p>
+    <p *ngIf="justRegistered" class="text-green-400">Account registered ! Please log in</p>
+
     <form [formGroup]="form" class="w-full my-4 flex flex-col gap-6" (ngSubmit)="submitForm()">
       <div class="flex flex-col">
-        <label for="email" class="mb-2 text-light-500">Email </label>
+        <label for="email" class="mb-2 text-light-500">Email</label>
         <input id="email" type="text" formControlName="email" class="bg-dark-300 h-8 px-3">
         <app-form-validation-error-message [validationErrorMessages]="validationErrorMessages.email" [control]="form.controls['email']"></app-form-validation-error-message>
       </div>
       <div class="flex flex-col">
-        <label for="password" class="mb-2 text-light-500">Password </label>
+        <label for="password" class="mb-2 text-light-500">Password</label>
         <input id="password" type="password" formControlName="password" class="bg-dark-300 h-8 px-3">
         <app-form-validation-error-message [validationErrorMessages]="validationErrorMessages.password" [control]="form.controls['password']"></app-form-validation-error-message>
       </div>
@@ -19,6 +22,7 @@
         <fa-icon [icon]="faChevronRight"></fa-icon>
       </button>
     </form>
+
     <a [routerLink]="'/register'" class="underline">Create an account?</a>
   </div>
 </div>

@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseServerUrl: "//localhost", // Use "//" instead of "http://" so angular considers it a relative url and sends the CSRF tokens
+  authenticationService: ":30000/api/auth"
 };
 
 /*
