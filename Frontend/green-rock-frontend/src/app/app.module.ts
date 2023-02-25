@@ -9,13 +9,15 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { RegisterComponent } from './pages/register/register.component';
 import { FormValidationErrorMessageComponent } from './components/form-validation-error-message/form-validation-error-message.component';
 import {HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
+import { GameListComponent } from './pages/game-list/game-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    FormValidationErrorMessageComponent
+    FormValidationErrorMessageComponent,
+    GameListComponent
   ],
   imports: [
     BrowserModule,
