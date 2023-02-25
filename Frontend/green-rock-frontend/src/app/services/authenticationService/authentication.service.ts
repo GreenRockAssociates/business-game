@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {LoginDto} from "../interfaces/login.dto";
-import {RegisterDto} from "../interfaces/register.dto";
-import {environment} from "../../environments/environment";
+import {LoginDto} from "../../interfaces/login.dto";
+import {RegisterDto} from "../../interfaces/register.dto";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
