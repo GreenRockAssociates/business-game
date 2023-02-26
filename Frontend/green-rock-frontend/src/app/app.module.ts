@@ -10,6 +10,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { FormValidationErrorMessageComponent } from './components/form-validation-error-message/form-validation-error-message.component';
 import {HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
 import { GameListComponent } from './pages/game-list/game-list.component';
+import { LauncherMenuComponent } from './components/launcher-menu/launcher-menu.component';
+import { InvitationsComponent } from './pages/invitations/invitations.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { GameListComponent } from './pages/game-list/game-list.component';
     LoginComponent,
     RegisterComponent,
     FormValidationErrorMessageComponent,
-    GameListComponent
+    GameListComponent,
+    LauncherMenuComponent,
+    InvitationsComponent
   ],
   imports: [
     BrowserModule,

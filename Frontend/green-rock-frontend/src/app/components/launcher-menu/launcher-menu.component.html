@@ -1,0 +1,10 @@
+<div class="absolute top-0 left-0 h-full bg-dark-800 rounded-r-xl">
+  <div class="h-full p-10 hover:mr-10 hover:ml-4 duration-200 ease-out">
+    <h1 class="text-4xl font-bold mb-5">Menu</h1>
+    <div class="flex flex-col gap-3">
+      <a [routerLink]="['/']"        class="flex flex-row justify-between gap-4 cursor-pointer text-lg hover:translate-x-2 hover:text-primary-500 duration-200 ease-out"><fa-icon [icon]="faGamepad"></fa-icon>              My games</a>
+      <a [routerLink]="['/invites']" class="flex flex-row justify-between gap-4 cursor-pointer text-lg hover:translate-x-2 hover:text-primary-500 duration-200 ease-out"><fa-icon [icon]="faEnvelope" class="mr-2"></fa-icon>Invitations</a>
+      <a [routerLink]="['/profile']" class="flex flex-row justify-between gap-4 cursor-pointer text-lg hover:translate-x-2 hover:text-primary-500 duration-200 ease-out"><fa-icon [icon]="faUser" class="mr-2"></fa-icon>    My profile</a>
+    </div>
+  </div>
+</div>
