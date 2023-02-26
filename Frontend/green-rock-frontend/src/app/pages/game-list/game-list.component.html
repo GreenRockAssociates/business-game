@@ -34,6 +34,4 @@
   </div>
 </div>
 
-<div *ngIf="errorOccurred" class="w-1/2 mx-auto mt-20 p-3 bg-red-500 rounded-lg">
-  <p>An error occurred while communicating with the server, please try again.</p>
-</div>
+<app-generic-error-message  *ngIf="errorOccurred"></app-generic-error-message>

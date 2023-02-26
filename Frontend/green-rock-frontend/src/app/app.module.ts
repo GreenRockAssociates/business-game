@@ -11,7 +11,8 @@ import { FormValidationErrorMessageComponent } from './components/form-validatio
 import {HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
 import { GameListComponent } from './pages/game-list/game-list.component';
 import { LauncherMenuComponent } from './components/launcher-menu/launcher-menu.component';
-import { InvitationsComponent } from './pages/invitations/invitations.component';
+import { InvitationsListComponent } from './pages/invitations-list/invitations-list.component';
+import { GenericErrorMessageComponent } from './components/generic-error-message/generic-error-message.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { InvitationsComponent } from './pages/invitations/invitations.component'
     FormValidationErrorMessageComponent,
     GameListComponent,
     LauncherMenuComponent,
-    InvitationsComponent
+    InvitationsListComponent,
+    GenericErrorMessageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LauncherService} from "../../services/launcherService/launcher.service";
 import {GameDto} from "../../interfaces/game.dto";
-import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {faPlusCircle, faPencilAlt, faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import {gameStateToString} from "../../interfaces/game-state.enum";
@@ -31,20 +30,24 @@ export class GameListComponent implements OnInit {
   ngOnInit(): void {
     this.launcherService.getAllGames().subscribe({
       next: games => this.games = games,
-      error: this.handleHttpError
+      error: error => {
+        if (error.status === 401){
+          this.router.navigate(['/login']);
+        } else {
+          this.errorOccurred = true;
+        }
+      }
     })
 
     this.authenticationService.getSessionData().subscribe({
       next: sessionData => this.currentUserId = sessionData.userId,
-      error: this.handleHttpError
+      error: error => {
+        if (error.status === 401){
+          this.router.navigate(['/login']);
+        } else {
+          this.errorOccurred = true;
+        }
+      }
     })
-  }
-
-  handleHttpError(error: HttpErrorResponse){
-    if (error.status === 401){
-      this.router.navigate(['/login']);
-    } else {
-      this.errorOccurred = true;
-    }
   }
 }
