@@ -23,9 +23,15 @@
           </div>
         </div>
 
-        <button class="min-w-[50px] aspect-square bg-dark-500 rounded-lg border-2 border-transparent hover:border-primary-500 hover:text-primary-500 hover:scale-125 duration-200 ease-out">
+        <a [routerLink]="['/new-game']"
+           class="flex justify-center items-center
+                  min-w-[50px] aspect-square rounded-lg
+                  bg-dark-500
+                  cursor-pointer
+                  border-2 border-transparent hover:border-primary-500 hover:text-primary-500 hover:scale-125 duration-200 ease-out"
+        >
           <fa-icon [icon]="faPlusCircle"></fa-icon>
-        </button>
+        </a>
       </div>
     </div>
   </div>
