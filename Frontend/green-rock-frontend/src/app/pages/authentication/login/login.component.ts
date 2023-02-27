@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
-import {AuthenticationService} from "../../services/authenticationService/authentication.service";
+import {AuthenticationService} from "../../../services/authenticationService/authentication.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {LauncherService} from "../../services/launcherService/launcher.service";
+import {LauncherService} from "../../../services/launcherService/launcher.service";
 import {Router} from "@angular/router";
-import {GameDto} from "../../interfaces/game.dto";
-import {InvitationDto} from "../../interfaces/invitation.dto";
+import {GameDto} from "../../../interfaces/game.dto";
+import {InvitationDto} from "../../../interfaces/invitation.dto";
 import {faCheck, faXmark} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
