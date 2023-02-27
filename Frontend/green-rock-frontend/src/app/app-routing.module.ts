@@ -6,12 +6,14 @@ import {GameListComponent} from "./pages/launcher/game-list/game-list.component"
 import {InvitationsListComponent} from "./pages/launcher/invitations-list/invitations-list.component";
 import {LauncherOutletComponent} from "./pages/launcher/launcher-outlet/launcher-outlet.component";
 import {EditGameComponent} from "./pages/launcher/edit-game/edit-game.component";
+import {CreateGameComponent} from "./pages/launcher/create-game/create-game.component";
 
 const routes: Routes = [
   {path: '', component: LauncherOutletComponent, children: [
       {path: 'games', component: GameListComponent},
       {path: 'invites', component: InvitationsListComponent},
-      {path: 'edit/:gameId', component: EditGameComponent}
+      {path: 'edit/:gameId', component: EditGameComponent},
+      {path: 'new-game', component: CreateGameComponent}
     ]
   },
   {path: 'login', component: LoginComponent},

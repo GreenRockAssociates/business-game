@@ -135,4 +135,8 @@ export class LauncherService {
   startGame(game: GameDto): Observable<void> {
     return of(undefined);
   }
+
+  createGame(value: string): Observable<void> {
+    return of(undefined);
+  }
 }

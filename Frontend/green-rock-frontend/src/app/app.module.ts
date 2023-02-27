@@ -15,6 +15,7 @@ import { InvitationsListComponent } from './pages/launcher/invitations-list/invi
 import { GenericErrorMessageComponent } from './components/generic-error-message/generic-error-message.component';
 import { LauncherOutletComponent } from './pages/launcher/launcher-outlet/launcher-outlet.component';
 import { EditGameComponent } from './pages/launcher/edit-game/edit-game.component';
+import { CreateGameComponent } from './pages/launcher/create-game/create-game.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { EditGameComponent } from './pages/launcher/edit-game/edit-game.componen
     InvitationsListComponent,
     GenericErrorMessageComponent,
     LauncherOutletComponent,
-    EditGameComponent
+    EditGameComponent,
+    CreateGameComponent
   ],
   imports: [
     BrowserModule,
