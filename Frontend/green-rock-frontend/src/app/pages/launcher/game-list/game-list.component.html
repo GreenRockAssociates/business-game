@@ -7,23 +7,23 @@
           <div>
             <div class="flex flex-row items-center gap-5">
               <h2 class="text-lg font-bold">{{game.name}}</h2>
-              <div *ngIf="game.ownerId === currentUserId" class="bg-primary-500 px-2 py-0.5 rounded-full">
+              <div *ngIf="isOwner(game)" class="bg-primary-500 px-2 py-0.5 rounded-full">
                 <p class="text-dark-300 italic text-sm">owner</p>
               </div>
             </div>
             <p>{{gameStateToString(game.gameState)}}</p>
           </div>
           <div class="flex justify-center items-center gap-5 text-xl">
-            <button class="hover:text-primary-500 hover:scale-110 duration-200 ease-out">
+            <a *ngIf="isGameEditable(game)" class="hover:text-primary-500 hover:scale-110 duration-200 ease-out" [routerLink]="['/edit', game.id]">
+              <fa-icon [icon]="faCog"></fa-icon>
+            </a>
+            <a *ngIf="canGameBeJoined(game)" class="hover:text-primary-500 hover:scale-110 duration-200 ease-out" [routerLink]="['/game', game.id]">
               <fa-icon [icon]="faDoorOpen"></fa-icon>
-            </button>
-            <button class="hover:text-primary-500 hover:scale-110 duration-200 ease-out">
-              <fa-icon [icon]="faPencilAlt"></fa-icon>
-            </button>
+            </a>
           </div>
         </div>
 
-        <button class="min-w-[50px] aspect-square bg-dark-500 rounded-lg border-2 border-transparent hover:border-primary-500 hover:text-primary-500 hover:scale-125 duration-200 ease-out duration-200 ease-out">
+        <button class="min-w-[50px] aspect-square bg-dark-500 rounded-lg border-2 border-transparent hover:border-primary-500 hover:text-primary-500 hover:scale-125 duration-200 ease-out">
           <fa-icon [icon]="faPlusCircle"></fa-icon>
         </button>
       </div>

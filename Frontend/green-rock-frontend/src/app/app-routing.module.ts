@@ -5,11 +5,13 @@ import {RegisterComponent} from "./pages/authentication/register/register.compon
 import {GameListComponent} from "./pages/launcher/game-list/game-list.component";
 import {InvitationsListComponent} from "./pages/launcher/invitations-list/invitations-list.component";
 import {LauncherOutletComponent} from "./pages/launcher/launcher-outlet/launcher-outlet.component";
+import {EditGameComponent} from "./pages/launcher/edit-game/edit-game.component";
 
 const routes: Routes = [
   {path: '', component: LauncherOutletComponent, children: [
       {path: 'games', component: GameListComponent},
-      {path: 'invites', component: InvitationsListComponent}
+      {path: 'invites', component: InvitationsListComponent},
+      {path: 'edit/:gameId', component: EditGameComponent}
     ]
   },
   {path: 'login', component: LoginComponent},

@@ -28,6 +28,24 @@ export class LauncherService {
           id: "197e83ae-69f1-4c2c-9380-f03562f14ecc",
           name: "Game 3",
           gameState: GameStateEnum.ENDED,
+          ownerId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
+        },
+        {
+          id: "2447f0ac-f99d-4527-8677-c326fb206172",
+          name: "Game 1 bis",
+          gameState: GameStateEnum.CREATED,
+          ownerId: "b7d42365-26e7-44bf-a55c-0cc775266e0c",
+        },
+        {
+          id: "96620287-be82-498a-aeec-bfb04b712cb0",
+          name: "Game 2 bis",
+          gameState: GameStateEnum.STARTED,
+          ownerId: "b7d42365-26e7-44bf-a55c-0cc775266e0c",
+        },
+        {
+          id: "197e83ae-69f1-4c2c-9380-f03562f14ecc",
+          name: "Game 3 bis",
+          gameState: GameStateEnum.ENDED,
           ownerId: "b7d42365-fec6-480d-91a7-177976f96053",
         },
       ])
@@ -40,10 +58,12 @@ export class LauncherService {
       subscriber.next([
         {
           userId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
-          gameId: "21ad82d8-0167-4b0f-9685-e3e86286c1a2",
+          userEmail: "foo@bar.com",
+          gameId: "2447f0ac-f99d-4527-8677-c326fb206172",
           acceptedInvitation: false,
         },{
           userId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
+          userEmail: "foo@bar.com",
           gameId: "21ad82d8-0167-4b0f-9685-e3e86286c1a2",
           acceptedInvitation: false,
         },
@@ -59,6 +79,20 @@ export class LauncherService {
         name: "Game 1",
         gameState: GameStateEnum.CREATED,
         ownerId: "b7d42365-fec6-480d-91a7-177976f96053",
+        invitations: [
+          {
+            userId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
+            userEmail: "foo@bar.com",
+            gameId: "2447f0ac-f99d-4527-8677-c326fb206172",
+            acceptedInvitation: true,
+          },
+          {
+            userId: "da82c284-73e3-45b0-a04a-3bc347fc89fa",
+            userEmail: "x@y.com",
+            gameId: "2447f0ac-f99d-4527-8677-c326fb206172",
+            acceptedInvitation: false,
+          }
+        ]
       })
       subscriber.complete()
     })
@@ -86,6 +120,19 @@ export class LauncherService {
   constructor() { }
 
   answerInvitation(invitation: InvitationDto, answer: boolean): Observable<void> {
+    return of(undefined);
+  }
+
+  deleteInvitation(invitation: InvitationDto): Observable<void> {
+    return of(undefined);
+  }
+
+  addInvitation(email: string): Observable<void> {
+    console.log(email);
+    return of(undefined);
+  }
+
+  startGame(game: GameDto): Observable<void> {
     return of(undefined);
   }
 }
