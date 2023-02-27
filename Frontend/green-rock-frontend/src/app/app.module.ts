@@ -13,6 +13,7 @@ import { GameListComponent } from './pages/game-list/game-list.component';
 import { LauncherMenuComponent } from './components/launcher-menu/launcher-menu.component';
 import { InvitationsListComponent } from './pages/invitations-list/invitations-list.component';
 import { GenericErrorMessageComponent } from './components/generic-error-message/generic-error-message.component';
+import { LauncherOutletComponent } from './pages/launcher-outlet/launcher-outlet.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { GenericErrorMessageComponent } from './components/generic-error-message
     GameListComponent,
     LauncherMenuComponent,
     InvitationsListComponent,
-    GenericErrorMessageComponent
+    GenericErrorMessageComponent,
+    LauncherOutletComponent
   ],
   imports: [
     BrowserModule,
