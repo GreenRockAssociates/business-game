@@ -5,6 +5,7 @@ import {RegisterDto} from "../../interfaces/register.dto";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {SessionDataDto} from "../../interfaces/session-data.dto";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,16 @@ export class AuthenticationService {
   }
 
   constructor(
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private router: Router,
   ) { }
+
+  logout() {
+    this.httpClient.post(`${environment.baseServerUrl}${environment.authenticationService}/disconnect`,{}, {
+      withCredentials: true,
+      responseType: "text"
+    }).subscribe({
+      next: _ => this.router.navigate(['/login'])
+    })
+  }
 }

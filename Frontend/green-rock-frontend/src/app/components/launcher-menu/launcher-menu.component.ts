@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {faEnvelope, faGamepad, faUser } from '@fortawesome/free-solid-svg-icons';
+import {faEnvelope, faGamepad, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import {AuthenticationService} from "../../services/authenticationService/authentication.service";
 
 @Component({
   selector: 'app-launcher-menu',
@@ -10,4 +11,14 @@ export class LauncherMenuComponent {
   faGamepad = faGamepad;
   faEnvelope = faEnvelope;
   faUser = faUser;
+  faPowerOff = faPowerOff
+
+  constructor(
+    private authenticationService: AuthenticationService
+  ) {
+  }
+
+  logout() {
+    this.authenticationService.logout();
+  }
 }
