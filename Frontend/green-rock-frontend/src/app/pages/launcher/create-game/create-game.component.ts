@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import {LauncherService} from "../../../services/launcherService/launcher.service";
+import {LauncherService} from "../../../services/launcher-service/launcher.service";
 import {Router} from "@angular/router";
 
 @Component({

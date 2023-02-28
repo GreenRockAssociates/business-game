@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {LauncherService} from "../../../services/launcherService/launcher.service";
+import {LauncherService} from "../../../services/launcher-service/launcher.service";
 import {GameDto} from "../../../interfaces/game.dto";
 import {Router} from "@angular/router";
 import {faDoorOpen, faPlusCircle, faCog} from "@fortawesome/free-solid-svg-icons";
 import {GameStateEnum, gameStateToString} from "../../../interfaces/game-state.enum";
-import {AuthenticationService} from "../../../services/authenticationService/authentication.service";
+import {AuthenticationService} from "../../../services/authentication-service/authentication.service";
 
 @Component({
   selector: 'app-game-list',

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {GameDto} from "../../../interfaces/game.dto";
-import {LauncherService} from "../../../services/launcherService/launcher.service";
+import {LauncherService} from "../../../services/launcher-service/launcher.service";
 import {faArrowLeft, faCircleCheck, faPlusCircle, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {GameStateEnum} from "../../../interfaces/game-state.enum";
 import {InvitationDto} from "../../../interfaces/invitation.dto";

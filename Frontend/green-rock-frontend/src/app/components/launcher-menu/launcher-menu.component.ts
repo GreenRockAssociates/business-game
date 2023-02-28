@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {faEnvelope, faGamepad, faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons';
-import {AuthenticationService} from "../../services/authenticationService/authentication.service";
+import {AuthenticationService} from "../../services/authentication-service/authentication.service";
 
 @Component({
   selector: 'app-launcher-menu',

@@ -27,13 +27,10 @@ export class AuthenticationService {
   }
 
   getSessionData(): Observable<SessionDataDto>{
-    return new Observable<SessionDataDto>((subscriber) => subscriber.next({userId: "59736a25-26e7-44bf-a55c-0cc775266e0c"}))
+    return this.httpClient.get<SessionDataDto>(`${environment.baseServerUrl}${environment.authenticationService}/session-data`, {
+      withCredentials: true
+    })
   }
-
-  constructor(
-    private httpClient: HttpClient,
-    private router: Router,
-  ) { }
 
   logout() {
     this.httpClient.post(`${environment.baseServerUrl}${environment.authenticationService}/disconnect`,{}, {
@@ -43,4 +40,9 @@ export class AuthenticationService {
       next: _ => this.router.navigate(['/login'])
     })
   }
+
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+  ) { }
 }
