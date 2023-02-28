@@ -9,7 +9,8 @@ import {EditGameComponent} from "./pages/launcher/edit-game/edit-game.component"
 import {CreateGameComponent} from "./pages/launcher/create-game/create-game.component";
 
 const routes: Routes = [
-  {path: '', component: LauncherOutletComponent, children: [
+  {path: 'launcher', component: LauncherOutletComponent, children: [
+      {path: '', component: GameListComponent},
       {path: 'games', component: GameListComponent},
       {path: 'invites', component: InvitationsListComponent},
       {path: 'edit/:gameId', component: EditGameComponent},
