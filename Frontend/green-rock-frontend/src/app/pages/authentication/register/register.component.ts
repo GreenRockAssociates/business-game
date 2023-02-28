@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(12)]],
   });
 
   validationErrorMessages = {
@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit {
     ],
     password: [
       {type: 'required', message: 'Password is required'},
+      {type: 'minlength', message: 'Password must be at least 12 characters'},
     ],
     firstName: [
       {type: 'required', message: 'First name is required'},
@@ -54,15 +55,12 @@ export class RegisterComponent implements OnInit {
       email: this.form.controls['email'].value,
       password: this.form.controls['password'].value},
     ).subscribe({
-      next: r => {
-        console.log(r)
+      next: _ => {
         this.router.navigate(['/login'], { queryParams: { registered: 'true' } })
       },
-      error: e => {
-        console.log(e)
+      error: _ => {
         this.showError()
-      },
-      complete: () => console.log('Observer got a complete notification')
+      }
     })
   }
 
