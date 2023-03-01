@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {forkJoin, map, Observable, of, switchMap} from "rxjs";
 import {GameDto} from "../../interfaces/game.dto";
-import {GameStateEnum} from "../../interfaces/game-state.enum";
 import {InvitationDto} from "../../interfaces/invitation.dto";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -10,92 +11,21 @@ import {InvitationDto} from "../../interfaces/invitation.dto";
 export class LauncherService {
 
   getAllGames(): Observable<GameDto[]> {
-    return new Observable<GameDto[]>((subscriber) => {
-      subscriber.next([
-        {
-          id: "2447f0ac-f99d-4527-8677-c326fb206172",
-          name: "Game 1",
-          gameState: GameStateEnum.CREATED,
-          ownerId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
-        },
-        {
-          id: "96620287-be82-498a-aeec-bfb04b712cb0",
-          name: "Game 2",
-          gameState: GameStateEnum.STARTED,
-          ownerId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
-        },
-        {
-          id: "197e83ae-69f1-4c2c-9380-f03562f14ecc",
-          name: "Game 3",
-          gameState: GameStateEnum.ENDED,
-          ownerId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
-        },
-        {
-          id: "2447f0ac-f99d-4527-8677-c326fb206172",
-          name: "Game 1 bis",
-          gameState: GameStateEnum.CREATED,
-          ownerId: "b7d42365-26e7-44bf-a55c-0cc775266e0c",
-        },
-        {
-          id: "96620287-be82-498a-aeec-bfb04b712cb0",
-          name: "Game 2 bis",
-          gameState: GameStateEnum.STARTED,
-          ownerId: "b7d42365-26e7-44bf-a55c-0cc775266e0c",
-        },
-        {
-          id: "197e83ae-69f1-4c2c-9380-f03562f14ecc",
-          name: "Game 3 bis",
-          gameState: GameStateEnum.ENDED,
-          ownerId: "b7d42365-fec6-480d-91a7-177976f96053",
-        },
-      ])
-      subscriber.complete()
-    })
+    return this.httpClient.get<{games: GameDto[]}>(`${environment.baseServerUrl}${environment.launcherService}/games`, {
+      withCredentials: true
+    }).pipe(map(response => response.games));
   }
 
   private getAllInvitations(): Observable<InvitationDto[]> {
-    return new Observable<InvitationDto[]>((subscriber) => {
-      subscriber.next([
-        {
-          userId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
-          userEmail: "foo@bar.com",
-          gameId: "2447f0ac-f99d-4527-8677-c326fb206172",
-          acceptedInvitation: false,
-        },{
-          userId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
-          userEmail: "foo@bar.com",
-          gameId: "21ad82d8-0167-4b0f-9685-e3e86286c1a2",
-          acceptedInvitation: false,
-        },
-      ])
-      subscriber.complete()
-    })
+    return this.httpClient.get<{invitations: InvitationDto[]}>(`${environment.baseServerUrl}${environment.launcherService}/invites`, {
+      withCredentials: true
+    }).pipe(map(response => response.invitations));
   }
 
   getGameById(gameId: string): Observable<GameDto> {
-    return new Observable<GameDto>((subscriber) => {
-      subscriber.next({
-        id: "2447f0ac-f99d-4527-8677-c326fb206172",
-        name: "Game 1",
-        gameState: GameStateEnum.CREATED,
-        ownerId: "b7d42365-fec6-480d-91a7-177976f96053",
-        invitations: [
-          {
-            userId: "59736a25-26e7-44bf-a55c-0cc775266e0c",
-            userEmail: "foo@bar.com",
-            gameId: "2447f0ac-f99d-4527-8677-c326fb206172",
-            acceptedInvitation: true,
-          },
-          {
-            userId: "da82c284-73e3-45b0-a04a-3bc347fc89fa",
-            userEmail: "x@y.com",
-            gameId: "2447f0ac-f99d-4527-8677-c326fb206172",
-            acceptedInvitation: false,
-          }
-        ]
-      })
-      subscriber.complete()
-    })
+    return this.httpClient.get<GameDto>(`${environment.baseServerUrl}${environment.launcherService}/games/${gameId}`, {
+      withCredentials: true
+    });
   }
 
   getAllInvitationsWithGameDetails(): Observable<{ invitation: InvitationDto, game: GameDto }[]> {
@@ -105,38 +35,64 @@ export class LauncherService {
     //    and then map that result of that request to an objet containing both the invitation and the game
     //    from the result of the request
     return this.getAllInvitations()
-      .pipe(switchMap(invitations =>
-        forkJoin(invitations.map(invitation =>
-          this.getGameById(invitation.gameId).pipe(map(game => {
-            return {
-              invitation,
-              game
-            }
-          }))
-        )))
-      )
+      .pipe(switchMap(invitations => {
+        if (invitations.length > 0){
+          return forkJoin(invitations.map(invitation =>
+            this.getGameById(invitation.gameId).pipe(map(game => {
+              return {
+                invitation,
+                game
+              }
+            }))
+          ))
+        }
+        return of([]);
+      }))
   }
 
-  constructor() { }
-
   answerInvitation(invitation: InvitationDto, answer: boolean): Observable<void> {
-    return of(undefined);
+    return this.httpClient.post(`${environment.baseServerUrl}${environment.launcherService}/invites`, {
+      gameId: invitation.gameId,
+      accept: answer
+    }, {
+      withCredentials: true,
+      responseType: "text"
+    }).pipe(map(_ => undefined));
   }
 
   deleteInvitation(invitation: InvitationDto): Observable<void> {
-    return of(undefined);
+    return this.httpClient.delete(`${environment.baseServerUrl}${environment.launcherService}/games/${invitation.gameId}/invite/${invitation.userId}`, {
+      withCredentials: true,
+      responseType: "text"
+    }).pipe(map(_ => undefined));
   }
 
-  addInvitation(email: string): Observable<void> {
-    console.log(email);
-    return of(undefined);
+  addInvitation(gameId: string, email: string): Observable<void> {
+    return this.httpClient.put(`${environment.baseServerUrl}${environment.launcherService}/games/${gameId}/invite`, {
+      playerEmail: email
+    }, {
+      withCredentials: true,
+      responseType: "text"
+    }).pipe(map(_ => undefined));
   }
 
-  startGame(game: GameDto): Observable<void> {
-    return of(undefined);
+  createGame(name: string): Observable<void> {
+    return this.httpClient.post(`${environment.baseServerUrl}${environment.launcherService}/new-game`, {
+      name
+    }, {
+      withCredentials: true,
+      responseType: "text"
+    }).pipe(map(_ => undefined));
   }
 
-  createGame(value: string): Observable<void> {
-    return of(undefined);
+  startGame(gameId: string): Observable<void> {
+    return this.httpClient.put(`${environment.baseServerUrl}${environment.launcherService}/games/${gameId}/start`, {}, {
+      withCredentials: true,
+      responseType: "text"
+    }).pipe(map(_ => undefined));
   }
+
+  constructor(
+    private httpClient: HttpClient
+  ) { }
 }

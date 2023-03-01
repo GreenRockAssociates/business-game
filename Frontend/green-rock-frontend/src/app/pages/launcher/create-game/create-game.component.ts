@@ -35,7 +35,7 @@ export class CreateGameComponent implements OnInit {
 
   createGame() {
     this.launcherService.createGame(this.form.controls['name'].value as string).subscribe({
-      next: _ => this.router.navigate(['/games']),
+      next: _ => this.router.navigate(['/launcher/games']),
       error: error => {
         if (error.status === 401){
           this.router.navigate(['/login']);

@@ -58,33 +58,39 @@ export class EditGameComponent implements OnInit {
   }
 
   sendInvitation(){
-    const email = window.prompt("User's email address");
-    if (email){
-      this.launcherService.addInvitation(email).subscribe({
-        next: _ => this.fetchGame(),
-        error: error => {
-          switch (error.status){
-            case 401:
-              this.router.navigate(['/login']);
-              break;
-            case 400:
-              alert("Please enter a valid email address");
-              break;
-            case 404:
-              alert("This player doesn't exist");
-              break;
-            default:
-              this.errorOccurred = true;
-              break;
-          }
-        }
-      })
+    if (!this.game){
+      return;
     }
+
+    const email = window.prompt("User's email address");
+    if (!email) {
+      return
+    }
+
+    this.launcherService.addInvitation(this.game.id, email).subscribe({
+      next: _ => this.fetchGame(),
+      error: error => {
+        switch (error.status){
+          case 401:
+            this.router.navigate(['/login']);
+            break;
+          case 400:
+            alert("Please enter a valid email address");
+            break;
+          case 404:
+            alert("This player doesn't exist");
+            break;
+          default:
+            this.errorOccurred = true;
+            break;
+        }
+      }
+    })
   }
 
   startGame() {
     if (this.game) {
-      this.launcherService.startGame(this.game).subscribe({
+      this.launcherService.startGame(this.game.id).subscribe({
         next: _ => this.router.navigate(['/games']),
         error: error => {
           if (error.status === 401){
