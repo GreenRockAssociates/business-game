@@ -40,7 +40,7 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     router.get("/games/:gameId", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => getGame(req, res, gameRepository, authenticationService));
     router.post("/new-game", jsonToDtoMiddlewareFactory(CreateGameRequestDto), (req, res) => newGame(req, res, gameRepository));
     router.put("/games/:gameId/invite", requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(UserEmailDto), (req, res) => invitePlayer(req, res, invitationRepository, gameRepository, axios.create()));
-    router.get("/invites", (req, res) => getUnansweredInvitations(req, res, invitationRepository));
+    router.get("/invites", (req, res) => getUnansweredInvitations(req, res, invitationRepository, authenticationService));
     router.put("/invites", jsonToDtoMiddlewareFactory(AnswerInviteDto), (req, res) => answerInvite(req, res, invitationRepository));
     router.get("/games/:gameId/engine-id", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => gameIdToEngineId(req, res, gameRepository));
     router.get("/games/:gameId/players/engine-id", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => userIdToPlayerId(req, res, userIdTranslationEntityRepository));

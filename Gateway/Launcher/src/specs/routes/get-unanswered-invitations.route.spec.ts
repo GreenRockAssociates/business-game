@@ -4,10 +4,20 @@ import {InvitationEntity} from "../../entities/invitation.entity";
 import {GameEntity} from "../../entities/game.entity";
 import {getUnansweredInvitations} from "../../api/routes/get-unanswered-invitations.route";
 import {Request, Response} from "express";
+import {AuthenticationService} from "../../libraries/authentication.service";
 
 class ResponseMock {
     sendStatus() {}
     json() {}
+}
+
+class AuthenticationServiceMock {
+    getUserEmail: jest.Mock;
+
+    constructor() {
+        this.getUserEmail = jest.fn();
+        this.getUserEmail.mockImplementation(() => "a@a.com");
+    }
 }
 
 class helper {
@@ -32,6 +42,8 @@ describe('Get unanswered invitations route',  () => {
     let sendStatusSpy: jest.SpyInstance;
     let jsonSpy: jest.SpyInstance;
 
+    let authenticationServiceMock: AuthenticationServiceMock;
+
     let dataSource: DataSource;
 
     beforeAll(async () => {
@@ -50,6 +62,8 @@ describe('Get unanswered invitations route',  () => {
         responseMock = new ResponseMock()
         sendStatusSpy = jest.spyOn(responseMock, 'sendStatus');
         jsonSpy = jest.spyOn(responseMock, 'json');
+
+        authenticationServiceMock = new AuthenticationServiceMock();
     })
 
     afterEach(async () => {
@@ -62,18 +76,20 @@ describe('Get unanswered invitations route',  () => {
         const game1 = await helper.insertGameAsInvited(dataSource, userId, "a0911cdb-fd25-4899-9596-60ef5a112916", false);
         const game2 = await helper.insertGameAsInvited(dataSource, userId, "b0911cdb-fd25-4899-9596-60ef5a112917", false);
 
-        await getUnansweredInvitations(helper.getRequestObject(userId), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await getUnansweredInvitations(helper.getRequestObject(userId), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), authenticationServiceMock as unknown as AuthenticationService);
 
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith({
             invitations: [
                 {
                     userId,
+                    userEmail: "a@a.com",
                     gameId: game1.id,
                     acceptedInvitation: false
                 },
                 {
                     userId,
+                    userEmail: "a@a.com",
                     gameId: game2.id,
                     acceptedInvitation: false
                 }
@@ -87,13 +103,14 @@ describe('Get unanswered invitations route',  () => {
         const game1 = await helper.insertGameAsInvited(dataSource, userId, "a0911cdb-fd25-4899-9596-60ef5a112916", false);
         await helper.insertGameAsInvited(dataSource, userId, "b0911cdb-fd25-4899-9596-60ef5a112917", true);
 
-        await getUnansweredInvitations(helper.getRequestObject(userId), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await getUnansweredInvitations(helper.getRequestObject(userId), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), authenticationServiceMock as unknown as AuthenticationService);
 
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith({
             invitations: [
                 {
                     userId,
+                    userEmail: "a@a.com",
                     gameId: game1.id,
                     acceptedInvitation: false
                 }
@@ -104,7 +121,7 @@ describe('Get unanswered invitations route',  () => {
 
     it("Should properly deal with no invitations", async () => {
         const userId = "5e2cb3fa-71cf-4a6f-b5b6-80f71a3ba303";
-        await getUnansweredInvitations(helper.getRequestObject(userId), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await getUnansweredInvitations(helper.getRequestObject(userId), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), authenticationServiceMock as unknown as AuthenticationService);
 
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith({
@@ -117,7 +134,7 @@ describe('Get unanswered invitations route',  () => {
         const userId = "5e2cb3fa-71cf-4a6f-b5b6-80f71a3ba303";
         await helper.insertGameAsInvited(dataSource, userId, "b0911cdb-fd25-4899-9596-60ef5a112917", true);
 
-        await getUnansweredInvitations(helper.getRequestObject(userId), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await getUnansweredInvitations(helper.getRequestObject(userId), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), authenticationServiceMock as unknown as AuthenticationService);
 
         expect(jsonSpy).toHaveBeenCalledTimes(1);
         expect(jsonSpy).toHaveBeenCalledWith({
