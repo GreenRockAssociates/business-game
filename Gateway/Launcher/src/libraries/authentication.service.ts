@@ -5,6 +5,7 @@ import {IncomingHttpHeaders} from "http";
 import {validateOrReject} from "class-validator";
 import "reflect-metadata";
 import {plainToInstance} from "class-transformer";
+import {UserEmailDto} from "../dto/user-email.dto";
 
 export class AuthenticationService {
     axios: AxiosInstance
@@ -32,6 +33,22 @@ export class AuthenticationService {
         return {
             userId: data.userId
         }
+    }
+
+    async getUserEmail(userId: string, headers: IncomingHttpHeaders): Promise<UserEmailDto> {
+        // Echo only the request's cookie
+        // We don't need the 'x-xsrf-token' header since we do a GET request
+        const cookieHeaders = {cookie: headers.cookie}
+        let {data} = await this.axios.get(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/userEmail?userId=${userId}`, {
+            headers: cookieHeaders
+        })
+
+        // We need to cast 'data' to an actual class instance, as Axios only returns a plain object
+        const dto: UserEmailDto = plainToInstance(UserEmailDto, data as object, {excludeExtraneousValues: true})
+        await validateOrReject(dto)
+
+        // Cast dto to the right interface
+        return dto
     }
 
     constructor(instance: AxiosInstance = axios.create()) {

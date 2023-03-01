@@ -3,7 +3,7 @@ import {AppDataSource} from "../../libraries/database";
 import {GameEntity, GameState} from "../../entities/game.entity";
 import {InvitationEntity} from "../../entities/invitation.entity";
 import {GameIdDto} from "../../dto/game-id.dto";
-import {InvitePlayerRequestDto} from "../../dto/invite-player-request.dto";
+import {UserEmailDto} from "../../dto/user-email.dto";
 import {Request, Response} from "express";
 import {invitePlayer} from "../../api/routes/invite-player.route";
 import {AxiosInstance} from "axios";
@@ -22,7 +22,7 @@ class helper {
             headers: {cookie: {}},
             session: {userId},
             params: new GameIdDto(gameId),
-            body: new InvitePlayerRequestDto(playerEmail)
+            body: new UserEmailDto(playerEmail)
         } as unknown as Request
     }
 }

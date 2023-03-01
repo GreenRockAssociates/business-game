@@ -6,8 +6,8 @@ import {InvitationResponseDto} from "../../dto/invitation-response.dto";
 describe('Game DTO', () => {
     it('Should be valid if all fields are present as expected', async () => {
         const invitations = [
-            new InvitationResponseDto("5a48eff0-860b-40d6-942d-858848957843", "9d9beb2d-44f5-4d91-a8ec-13a0909cda17", true),
-            new InvitationResponseDto("5a48eff0-860b-40d6-942d-858848957843", "9d9beb2d-44f5-4d91-a8ec-13a0909cda17", true)
+            new InvitationResponseDto("5a48eff0-860b-40d6-942d-858848957843", "9d9beb2d-44f5-4d91-a8ec-13a0909cda17", "a@a.com", true),
+            new InvitationResponseDto("5a48eff0-860b-40d6-942d-858848957843", "9d9beb2d-44f5-4d91-a8ec-13a0909cda17", "b@b.com", true)
         ]
         const dto = new GameResponseDto( "f782413a-8af2-4547-aa71-9f90eddca4e5", "A game", GameState.CREATED, "f782413a-8af2-4547-aa71-9f90eddca4e5", invitations);
 

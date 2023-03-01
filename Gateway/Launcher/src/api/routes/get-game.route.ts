@@ -6,8 +6,9 @@ import {GameResponseDto} from "../../dto/game-response.dto";
 import {validateOrReject} from "class-validator";
 import {InvitationEntity} from "../../entities/invitation.entity";
 import {GameIdDto} from "../../dto/game-id.dto";
+import {AuthenticationService} from "../../libraries/authentication.service";
 
-export async function getGame(req: Request, res: Response, repository: Repository<GameEntity>) {
+export async function getGame(req: Request, res: Response, repository: Repository<GameEntity>, authenticationService: AuthenticationService) {
     const userId = req.session.userId // Can use it directly because the middleware ensures the data is valid
 
     // Able to cast since there was a call to requestParamsToDtoMiddleware earlier in the call chain
@@ -34,7 +35,15 @@ export async function getGame(req: Request, res: Response, repository: Repositor
         return;
     }
 
-    const dto = plainToInstance(GameResponseDto, game, {excludeExtraneousValues: true, exposeUnsetFields: false});
+    // Add each user's email to the invitations list
+    const gamePlain = instanceToPlain(game);
+    await Promise.all(
+        game.invitations.map(async (invitation, index) => {
+            gamePlain['invitations'][index]['userEmail'] = await authenticationService.getUserEmail(invitation.userId, req.headers);
+        })
+    )
+
+    const dto = plainToInstance(GameResponseDto, gamePlain, {excludeExtraneousValues: true, exposeUnsetFields: false});
     try {
         await validateOrReject(dto);
 
