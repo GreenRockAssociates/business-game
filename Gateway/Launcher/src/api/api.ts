@@ -24,6 +24,8 @@ import {gameIdToEngineId} from "./routes/game-id-to-engine-id.route";
 import {startGame} from "./routes/start-game.route";
 import {GameOrchestratorService} from "../libraries/game-orchestrator.service";
 import {AuthenticationService} from "../libraries/authentication.service";
+import {InvitationIdentifierDto} from "../dto/invitation-identifier.dto";
+import {deleteInvitation} from "./routes/delete-invitation.route";
 
 
 export const router = express.Router()
@@ -40,6 +42,7 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     router.get("/games/:gameId", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => getGame(req, res, gameRepository, authenticationService));
     router.post("/new-game", jsonToDtoMiddlewareFactory(CreateGameRequestDto), (req, res) => newGame(req, res, gameRepository));
     router.put("/games/:gameId/invite", requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(UserEmailDto), (req, res) => invitePlayer(req, res, invitationRepository, gameRepository, axios.create()));
+    router.delete("/games/:gameId/invite/:invitedPlayerId", requestParamsToDtoMiddlewareFactory(InvitationIdentifierDto), (req, res) => deleteInvitation(req, res, invitationRepository));
     router.get("/invites", (req, res) => getUnansweredInvitations(req, res, invitationRepository, authenticationService));
     router.put("/invites", jsonToDtoMiddlewareFactory(AnswerInviteDto), (req, res) => answerInvite(req, res, invitationRepository));
     router.get("/games/:gameId/engine-id", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => gameIdToEngineId(req, res, gameRepository));
