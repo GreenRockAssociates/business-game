@@ -80,6 +80,9 @@ export class EditGameComponent implements OnInit {
           case 404:
             alert("This player doesn't exist");
             break;
+          case 412:
+            alert("Sorry, you can't invite yourself");
+            break;
           default:
             this.errorOccurred = true;
             break;
