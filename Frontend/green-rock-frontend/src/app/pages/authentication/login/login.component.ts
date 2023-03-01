@@ -47,15 +47,17 @@ export class LoginComponent implements OnInit {
       email: this.form.controls['email'].value,
       password: this.form.controls['password'].value}
     ).subscribe({
-      next: _ => this.router.navigate(['/']),
+      next: _ => this.router.navigate(['/launcher']),
       error: _ => this.showInvalidCredentials()
     })
   }
 
 
+  invalidCredentialsTimeout: NodeJS.Timeout | undefined;
   private showInvalidCredentials() {
     this.invalidCredentials = true;
     this.justRegistered = false;
-    setTimeout(() => this.invalidCredentials = false, 2000);
+    clearTimeout(this.invalidCredentialsTimeout);
+    this.invalidCredentialsTimeout = setTimeout(() => this.invalidCredentials = false, 2000);
   }
 }
