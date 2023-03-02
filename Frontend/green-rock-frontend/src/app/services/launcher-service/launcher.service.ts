@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {forkJoin, map, Observable, of, switchMap} from "rxjs";
-import {GameDto} from "../../interfaces/game.dto";
-import {InvitationDto} from "../../interfaces/invitation.dto";
+import {GameDto} from "../../interfaces/dto/game.dto";
+import {InvitationDto} from "../../interfaces/dto/invitation.dto";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 

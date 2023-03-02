@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {LoginDto} from "../../interfaces/login.dto";
-import {RegisterDto} from "../../interfaces/register.dto";
+import {LoginDto} from "../../interfaces/dto/login.dto";
+import {RegisterDto} from "../../interfaces/dto/register.dto";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
-import {SessionDataDto} from "../../interfaces/session-data.dto";
+import {SessionDataDto} from "../../interfaces/dto/session-data.dto";
 import {Router} from "@angular/router";
 
 @Injectable({

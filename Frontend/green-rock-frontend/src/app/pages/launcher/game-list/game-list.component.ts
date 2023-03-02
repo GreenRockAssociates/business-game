@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LauncherService} from "../../../services/launcher-service/launcher.service";
-import {GameDto} from "../../../interfaces/game.dto";
+import {GameDto} from "../../../interfaces/dto/game.dto";
 import {Router} from "@angular/router";
 import {faDoorOpen, faPlusCircle, faCog} from "@fortawesome/free-solid-svg-icons";
 import {GameStateEnum, gameStateToString} from "../../../interfaces/game-state.enum";

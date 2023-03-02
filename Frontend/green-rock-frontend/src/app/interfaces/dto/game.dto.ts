@@ -1,5 +1,5 @@
 import {InvitationDto} from "./invitation.dto";
-import {GameStateEnum} from "./game-state.enum";
+import {GameStateEnum} from "../game-state.enum";
 
 export interface GameDto {
   id: string;
