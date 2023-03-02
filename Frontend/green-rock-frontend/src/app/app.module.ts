@@ -16,6 +16,11 @@ import { GenericErrorMessageComponent } from './components/generic-error-message
 import { LauncherOutletComponent } from './pages/launcher/launcher-outlet/launcher-outlet.component';
 import { EditGameComponent } from './pages/launcher/edit-game/edit-game.component';
 import { CreateGameComponent } from './pages/launcher/create-game/create-game.component';
+import { GameOutletComponent } from './pages/game/game-outlet/game-outlet.component';
+import { MarketDashboardComponent } from './pages/game/market-dashboard/market-dashboard.component';
+import { AssetDetailComponent } from './pages/game/asset-detail/asset-detail.component';
+import { NewsComponent } from './pages/game/news/news.component';
+import { PortfolioComponent } from './pages/game/portfolio/portfolio.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +34,12 @@ import { CreateGameComponent } from './pages/launcher/create-game/create-game.co
     GenericErrorMessageComponent,
     LauncherOutletComponent,
     EditGameComponent,
-    CreateGameComponent
+    CreateGameComponent,
+    GameOutletComponent,
+    MarketDashboardComponent,
+    AssetDetailComponent,
+    NewsComponent,
+    PortfolioComponent
   ],
   imports: [
     BrowserModule,
