@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, of} from "rxjs";
+import {forkJoin, map, Observable, of, switchMap} from "rxjs";
 import {PortfolioDto} from "../../interfaces/dto/portfolio.dto";
 import {BankAccountDto} from "../../interfaces/dto/bank-account.dto"
 import {MarketResponseDto} from "../../interfaces/dto/market-response.dto";
@@ -25,6 +25,23 @@ export class QueryService {
         {assetId: "MSFT", quantity: 5}
       ]
     });
+  }
+
+  getPortfolioWithAssetDetail(gameId: string): Observable<{ asset: AssetDetailDto, quantity: number }[]> {
+    return this.getPortfolio(gameId)
+      .pipe(switchMap(response => {
+        if (response.portfolio.length > 0){
+          return forkJoin(response.portfolio.map(portfolioEntry =>
+            this.getAssetDetail(gameId, portfolioEntry.assetId).pipe(map(assetDetail => {
+              return {
+                asset: assetDetail,
+                quantity: portfolioEntry.quantity
+              }
+            }))
+          ))
+        }
+        return of([]);
+      }))
   }
 
   getBankAccount(gameId: string): Observable<BankAccountDto> {
@@ -52,8 +69,8 @@ export class QueryService {
 
   getAssetDetail(gameId: string, assetTicker: string): Observable<AssetDetailDto> {
     return of({
-      assetTicker: "APPL",
-      name: "Apple",
+      assetTicker,
+      name: assetTicker === "APPL" ? "Apple" : "Microsoft",
       description: "A tech company",
       logo: "logo.png",
       sectors: ["Technology", "Lorem", "Ipsum"]
