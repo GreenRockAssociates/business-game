@@ -1,1 +1,15 @@
-<p>portfolio works!</p>
+<div *ngIf="portfolio" class="w-full h-full flex justify-center py-20">
+  <div class="w-1/2 flex flex-col gap-10">
+    <h1 class="text-4xl font-bold text-gradient from-secondary to-primary-500">Your portfolio</h1>
+    <div>
+      <h1 class="text-light-500 text-2xl mb-4">All your shares</h1>
+      <div class="w-full flex flex-row flex-wrap gap-4">
+        <app-asset-card *ngFor="let portfolioEntry of portfolio" [asset]="portfolioEntry.asset" [quantity]="portfolioEntry.quantity"></app-asset-card>
+      </div>
+    </div>
+    <div>
+      <h1 class="text-light-500 text-2xl mb-2">Total portfolio value</h1>
+      <p class="text-4xl font-thin">${{computePortfolioValue() | number : '1.2-2'}}</p>
+    </div>
+  </div>
+</div>
