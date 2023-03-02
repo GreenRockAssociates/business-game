@@ -21,6 +21,7 @@ import { MarketDashboardComponent } from './pages/game/market-dashboard/market-d
 import { AssetDetailComponent } from './pages/game/asset-detail/asset-detail.component';
 import { NewsComponent } from './pages/game/news/news.component';
 import { PortfolioComponent } from './pages/game/portfolio/portfolio.component';
+import { AssetCardComponent } from './components/portfolio/asset-card/asset-card.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { PortfolioComponent } from './pages/game/portfolio/portfolio.component';
     MarketDashboardComponent,
     AssetDetailComponent,
     NewsComponent,
-    PortfolioComponent
+    PortfolioComponent,
+    AssetCardComponent
   ],
   imports: [
     BrowserModule,

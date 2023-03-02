@@ -22,7 +22,7 @@ export class QueryService {
     return of({
       portfolio: [
         {assetId: "APPL", quantity: 10},
-        {assetId: "MSFT", quantity: 5}
+        {assetId: "MSFT", quantity: 5.55}
       ]
     });
   }
