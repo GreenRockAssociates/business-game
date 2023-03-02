@@ -22,6 +22,7 @@ import { AssetDetailComponent } from './pages/game/asset-detail/asset-detail.com
 import { NewsComponent } from './pages/game/news/news.component';
 import { PortfolioComponent } from './pages/game/portfolio/portfolio.component';
 import { AssetCardComponent } from './components/portfolio/asset-card/asset-card.component';
+import { GameMenuComponent } from './components/game-menu/game-menu.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AssetCardComponent } from './components/portfolio/asset-card/asset-card
     AssetDetailComponent,
     NewsComponent,
     PortfolioComponent,
-    AssetCardComponent
+    AssetCardComponent,
+    GameMenuComponent
   ],
   imports: [
     BrowserModule,

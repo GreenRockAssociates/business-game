@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {QueryService} from "../../../services/query-service/query.service";
 
 @Component({
   selector: 'app-game-outlet',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameOutletComponent implements OnInit {
 
-  constructor() { }
+  gameId: string = "";
+  bankAccount: number = 0;
+
+  constructor(
+    private route: ActivatedRoute,
+    private queryService: QueryService
+  ) { }
 
   ngOnInit(): void {
+    this.gameId = this.route.snapshot.params['gameId'];
+    this.queryService.getBankAccount(this.gameId).subscribe({
+      next: response => this.bankAccount = response.money
+    })
   }
 
+  updateMenu() {
+    this.queryService.getBankAccount(this.gameId).subscribe({
+      next: response => this.bankAccount = response.money
+    })
+  }
 }
