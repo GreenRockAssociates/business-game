@@ -24,6 +24,9 @@ import { PortfolioComponent } from './pages/game/portfolio/portfolio.component';
 import { AssetCardComponent } from './components/portfolio/asset-card/asset-card.component';
 import { GameMenuComponent } from './components/game-menu/game-menu.component';
 import { GameDateComponent } from './components/game-date/game-date.component';
+import { NewsCardComponent } from './components/news/news-card/news-card.component';
+import {TickToGameDatePipe} from "./pipes/tick-to-game-date.pipe";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,9 @@ import { GameDateComponent } from './components/game-date/game-date.component';
     PortfolioComponent,
     AssetCardComponent,
     GameMenuComponent,
-    GameDateComponent
+    GameDateComponent,
+    NewsCardComponent,
+    TickToGameDatePipe
   ],
   imports: [
     BrowserModule,
@@ -56,7 +61,8 @@ import { GameDateComponent } from './components/game-date/game-date.component';
     HttpClientXsrfModule.withOptions({
       cookieName: 'XSRF-TOKEN',
       headerName: 'X-XSRF-TOKEN',
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
