@@ -22,6 +22,6 @@ export class GameMenuComponent {
   ) { }
 
   exitGame() {
-    this.router.navigate(['/launcher'])
+    this.router.navigate(['/main'])
   }
 }

@@ -15,7 +15,7 @@ export class IsAnonymousUserGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.authenticationService.getSessionData().pipe(
       map((_) => {
-        this.router.navigateByUrl('/launcher/games');
+        this.router.navigateByUrl('/main/games');
         return false;
       }),
       catchError(() => {

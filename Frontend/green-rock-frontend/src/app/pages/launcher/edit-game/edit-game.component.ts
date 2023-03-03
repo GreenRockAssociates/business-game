@@ -94,7 +94,7 @@ export class EditGameComponent implements OnInit {
   startGame() {
     if (this.game) {
       this.launcherService.startGame(this.game.id).subscribe({
-        next: _ => this.router.navigate(['/games']),
+        next: _ => this.router.navigate(['/main/games']),
         error: error => {
           if (error.status === 401){
             this.router.navigate(['/login']);

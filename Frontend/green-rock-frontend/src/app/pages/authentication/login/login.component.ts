@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
       email: this.form.controls['email'].value,
       password: this.form.controls['password'].value}
     ).subscribe({
-      next: _ => this.router.navigate(['/launcher']),
+      next: _ => this.router.navigate(['/main']),
       error: _ => this.showInvalidCredentials()
     })
   }

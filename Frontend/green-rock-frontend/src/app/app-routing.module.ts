@@ -16,7 +16,7 @@ import {NewsComponent} from "./pages/game/news/news.component";
 import {PortfolioComponent} from "./pages/game/portfolio/portfolio.component";
 
 const routes: Routes = [
-  {path: 'launcher', canActivate: [IsLoggedInGuard], component: LauncherOutletComponent, children: [
+  {path: 'main', canActivate: [IsLoggedInGuard], component: LauncherOutletComponent, children: [
       {path: 'games', component: GameListComponent},
       {path: 'invites', component: InvitationsListComponent},
       {path: 'edit/:gameId', component: EditGameComponent},

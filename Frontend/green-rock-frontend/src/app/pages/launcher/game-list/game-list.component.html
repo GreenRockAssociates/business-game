@@ -14,7 +14,7 @@
             <p>{{gameStateToString(game.gameState)}}</p>
           </div>
           <div class="flex justify-center items-center gap-5 text-xl">
-            <a *ngIf="isGameEditable(game)" class="hover:text-primary-500 hover:scale-110 duration-200 ease-out" [routerLink]="['/launcher/edit', game.id]">
+            <a *ngIf="isGameEditable(game)" class="hover:text-primary-500 hover:scale-110 duration-200 ease-out" [routerLink]="['/main/edit', game.id]">
               <fa-icon [icon]="faCog"></fa-icon>
             </a>
             <a *ngIf="canGameBeJoined(game)" class="hover:text-primary-500 hover:scale-110 duration-200 ease-out" [routerLink]="['/game', game.id]">
@@ -27,7 +27,7 @@
           There are no games yet
         </div>
 
-        <a [routerLink]="['/launcher/new-game']"
+        <a [routerLink]="['../new-game']"
            class="flex justify-center items-center
                   w-[50px] aspect-square rounded-lg
                   bg-dark-500
