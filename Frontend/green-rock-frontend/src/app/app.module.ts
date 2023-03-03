@@ -23,6 +23,7 @@ import { NewsComponent } from './pages/game/news/news.component';
 import { PortfolioComponent } from './pages/game/portfolio/portfolio.component';
 import { AssetCardComponent } from './components/portfolio/asset-card/asset-card.component';
 import { GameMenuComponent } from './components/game-menu/game-menu.component';
+import { GameDateComponent } from './components/game-date/game-date.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { GameMenuComponent } from './components/game-menu/game-menu.component';
     NewsComponent,
     PortfolioComponent,
     AssetCardComponent,
-    GameMenuComponent
+    GameMenuComponent,
+    GameDateComponent
   ],
   imports: [
     BrowserModule,

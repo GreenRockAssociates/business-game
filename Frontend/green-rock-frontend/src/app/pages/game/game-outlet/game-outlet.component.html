@@ -1,4 +1,5 @@
 <div class="w-full min-h-screen">
   <app-game-menu [gameId]="gameId" [bankAccount]="bankAccount"></app-game-menu>
   <router-outlet (activate)="updateMenu()"></router-outlet>
+  <app-game-date [currentTick]="3600*12"></app-game-date>
 </div>
