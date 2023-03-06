@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LoginComponent } from './pages/authentication/login/login.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RegisterComponent } from './pages/authentication/register/register.component';
 import { FormValidationErrorMessageComponent } from './components/form-validation-error-message/form-validation-error-message.component';
 import {HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
@@ -70,7 +70,8 @@ import { AssetNewsListComponent } from './components/asset-detail/asset-news-lis
       cookieName: 'XSRF-TOKEN',
       headerName: 'X-XSRF-TOKEN',
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
