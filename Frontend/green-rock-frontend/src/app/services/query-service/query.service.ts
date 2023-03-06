@@ -85,19 +85,27 @@ export class QueryService {
     return of({
       news: [
         {id: "13c84d0d-cd5d-4309-a889-ccc5d92845d5", generatedTick: 1, title: "La France désignée pour accueillir les prochains Jeux Olympiques.", content: "Après de nombreux débats, La France a réussit à faire accepter sa candidature comme pays d'accueil des jeux olympiques. Une mise à jour des équipements sportifs du pays a déjà été annoncé par le gouvernement."},
-        {id: "73b588a8-c222-402d-8f38-81c6bab406dd", generatedTick: 3, title: "Nouvelles régulations européennes pour les entreprises de technologie !", content: "Avec ces nouvelles directives et critères de qualité sur les produits de technologie, l'Union Européenne prends de court les fabricants et les oblige à revoir leurs méthodes de productions."},
-        {id: "596306af-9004-4681-bccc-5e46e137805f", generatedTick: 2, title: "Une Tesla prend feu dans un parking du centre ville de Berlin.", content: "D'après l'entreprise, le conducteur serait en tord."},
+        {id: "73b588a8-c222-402d-8f38-81c6bab406dd", generatedTick: 840000, title: "Nouvelles régulations européennes pour les entreprises de technologie !", content: "Avec ces nouvelles directives et critères de qualité sur les produits de technologie, l'Union Européenne prends de court les fabricants et les oblige à revoir leurs méthodes de productions."},
+        {id: "596306af-9004-4681-bccc-5e46e137805f", generatedTick: 40000, title: "Une Tesla prend feu dans un parking du centre ville de Berlin.", content: "D'après l'entreprise, le conducteur serait en tord."},
       ]
-    })
+    }).pipe(map(response => {
+      return {
+        news: response.news.sort((a, b) => a.generatedTick - b.generatedTick )
+      }
+    }))
   }
 
   getNewsForAsset(gameId: string, assetTicker: string): Observable<NewsResponseDto> {
     return of({
       news: [
-        {id: "13c84d0d-cd5d-4309-a889-ccc5d92845d5", generatedTick: 1, title: "La France désignée pour accueillir les prochains Jeux Olympiques.", content: "Après de nombreux débats, La France a réussit à faire accepter sa candidature comme pays d'accueil des jeux olympiques. Une mise à jour des équipements sportifs du pays a déjà été annoncé par le gouvernement."},
-        {id: "73b588a8-c222-402d-8f38-81c6bab406dd", generatedTick: 3, title: "Nouvelles régulations européennes pour les entreprises de technologie !", content: "Avec ces nouvelles directives et critères de qualité sur les produits de technologie, l'Union Européenne prends de court les fabricants et les oblige à revoir leurs méthodes de productions."},
+        {id: "13c84d0d-cd5d-4309-a889-ccc5d92845d5", generatedTick: 40000, title: "La France désignée pour accueillir les prochains Jeux Olympiques.", content: "Après de nombreux débats, La France a réussit à faire accepter sa candidature comme pays d'accueil des jeux olympiques. Une mise à jour des équipements sportifs du pays a déjà été annoncé par le gouvernement."},
+        {id: "73b588a8-c222-402d-8f38-81c6bab406dd", generatedTick: 1, title: "Nouvelles régulations européennes pour les entreprises de technologie !", content: "Avec ces nouvelles directives et critères de qualité sur les produits de technologie, l'Union Européenne prends de court les fabricants et les oblige à revoir leurs méthodes de productions."},
       ]
-    })
+    }).pipe(map(response => {
+      return {
+        news: response.news.sort((a, b) => a.generatedTick - b.generatedTick )
+      }
+    }))
   }
 
   getAssetHealth(gameId: string, assetTicker: string): Observable<AssetHealthDto> {

@@ -1,1 +1,21 @@
-<p>asset-detail works!</p>
+<div *ngIf="asset && gameId" class="w-full h-full flex justify-center py-20">
+  <div class="w-1/2 flex flex-col gap-10">
+
+    <div class="flex flex-row justify-between items-center gap-10">
+      <div class="flex-1">
+        <div class="flex flex-row items-end gap-5 mb-2">
+          <h1 class="text-4xl font-bold text-gradient from-secondary to-primary-500">{{asset.assetTicker}}</h1>
+          <p class="text-2xl text-light-500">{{asset.name}}</p>
+        </div>
+        <p class="text-light-500 mb-2">GRASDAQ · USD</p>
+        <p class="text-sm text-light-500 mb-5"><span *ngFor="let sector of asset.sectors" class="mr-5">{{sector}}</span></p>
+
+        <app-market-graph [assetTicker]="asset.assetTicker" [gameId]="gameId"></app-market-graph>
+      </div>
+
+      <app-asset-buy-sell [assetTicker]="asset.assetTicker" [gameId]="gameId"></app-asset-buy-sell>
+    </div>
+
+    <app-asset-news-list [assetTicker]="asset.assetTicker" [gameId]="gameId"></app-asset-news-list>
+  </div>
+</div>
