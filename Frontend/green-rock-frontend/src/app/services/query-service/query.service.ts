@@ -53,16 +53,16 @@ export class QueryService {
   getMarketRate(gameId: string): Observable<MarketResponseDto> {
     return of({
       market: [
+        {assetId: "APPL", tick: 4, value: 10.7, tradable: true},
+        {assetId: "MSFT", tick: 4, value: 9.4, tradable: true},
+        {assetId: "APPL", tick: 5, value: 10, tradable: true},
+        {assetId: "MSFT", tick: 5, value: 10, tradable: true},
         {assetId: "APPL", tick: 1, value: 10, tradable: true},
         {assetId: "MSFT", tick: 1, value: 10, tradable: true},
         {assetId: "APPL", tick: 2, value: 10.5, tradable: true},
         {assetId: "MSFT", tick: 2, value: 10.2, tradable: true},
         {assetId: "APPL", tick: 3, value: 11, tradable: true},
         {assetId: "MSFT", tick: 3, value: 10, tradable: true},
-        {assetId: "APPL", tick: 4, value: 10.7, tradable: true},
-        {assetId: "MSFT", tick: 4, value: 9.4, tradable: true},
-        {assetId: "APPL", tick: 5, value: 10, tradable: true},
-        {assetId: "MSFT", tick: 5, value: 10, tradable: true},
       ]
     })
   }
