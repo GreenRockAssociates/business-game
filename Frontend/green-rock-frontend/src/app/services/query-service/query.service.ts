@@ -52,9 +52,9 @@ export class QueryService {
 
   getMarketRate(gameId: string): Observable<MarketResponseDto> {
     const list = [];
-    for (let i = 0; i < 100; i++){
-      list.push({assetId: "APPL", tick: i, value: i, tradable: true})
-      list.push({assetId: "MSFT", tick: i, value: i, tradable: true})
+    for (let i = 0; i < 1000; i++){
+      list.push({assetId: "APPL", tick: i, value: Math.floor(Math.random() * 100), tradable: true})
+      list.push({assetId: "MSFT", tick: i, value: Math.floor(Math.random() * 100), tradable: true})
     }
     return of({
       market: list

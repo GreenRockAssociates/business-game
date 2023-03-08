@@ -31,10 +31,10 @@ export class MarketService implements OnDestroy {
     // this.webSocketSubject = this.marketWebSocketFactory(gameId);
     // TODO : remove this and use the true websocket implementation instead
     new Observable(subscriber => {
-      let t = 10;
+      let t = this.marketStateSubjectMap?.get("APPL")?.getValue().slice(-1)[0].tick ?? 0;
       setInterval(_ => {
         subscriber.next(
-          new MarketStateDto(gameId, t++, [["APPL", Math.floor(Math.random() * 100)], ["MSFT", Math.floor(Math.random() * 100)]])
+          new MarketStateDto(gameId, ++t, [["APPL", Math.floor(Math.random() * 100)], ["MSFT", Math.floor(Math.random() * 100)]])
         )
       }, 1000)
     }).subscribe({

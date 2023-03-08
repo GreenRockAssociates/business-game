@@ -1,3 +1,14 @@
-<div class="h-[300px] w-full border border-light-400 flex items-center justify-center">
-  <p>This is a graph</p>
+<div class="h-[300px] w-full rounded border border-light-400 border-opacity-50 flex flex-col items-center justify-center">
+  <div class="w-full flex flex-row items-center gap-3 px-2" *ngIf="showButtons">
+    <button class="enabled:hover:bg-dark-600 rounded px-2 duration-200" [ngClass]="{'bg-dark-600': viewingWindowInTicks === 128}" (click)="setViewingWindow(128)">1 d</button>
+    <button class="enabled:hover:bg-dark-600 rounded px-2 duration-200 disabled:text-dark-400" [ngClass]="{'bg-dark-600': viewingWindowInTicks === 900}" (click)="setViewingWindow(900)" [disabled]="numberOfEntries < 9">1 w</button>
+    <button class="enabled:hover:bg-dark-600 rounded px-2 duration-200 disabled:text-dark-400" [ngClass]="{'bg-dark-600': viewingWindowInTicks === 3600}" (click)="setViewingWindow(3600)" [disabled]="numberOfEntries < 36">1 M</button>
+    <button class="enabled:hover:bg-dark-600 rounded px-2 duration-200 disabled:text-dark-400" [ngClass]="{'bg-dark-600': viewingWindowInTicks === 10800}" (click)="setViewingWindow(10800)" [disabled]="numberOfEntries < 108">3 M</button>
+    <button class="enabled:hover:bg-dark-600 rounded px-2 duration-200 disabled:text-dark-400" [ngClass]="{'bg-dark-600': viewingWindowInTicks === 21600}" (click)="setViewingWindow(21600)" [disabled]="numberOfEntries < 216">6 M</button>
+    <button class="enabled:hover:bg-dark-600 rounded px-2 duration-200 disabled:text-dark-400" [ngClass]="{'bg-dark-600': viewingWindowInTicks === 43200}" (click)="setViewingWindow(43200)" [disabled]="numberOfEntries < 432">1 Y</button>
+    <button class="enabled:hover:bg-dark-600 rounded px-2 duration-200 disabled:text-dark-400" [ngClass]="{'bg-dark-600': viewingWindowInTicks === -1}" (click)="setViewingWindow(-1)">All</button>
+  </div>
+  <div class="relative h-[250px] w-full">
+    <canvas id="chart"></canvas>
+  </div>
 </div>
