@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {AssetDetailDto} from "../../../interfaces/dto/asset-detail.dto";
 import {MarketService} from "../../../services/market-service/market.service";
 
@@ -19,7 +19,9 @@ export class AssetCardComponent implements OnChanges{
 
   ngOnChanges(changes: SimpleChanges){
     if (changes['asset']){
-      this.assetValue = this.marketService.getAssetCurrentValue(this.asset.assetTicker);
+      this.marketService.getValueObservableForAsset(this.asset.assetTicker)?.subscribe({
+        next: val => this.assetValue = val.value
+      });
     }
   }
 }

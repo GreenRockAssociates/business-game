@@ -9,5 +9,5 @@
   <p><span class="text-4xl font-thin">{{quantity}}</span> share{{quantity > 1 ? 's' : ''}}</p>
   <div class="flex-1"></div>
 
-  <p class="text-light-500 text-lg">${{quantity * assetValue | number : '1.2-2'}} <span class="text-sm">at ${{assetValue | number : '1.2-2'}} ea.</span></p>
+  <p class="text-light-500">${{quantity * assetValue | number : '1.2-2'}} <span class="text-sm">at ${{assetValue | number : '1.2-2'}} ea.</span></p>
 </div>
