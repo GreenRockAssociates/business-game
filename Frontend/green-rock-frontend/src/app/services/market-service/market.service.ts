@@ -107,11 +107,19 @@ export class MarketService implements OnDestroy {
     this.marketStateSubjectMap = null;
   }
 
+  getMarketMap(): Map<string, BehaviorSubject<AssetMarketStateEntry[]>> | null {
+    return this.marketStateSubjectMap;
+  }
+
+  getAssetList(): string[] {
+    return Array.from(this.marketStateSubjectMap!.keys());
+  }
+
   /**
    * Returns a BehaviorSubject that will emit the whole market for `assetTicker` every time a new entry is available
    * @param assetTicker
    */
-  getMarketObservable(assetTicker: string): BehaviorSubject<AssetMarketStateEntry[]> | undefined {
+  getMarketObservableForAsset(assetTicker: string): BehaviorSubject<AssetMarketStateEntry[]> | undefined {
     return this.marketStateSubjectMap?.get(assetTicker);
   }
 
@@ -119,8 +127,8 @@ export class MarketService implements OnDestroy {
    * Returns an observable that emits the latest value for the market of `assetTicker` when available
    * @param assetTicker
    */
-  getAssetValueObservable(assetTicker: string): Observable<AssetMarketStateEntry> | undefined {
-    return this.getMarketObservable(assetTicker)?.pipe(map(marketObservable => marketObservable[marketObservable.length - 1]))
+  getValueObservableForAsset(assetTicker: string): Observable<AssetMarketStateEntry> | undefined {
+    return this.getMarketObservableForAsset(assetTicker)?.pipe(map(marketObservable => marketObservable[marketObservable.length - 1]))
   }
 
   /**

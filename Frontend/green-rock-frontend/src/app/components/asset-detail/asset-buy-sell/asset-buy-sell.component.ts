@@ -33,7 +33,7 @@ export class AssetBuySellComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.marketService.getAssetValueObservable(this.assetTicker)?.subscribe({
+    this.marketService.getValueObservableForAsset(this.assetTicker)?.subscribe({
       next: marketEntry => this.currentAssetValue = marketEntry.value
     });
     this.queryService.getAssetAnalysis(this.gameId, this.assetTicker).subscribe({

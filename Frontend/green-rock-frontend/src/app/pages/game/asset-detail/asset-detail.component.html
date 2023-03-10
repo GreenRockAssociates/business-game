@@ -10,7 +10,7 @@
         <p class="text-light-500 mb-2">GRASDAQ · USD</p>
         <p class="text-sm text-light-500 mb-5"><span *ngFor="let sector of asset.sectors" class="mr-5">{{sector}}</span></p>
 
-        <app-market-graph [assetTicker]="asset.assetTicker" [gameId]="gameId" [showButtons]="true"></app-market-graph>
+        <app-market-graph [assetTicker]="asset.assetTicker" [gameId]="gameId" [showButtons]="true" class="h-[400px]"></app-market-graph>
       </div>
 
       <app-asset-buy-sell [assetTicker]="asset.assetTicker" [gameId]="gameId"></app-asset-buy-sell>

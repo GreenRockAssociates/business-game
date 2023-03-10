@@ -31,6 +31,7 @@ import { AssetAnalysisComponent } from './components/asset-detail/asset-analysis
 import { AssetBuySellComponent } from './components/asset-detail/asset-buy-sell/asset-buy-sell.component';
 import { MarketGraphComponent } from './components/asset-detail/market-graph/market-graph.component';
 import { AssetNewsListComponent } from './components/asset-detail/asset-news-list/asset-news-list.component';
+import { MarketDashboardAssetCardComponent } from './components/market-dashboard/market-dashboard-asset-card/market-dashboard-asset-card.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { AssetNewsListComponent } from './components/asset-detail/asset-news-lis
     AssetAnalysisComponent,
     AssetBuySellComponent,
     MarketGraphComponent,
-    AssetNewsListComponent
+    AssetNewsListComponent,
+    MarketDashboardAssetCardComponent
   ],
   imports: [
     BrowserModule,

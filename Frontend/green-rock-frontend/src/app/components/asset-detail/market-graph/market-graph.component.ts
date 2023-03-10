@@ -1,32 +1,41 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MarketService} from "../../../services/market-service/market.service";
 import Chart from 'chart.js/auto';
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-market-graph',
   templateUrl: './market-graph.component.html',
   styleUrls: ['./market-graph.component.css']
 })
-export class MarketGraphComponent implements AfterViewInit {
+export class MarketGraphComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() assetTicker !: string;
   @Input() gameId !: string;
   @Input() showButtons : boolean = false;
+
+  private unsubscribe = new Subject<void>();
 
   chart: Chart | undefined;
 
   viewingWindowInTicks: number = 128;
   numberOfEntries: number = 0;
 
+  canvasId = "";
+
   constructor(
     private marketService: MarketService
   ) {}
+
+  ngOnInit(): void {
+    this.canvasId = `canvas-${this.assetTicker}-${Date.now()}`
+  }
 
   ngAfterViewInit(): void {
     const red = '#ef4444';
     const green = '#22c55e';
     const chartName = "Asset value over time";
 
-    this.chart = new Chart('chart', {
+    this.chart = new Chart(this.canvasId, {
       type: 'line',
       data: {
         labels: [],
@@ -57,7 +66,6 @@ export class MarketGraphComponent implements AfterViewInit {
       },
       options: {
         responsive: true,
-        aspectRatio: 3,
         scales: {
           x: {
             display: false // Hide X axis labels
@@ -88,7 +96,9 @@ export class MarketGraphComponent implements AfterViewInit {
       },
     });
 
-    this.marketService.getMarketObservable(this.assetTicker)?.subscribe({
+    this.marketService.getMarketObservableForAsset(this.assetTicker)?.pipe(
+      takeUntil(this.unsubscribe)
+    ).subscribe({
       next: market => {
         this.numberOfEntries = market.length;
         if (this.chart){
@@ -98,6 +108,15 @@ export class MarketGraphComponent implements AfterViewInit {
         }
       }
     })
+  }
+
+  ngOnDestroy() {
+    // Emit something to stop all Observables
+    this.unsubscribe.next();
+    // Complete the notifying Observable to remove it
+    this.unsubscribe.complete();
+
+    this.chart?.destroy();
   }
 
   private restrictPointsToWindow(array: number[]): number[] {
