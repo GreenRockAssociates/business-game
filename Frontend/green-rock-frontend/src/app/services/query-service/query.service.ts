@@ -8,6 +8,7 @@ import {AssetDetailDto} from "../../interfaces/dto/asset-detail.dto";
 import {AssetStatisticalAnalysisDto} from "../../interfaces/dto/asset-statistical-analysis.dto";
 import {NewsResponseDto} from "../../interfaces/dto/news-response.dto";
 import {AssetHealthDto} from "../../interfaces/dto/asset-health.dto";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +20,9 @@ export class QueryService {
   ) { }
 
   getPortfolio(gameId: string): Observable<PortfolioDto> {
-    return of({
-      portfolio: [
-        {assetId: "APPL", quantity: 10},
-        {assetId: "MSFT", quantity: 5.55}
-      ]
-    });
+    return this.httpClient.get<PortfolioDto>(`${environment.baseServerUrl}${environment.queryService}/${gameId}/player/portfolio`, {
+      withCredentials: true
+    })
   }
 
   getPortfolioWithAssetDetail(gameId: string): Observable<{ asset: AssetDetailDto, quantity: number }[]> {
@@ -45,43 +43,32 @@ export class QueryService {
   }
 
   getBankAccount(gameId: string): Observable<BankAccountDto> {
-    return of({
-      money: 2000
-    });
+    return this.httpClient.get<BankAccountDto>(`${environment.baseServerUrl}${environment.queryService}/${gameId}/player/bank-account`, {
+      withCredentials: true
+    })
   }
 
   getMarketRate(gameId: string): Observable<MarketResponseDto> {
-    const list = [];
-    for (let i = 0; i < 1000; i++){
-      list.push({assetId: "APPL", tick: i, value: Math.floor(Math.random() * 100), tradable: true})
-      list.push({assetId: "MSFT", tick: i, value: Math.floor(Math.random() * 100), tradable: true})
-    }
-    return of({
-      market: list
+    return this.httpClient.get<MarketResponseDto>(`${environment.baseServerUrl}${environment.queryService}/${gameId}/market/market-rate`, {
+      withCredentials: true
     })
   }
 
   getAssetDetail(gameId: string, assetTicker: string): Observable<AssetDetailDto> {
-    return of({
-      assetTicker,
-      name: assetTicker === "APPL" ? "Apple" : "Microsoft",
-      description: "A tech company",
-      logo: "logo.png",
-      sectors: ["Technology", "Lorem", "Ipsum"]
+    return this.httpClient.get<AssetDetailDto>(`${environment.baseServerUrl}${environment.queryService}/${gameId}/market/asset/${assetTicker}`, {
+      withCredentials: true
     })
   }
 
   getAssetAnalysis(gameId: string, assetTicker: string): Observable<AssetStatisticalAnalysisDto> {
-    return of({})
+    return this.httpClient.get<AssetStatisticalAnalysisDto>(`${environment.baseServerUrl}${environment.queryService}/${gameId}/market/analysis/${assetTicker}`, {
+      withCredentials: true
+    })
   }
 
   getAllNews(gameId: string): Observable<NewsResponseDto> {
-    return of({
-      news: [
-        {id: "13c84d0d-cd5d-4309-a889-ccc5d92845d5", generatedTick: 1, title: "La France désignée pour accueillir les prochains Jeux Olympiques.", content: "Après de nombreux débats, La France a réussit à faire accepter sa candidature comme pays d'accueil des jeux olympiques. Une mise à jour des équipements sportifs du pays a déjà été annoncé par le gouvernement."},
-        {id: "73b588a8-c222-402d-8f38-81c6bab406dd", generatedTick: 840000, title: "Nouvelles régulations européennes pour les entreprises de technologie !", content: "Avec ces nouvelles directives et critères de qualité sur les produits de technologie, l'Union Européenne prends de court les fabricants et les oblige à revoir leurs méthodes de productions."},
-        {id: "596306af-9004-4681-bccc-5e46e137805f", generatedTick: 40000, title: "Une Tesla prend feu dans un parking du centre ville de Berlin.", content: "D'après l'entreprise, le conducteur serait en tord."},
-      ]
+    return this.httpClient.get<NewsResponseDto>(`${environment.baseServerUrl}${environment.queryService}/${gameId}/asset-health/news`, {
+      withCredentials: true
     }).pipe(map(response => {
       return {
         news: response.news.sort((a, b) => a.generatedTick - b.generatedTick )
@@ -90,11 +77,8 @@ export class QueryService {
   }
 
   getNewsForAsset(gameId: string, assetTicker: string): Observable<NewsResponseDto> {
-    return of({
-      news: [
-        {id: "13c84d0d-cd5d-4309-a889-ccc5d92845d5", generatedTick: 40000, title: "La France désignée pour accueillir les prochains Jeux Olympiques.", content: "Après de nombreux débats, La France a réussit à faire accepter sa candidature comme pays d'accueil des jeux olympiques. Une mise à jour des équipements sportifs du pays a déjà été annoncé par le gouvernement."},
-        {id: "73b588a8-c222-402d-8f38-81c6bab406dd", generatedTick: 1, title: "Nouvelles régulations européennes pour les entreprises de technologie !", content: "Avec ces nouvelles directives et critères de qualité sur les produits de technologie, l'Union Européenne prends de court les fabricants et les oblige à revoir leurs méthodes de productions."},
-      ]
+    return this.httpClient.get<NewsResponseDto>(`${environment.baseServerUrl}${environment.queryService}/${gameId}/asset-health/news/${assetTicker}`, {
+      withCredentials: true
     }).pipe(map(response => {
       return {
         news: response.news.sort((a, b) => a.generatedTick - b.generatedTick )
@@ -103,10 +87,8 @@ export class QueryService {
   }
 
   getAssetHealth(gameId: string, assetTicker: string): Observable<AssetHealthDto> {
-    return of({
-      assetTicker: "APPL",
-      assetRating: "A",
-      generatedTick: 3
-    });
+    return this.httpClient.get<AssetHealthDto>(`${environment.baseServerUrl}${environment.queryService}/${gameId}/asset-health/health/${assetTicker}`, {
+      withCredentials: true
+    })
   }
 }
