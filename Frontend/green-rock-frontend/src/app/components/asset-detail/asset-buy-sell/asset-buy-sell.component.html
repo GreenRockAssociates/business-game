@@ -1,11 +1,23 @@
-<div *ngIf="assetAnalysis && assetPortfolioEntry" class="h-full w-[200px] bg-dark-700 rounded-xl flex flex-col">
+<div *ngIf="assetPortfolioEntry && assetHealth" class="h-full w-[200px] bg-dark-700 rounded-xl flex flex-col">
   <div class="flex-1 p-2">
     <div class="h-full flex flex-col gap-2">
       <h1 class="text-xl text-center">Asset's information</h1>
       <div class="flex-1 flex flex-col justify-around text-sm">
         <p>Current value : ${{currentAssetValue | number : '1.2-2'}}</p>
         <p>Owned shares : {{assetPortfolioEntry.quantity | number : '1.2-2'}}</p>
-        <p class="flex-1 bg-red-300 text-red-700">Asset stat analysis</p>
+        <p>Asset health : {{assetHealth.assetRating}}</p>
+
+        <div class="flex-1 flex flex-col justify-around" *ngIf="assetAnalysis; else noAnalysisYet">
+          <p>VaR : {{assetAnalysis.valueAtRisk}}</p>
+          <p>Exp. Ret. : {{assetAnalysis.expectedReturn}}</p>
+          <p>Beta : {{assetAnalysis.beta}}</p>
+        </div>
+        <ng-template #noAnalysisYet>
+          <div class="flex-1 flex flex-col justify-around">
+            <p>Not enough data to compute the analysis yet. Wait for the end of the first month.</p>
+          </div>
+        </ng-template>
+
       </div>
       <hr>
       <h1 class="text-xl text-center">Buy and sell</h1>

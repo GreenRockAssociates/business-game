@@ -5,6 +5,7 @@ import {AssetStatisticalAnalysisDto} from "../../../interfaces/dto/asset-statist
 import {PortfolioEntryDto} from "../../../interfaces/dto/portfolio.dto";
 import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {CommandService} from "../../../services/command-service/command.service";
+import {AssetHealthDto} from "../../../interfaces/dto/asset-health.dto";
 
 @Component({
   selector: 'app-asset-buy-sell',
@@ -18,6 +19,7 @@ export class AssetBuySellComponent implements OnInit {
   @Input() assetTicker !: string;
   @Input() gameId !: string;
   currentAssetValue: number = 0;
+  assetHealth: AssetHealthDto | undefined;
   assetAnalysis: AssetStatisticalAnalysisDto | undefined;
   assetPortfolioEntry: PortfolioEntryDto | undefined;
   bankAccount: number = 0;
@@ -36,8 +38,16 @@ export class AssetBuySellComponent implements OnInit {
     this.marketService.getValueObservableForAsset(this.assetTicker)?.subscribe({
       next: marketEntry => this.currentAssetValue = marketEntry.value
     });
+    this.queryService.getAssetHealth(this.gameId, this.assetTicker).subscribe({
+      next: value => this.assetHealth = value
+    })
     this.queryService.getAssetAnalysis(this.gameId, this.assetTicker).subscribe({
-      next: value => this.assetAnalysis = value
+      next: value => this.assetAnalysis = value,
+      error: err => {
+        if (err.status !== 412){
+          throw err // Do nothing in case of error 412 as it means that not enough time has passed
+        }
+      }
     })
     this.queryService.getPortfolio(this.gameId).subscribe({
       next: value => this.assetPortfolioEntry = value.portfolio.find(entry => entry.assetId === this.assetTicker)
@@ -58,7 +68,7 @@ export class AssetBuySellComponent implements OnInit {
   sell() {
     this.commandService.sellAsset(this.gameId, this.assetTicker, this.sharesTransactionAmount).subscribe({
       error: err => {
-        if (err.status == 412) this.showNotEnoughSharesError()
+        if (err.status === 412) this.showNotEnoughSharesError()
       }
     })
   }
@@ -66,7 +76,7 @@ export class AssetBuySellComponent implements OnInit {
   buy() {
     this.commandService.buyAsset(this.gameId, this.assetTicker, this.sharesTransactionAmount).subscribe({
       error: err => {
-        if (err.status == 412) this.showNotEnoughFundsError()
+        if (err.status === 412) this.showNotEnoughFundsError()
       }
     })
   }
