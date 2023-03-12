@@ -14,10 +14,12 @@ import {MarketDashboardComponent} from "./pages/game/market-dashboard/market-das
 import {AssetDetailComponent} from "./pages/game/asset-detail/asset-detail.component";
 import {NewsComponent} from "./pages/game/news/news.component";
 import {PortfolioComponent} from "./pages/game/portfolio/portfolio.component";
+import {ProfileComponent} from "./pages/launcher/profile/profile.component";
 
 const routes: Routes = [
   {path: 'main', canActivate: [IsLoggedInGuard], component: LauncherOutletComponent, children: [
       {path: 'games', component: GameListComponent},
+      {path: 'profile', component: ProfileComponent},
       {path: 'invites', component: InvitationsListComponent},
       {path: 'edit/:gameId', component: EditGameComponent},
       {path: 'new-game', component: CreateGameComponent},

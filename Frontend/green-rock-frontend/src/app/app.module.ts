@@ -32,6 +32,7 @@ import { AssetBuySellComponent } from './components/asset-detail/asset-buy-sell/
 import { MarketGraphComponent } from './components/asset-detail/market-graph/market-graph.component';
 import { AssetNewsListComponent } from './components/asset-detail/asset-news-list/asset-news-list.component';
 import { MarketDashboardAssetCardComponent } from './components/market-dashboard/market-dashboard-asset-card/market-dashboard-asset-card.component';
+import { ProfileComponent } from './pages/launcher/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { MarketDashboardAssetCardComponent } from './components/market-dashboard
     AssetBuySellComponent,
     MarketGraphComponent,
     AssetNewsListComponent,
-    MarketDashboardAssetCardComponent
+    MarketDashboardAssetCardComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
