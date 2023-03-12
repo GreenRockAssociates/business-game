@@ -28,23 +28,7 @@ export class MarketService implements OnDestroy {
       next: initialMarketState => this.marketStateSubjectMap = this.initializeMarketStateSubjectMap(initialMarketState)
     })
 
-    // this.webSocketSubject = this.marketWebSocketFactory(gameId);
-    // TODO : remove this and use the true websocket implementation instead
-    new Observable(subscriber => {
-      let t = this.marketStateSubjectMap?.get("APPL")?.getValue().slice(-1)[0].tick ?? 0;
-      setInterval(_ => {
-        subscriber.next(
-          new MarketStateDto(gameId, ++t, [["APPL", Math.floor(Math.random() * 100)], ["MSFT", Math.floor(Math.random() * 100)]])
-        )
-      }, 1000)
-    }).subscribe({
-      next: marketState => (marketState as MarketStateDto)
-        .getMarketState()
-        .forEach((assetValue, assetTicker) => {
-          this.pushToListSubjectEnd(this.marketStateSubjectMap?.get(assetTicker), {tick: (marketState as MarketStateDto).tick, value: assetValue});
-        })
-    })
-    // End remove
+    this.webSocketSubject = this.marketWebSocketFactory(gameId);
   }
 
   private initializeMarketStateSubjectMap(initialMarketState: MarketResponseDto): Map<string, BehaviorSubject<AssetMarketStateEntry[]>> {
@@ -72,7 +56,7 @@ export class MarketService implements OnDestroy {
   private marketWebSocketFactory(gameId: string): WebSocketSubject<string> {
     const ws: WebSocketSubject<string> = webSocket(`${environment.baseServerUrl}${environment.realTimeUpdateService}/${gameId}`);
 
-    // Add the necessary steps to parse and handle the messages on the websocket
+    // Subscribe with the necessary steps to parse and handle the messages on the websocket
     ws.pipe(
       map(message => JSON.parse(message) as MarketStateDto)
     ).subscribe({
