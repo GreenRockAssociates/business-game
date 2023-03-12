@@ -8,6 +8,7 @@ export const environment = {
   authenticationService: ":30000/api/auth",
   launcherService: ":30001/api/launcher",
   queryService: ":30002/api/query",
+  commandService: ":30003/api/command",
   realTimeUpdateService: ":30004"
 };
 
