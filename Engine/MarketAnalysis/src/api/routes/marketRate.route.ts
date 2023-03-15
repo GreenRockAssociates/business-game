@@ -29,15 +29,12 @@ export async function marketRate(req: Request, res: Response, marketEntityReposi
         res.sendStatus(404)
         return
     }
-    console.log('dfsgsd')
 
     let list = [];
     let test = "111";
     let test2 = -1;
     for (const elem of assets) {
         if(elem.assetTicker!=test){
-            console.log('here1')
-
             list.push(new AssetDto(elem.gameId,elem.asset.name,elem.assetTicker,elem.asset.description,elem.asset.logo))
             test2++
             test = elem.assetTicker
