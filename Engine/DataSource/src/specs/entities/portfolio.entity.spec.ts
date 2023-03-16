@@ -132,5 +132,73 @@ describe('Portfolio entity', () => {
 
             await expect(dataSource.manager.save(portfolioEntry)).rejects.not.toBeUndefined()
         })
+
+        it("Deleting a portfolio entry should not delete the associated player", async () => {
+            const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+            await dataSource.manager.save(asset);
+
+            const player = new PlayerEntity();
+            await dataSource.manager.save(player);
+
+            const portfolioEntry = new PortfolioEntity()
+            portfolioEntry.count = 10.129
+            portfolioEntry.player = player
+            portfolioEntry.asset = asset
+
+            await dataSource.manager.save(portfolioEntry)
+
+            await dataSource.getRepository(PortfolioEntity).delete(portfolioEntry);
+
+            const playerFromDb = await dataSource.getRepository(PlayerEntity).findOneBy({id: player.id});
+            expect(playerFromDb).not.toBeNull()
+        })
+
+        it("Deleting a portfolio entry should not delete the associated asset", async () => {
+            const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+            await dataSource.manager.save(asset);
+
+            const player = new PlayerEntity();
+            await dataSource.manager.save(player);
+
+            const portfolioEntry = new PortfolioEntity()
+            portfolioEntry.count = 10.129
+            portfolioEntry.player = player
+            portfolioEntry.asset = asset
+
+            await dataSource.manager.save(portfolioEntry)
+
+            await dataSource.getRepository(PortfolioEntity).delete(portfolioEntry);
+
+            const assetFromDb = await dataSource.getRepository(AssetEntity).findOneBy({ticker: asset.ticker});
+            expect(assetFromDb).not.toBeNull()
+        })
+
+        it("Deleting a portfolio entity should remove it from the user", async () => {
+            const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png");
+            await dataSource.manager.save(asset);
+
+            const portfolioEntity = new PortfolioEntity();
+            portfolioEntity.count = 10;
+            portfolioEntity.asset = asset;
+
+            const player = new PlayerEntity();
+            player.portfolio = [portfolioEntity];
+            await dataSource.manager.save(player);
+
+            await dataSource.getRepository(PortfolioEntity).delete(portfolioEntity)
+
+            const portfolioEntitiesFromDb = await dataSource.getRepository(PortfolioEntity).find();
+            const playerFromDb = await dataSource.getRepository(PlayerEntity).findOne({
+                where: {
+                    id: player.id
+                },
+                relations: {
+                    portfolio: true,
+                    game: true
+                }
+            });
+            expect(portfolioEntitiesFromDb.length).toEqual(0);
+            expect(playerFromDb.portfolio.length).toEqual(0)
+        })
     })
 })

@@ -4,7 +4,7 @@ import {IsArray, IsNotEmpty, IsString, Matches, ValidateNested} from "class-vali
 export class AssetDetailDto {
     @Expose()
     @IsString()
-    @Matches(/^[A-Z]{4,5}$/) // Ensure the ticker has a valid format : 4 to 5 uppercase characters
+    @Matches(/^[A-Z]{1,5}$/) // Ensure the ticker has a valid format : 4 to 5 uppercase characters
     assetTicker: string
 
     @Expose()

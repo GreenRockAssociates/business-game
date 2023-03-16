@@ -36,8 +36,7 @@ export class NewsReportEntity {
     @Column()
     influenceFactor: number
 
-    constructor(id: string, generatedTick: number, title: string, content: string, influenceFactor: number) {
-        this.id = id;
+    constructor(generatedTick: number, title: string, content: string, influenceFactor: number) {
         this.generatedTick = generatedTick;
         this.title = title;
         this.content = content;

@@ -16,6 +16,6 @@ export function registerRoutes(router: Router){
     router.use("/:gameId", (req: Request, res: Response, next: NextFunction) => resolvePlayerSession(req, res, next, launcherService));
 
     const playerStateServie = new PlayerStateService();
-    router.post(":gameId/player/buy", jsonToDtoMiddlewareFactory(BuySellExternalRequestDto), buyRouteFactory(playerStateServie))
-    router.post(":gameId/player/sell", jsonToDtoMiddlewareFactory(BuySellExternalRequestDto), sellRouteFactory(playerStateServie))
+    router.post("/:gameId/player/buy", jsonToDtoMiddlewareFactory(BuySellExternalRequestDto), buyRouteFactory(playerStateServie))
+    router.post("/:gameId/player/sell", jsonToDtoMiddlewareFactory(BuySellExternalRequestDto), sellRouteFactory(playerStateServie))
 }

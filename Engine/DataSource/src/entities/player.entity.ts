@@ -15,10 +15,12 @@ export class PlayerEntity {
         transformer: new DecimalColumnTransformer() })
     bankAccount: number
 
-    @OneToMany(() => PortfolioEntity, (portfolio) => portfolio.player)
+    @OneToMany(() => PortfolioEntity, (portfolio) => portfolio.player, {cascade: true})
     portfolio: PortfolioEntity[]
 
-    @ManyToOne(() => GameEntity, (game) => game.players)
+    @ManyToOne(() => GameEntity, (game) => game.players, {
+        orphanedRowAction: 'delete'
+    })
     game: GameEntity
 
 

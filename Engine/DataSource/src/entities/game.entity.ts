@@ -20,7 +20,7 @@ export class GameEntity {
     @Column()
     gameState: GameState
 
-    @OneToMany(() => PlayerEntity, (player) => player.game)
+    @OneToMany(() => PlayerEntity, (player) => player.game, {cascade: true})
     players: PlayerEntity[]
 
     @OneToMany(() => AssetHealthEntity, (assetHealth) => assetHealth.game)

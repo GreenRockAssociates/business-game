@@ -17,7 +17,7 @@ export class MarketResponseDto {
 export class MarketEntryDto {
     @Expose()
     @IsString()
-    @Matches(/^[A-Z]{4,5}$/) // Ensure the ticker has a valid format : 4 to 5 uppercase characters
+    @Matches(/^[A-Z]{1,5}$/) // Ensure the ticker has a valid format : 4 to 5 uppercase characters
     assetId: string
 
     @Expose()
