@@ -9,7 +9,7 @@ import {AssetDto} from "../../dto/asset.dto";
 import {assetStateDto} from "../../dto/assetstate.dto";
 import util from "util";
 import {GameAndAssetIdDto} from "../../dto/gameandassetid.dto";
-import {forEach, number, re, variance} from 'mathjs'
+import {forEach, i, number, re, variance} from 'mathjs'
 import {dataAnalisysDto} from "../../dto/data_analisys.sto";
 
 
@@ -46,10 +46,11 @@ export async function AnalysisRoute(req: Request, res: Response, marketEntityRep
 
 
 
-    if(data.length==0 || !data){
+    if(data[0].length==0 || !data){
         res.sendStatus(404)
         return
     }
+
 
     if(data[0].length<600){
         res.sendStatus(412)
@@ -57,27 +58,43 @@ export async function AnalysisRoute(req: Request, res: Response, marketEntityRep
     }
 
 
-
-    console.log(util.inspect(data, false, null))
-
+    let indexAsset : number = findIndexAsset(data,ids.assetID)
+    let assetList = marketToList(data[indexAsset])
 
     let marketvar = market(data)
     let returnmarket = dailyReturn(marketvar)
-    let returnasset =  dailyReturn(marketvar)
+
+    let returnasset =  dailyReturn(assetList)
+
     Beta = betafunc(returnasset,returnmarket)
+
     VaR = valueAtRisk95(returnasset)
+
     ER = expectedReturn(returnasset,returnmarket )
 
     res.json(new dataAnalisysDto(VaR,Beta,ER))
     return
 }
 
+function marketToList(asset : MarketEntity[]){
+    let list: number[] = []
+    asset.forEach(x =>{
+        list.push(x.value)
+    })
+    return list
+}
 function lastAssetReturn(asset : number[]){
     const assetLenght = asset.length
     return (asset[assetLenght]-asset[assetLenght-60])/asset[assetLenght-60]
 
 }
-
+function findIndexAsset(assets : MarketEntity[][], ticker : string){
+    for(let i : number = 0;i<assets.length;i++){
+        if(assets[i][0].assetTicker==ticker){
+            return i
+        }
+    }
+}
 function market(assets : MarketEntity[][]){
     let marketasset = []
     let n = 0;
@@ -87,7 +104,8 @@ function market(assets : MarketEntity[][]){
         for (let j = 0; j < numberOfAsset; j++) {
             n+=assets[j][i].value
         }
-        marketasset.push(n/assets[i].length)
+        marketasset.push(n/numberOfAsset)
+
     }
     return marketasset
 

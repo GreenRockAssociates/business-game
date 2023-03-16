@@ -69,7 +69,7 @@ describe("market Analysis", () => {
         await dataSource.manager.save(asset3);
         const ticker = ["AAPL","AMZN","AMZN2"]
         for(let i = 0;i<3;i++){
-            for(let j = 0;j<100;j++){
+            for(let j = 1;j<601;j++){
 
                 let value3 = Math.floor(Math.random() * 100);
                 const market = new MarketEntity(j,value3,true)
@@ -79,11 +79,100 @@ describe("market Analysis", () => {
 
             }
         }
-        console.log('aaaaa')
 
         const param = new GameAndAssetIdDto(game.id,"AAPL")
 
         await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
+        await expect(sendJson).toBeCalledTimes(1)
+    },10000)
+    it("not enough data",async ()=> {
+
+
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        const asset2 = new AssetEntity("AMZN", "Amazon", "A ecomerce company", "logo.png")
+        const asset3 = new AssetEntity("AMZN2", "Amazon2", "A ecomerce company but better", "logo.png")
+        await dataSource.manager.save(asset);
+        await dataSource.manager.save(asset2);
+        await dataSource.manager.save(asset3);
+        const ticker = ["AAPL","AMZN","AMZN2"]
+        for(let i = 0;i<3;i++){
+            for(let j = 1;j<10;j++){
+
+                let value3 = Math.floor(Math.random() * 100);
+                const market = new MarketEntity(j,value3,true)
+                market.game = game;
+                market.assetTicker = ticker[i];
+                await dataSource.manager.save(market)
+
+            }
+        }
+
+        const param = new GameAndAssetIdDto(game.id,"AAPL")
+
+        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
+        await expect(sendStatusSpy).toHaveBeenCalledWith(412);
+
+    })
+    it("not game ",async ()=> {
+
+
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        const asset2 = new AssetEntity("AMZN", "Amazon", "A ecomerce company", "logo.png")
+        const asset3 = new AssetEntity("AMZN2", "Amazon2", "A ecomerce company but better", "logo.png")
+        await dataSource.manager.save(asset);
+        await dataSource.manager.save(asset2);
+        await dataSource.manager.save(asset3);
+        const ticker = ["AAPL","AMZN","AMZN2"]
+        for(let i = 0;i<3;i++){
+            for(let j = 1;j<10;j++){
+
+                let value3 = Math.floor(Math.random() * 100);
+                const market = new MarketEntity(j,value3,true)
+                market.game = game;
+                market.assetTicker = ticker[i];
+                await dataSource.manager.save(market)
+
+            }
+        }
+
+        const param = new GameAndAssetIdDto('378cf42b-8004-402b-bc20-92bc14215780',"AAPL")
+
+        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
+        await expect(sendStatusSpy).toHaveBeenCalledWith(404);
+
+    })
+    it("not asset ",async ()=> {
+
+
+        const game = new GameEntity()
+        await dataSource.manager.save(game)
+        const asset = new AssetEntity("AAPL", "Apple", "A tech company", "logo.png")
+        const asset2 = new AssetEntity("AMZN", "Amazon", "A ecomerce company", "logo.png")
+        const asset3 = new AssetEntity("AMZN2", "Amazon2", "A ecomerce company but better", "logo.png")
+        await dataSource.manager.save(asset);
+        await dataSource.manager.save(asset2);
+        await dataSource.manager.save(asset3);
+        const ticker = ["AAPL","AMZN","AMZN2"]
+        for(let i = 0;i<3;i++){
+            for(let j = 1;j<10;j++){
+
+                let value3 = Math.floor(Math.random() * 100);
+                const market = new MarketEntity(j,value3,true)
+                market.game = game;
+                market.assetTicker = ticker[i];
+                await dataSource.manager.save(market)
+
+            }
+        }
+
+        const param = new GameAndAssetIdDto(game.id,"AAfffPL")
+
+        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
+        await expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
     })
 
