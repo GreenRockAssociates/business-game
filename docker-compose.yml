@@ -4,6 +4,18 @@ services:
 
   ##################################################
   #
+  #   Frontend
+  #
+  ##################################################
+
+  frontend:
+    build: Frontend/green-rock-frontend/
+    ports:
+      - '127.0.0.1:10000:80'
+    restart: unless-stopped
+
+  ##################################################
+  #
   #   Gateway
   #
   ##################################################
@@ -11,25 +23,41 @@ services:
   authentication:
     build: Gateway/Authentication/
     ports:
-      - 127.0.0.1:30000:30000
-    restart: unless-stopped
-
-  launcher:
-    build: Gateway/Launcher/
-    ports:
-      - 127.0.0.1:30001:30001
-    restart: unless-stopped
-
-  query:
-    build: Gateway/Query/
-    ports:
-      - 127.0.0.1:30002:30002
+      - '127.0.0.1:30000:30000'
+    expose:
+      - '30000:30000'
     restart: unless-stopped
 
   command:
     build: Gateway/Command/
     ports:
-      - 127.0.0.1:30003:30003
+      - '127.0.0.1:30003:30003'
+    expose:
+      - '30003:30003'
+    restart: unless-stopped
+
+  launcher:
+    build: Gateway/Launcher/
+    ports:
+      - '127.0.0.1:30001:30001'
+    expose:
+      - '30001:30001'
+    restart: unless-stopped
+
+  query:
+    build: Gateway/Query/
+    ports:
+      - '127.0.0.1:30002:30002'
+    expose:
+      - '30002:30002'
+    restart: unless-stopped
+
+  real-time-update:
+    build: Gateway/RealTimeMarketUpdate/
+    ports:
+      - '127.0.0.1:30004:30004'
+    expose:
+      - '30004:30004'
     restart: unless-stopped
 
   ##################################################
@@ -38,22 +66,48 @@ services:
   #
   ##################################################
 
+  asset-health:
+    build:
+      context: ./Engine
+      dockerfile: ./AssetHealth/Dockerfile
+    expose:
+      - '40003:40003'
+    restart: unless-stopped
+
   game-orchestrator:
     build:
       context: ./Engine
       dockerfile: ./GameOrchestrator/Dockerfile
+    expose:
+      - '40001:40001'
+    restart: unless-stopped
+
+  market-analysis:
+    build:
+      context: ./Engine
+      dockerfile: ./MarketAnalysis/Dockerfile
+    expose:
+      - '40002:40002'
+    restart: unless-stopped
+
+  market-simulation-cadencer:
+    build:
+      context: ./Engine
+      dockerfile: ./MarketSimulationCadencer/Dockerfile
+    restart: unless-stopped
+
+  market-simulation-worker:
+    build:
+      context: ./Engine
+      dockerfile: ./MarketSimulationWorker/Dockerfile
     restart: unless-stopped
 
   player-state:
     build:
       context: ./Engine
       dockerfile: ./PlayerState/Dockerfile
-    restart: unless-stopped
-
-  asset-health:
-    build:
-      context: ./Engine
-      dockerfile: ./AssetHealth/Dockerfile
+    expose:
+      - '40000:40000'
     restart: unless-stopped
 
   ##################################################
@@ -69,14 +123,14 @@ services:
       POSTGRES_DB: iam
       POSTGRES_PASSWORD: postgres
     ports:
-      - 127.0.0.1:5433:5432
+      - '127.0.0.1:5433:5432'
     volumes:
       - ./docker/postgres/iam:/var/lib/postgresql/data
 
   redis-iam:
     image: redis
     ports:
-      - 127.0.0.1:6380:6379
+      - '127.0.0.1:6380:6379'
     command:
       - /bin/sh
       - -c
@@ -91,7 +145,7 @@ services:
       POSTGRES_DB: launcher
       POSTGRES_PASSWORD: postgres
     ports:
-      - 127.0.0.1:5434:5432
+      - '127.0.0.1:5434:5432'
     volumes:
       - ./docker/postgres/launcher:/var/lib/postgresql/data
     healthcheck:
@@ -107,7 +161,7 @@ services:
       POSTGRES_DB: game
       POSTGRES_PASSWORD: postgres
     ports:
-      - 127.0.0.1:5435:5432
+      - '127.0.0.1:5435:5432'
     volumes:
       - ./docker/postgres/game:/var/lib/postgresql/data
     healthcheck:
@@ -119,7 +173,7 @@ services:
   rabbit-mq-game:
     image: rabbitmq
     ports:
-      - 127.0.0.1:5673:5672
+      - '127.0.0.1:5673:5672'
     volumes:
       - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
       - ./docker/rabbitmq/log/:/var/log/rabbitmq

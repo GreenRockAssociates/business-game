@@ -36,8 +36,6 @@ ENV NODE_ENV=production
 COPY GameOrchestrator/package*.json ./
 RUN npm ci --quiet --only=production
 
-EXPOSE 40001
-
 ## We just need the build to execute the command
 COPY --from=builder /usr/src/app/GameOrchestrator/dist ./dist
 

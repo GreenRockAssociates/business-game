@@ -37,8 +37,6 @@ ENV NODE_ENV=production
 COPY AssetHealth/package*.json ./
 RUN npm ci --quiet --only=production
 
-EXPOSE 40003
-
 ## We just need the build to execute the command
 COPY --from=builder /usr/src/app/AssetHealth/dist ./dist
 

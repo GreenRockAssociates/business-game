@@ -36,8 +36,6 @@ ENV NODE_ENV=production
 COPY MarketSimulationCadencer/package*.json ./
 RUN npm ci --quiet --only=production
 
-EXPOSE 40004
-
 ## We just need the build to execute the command
 COPY --from=builder /usr/src/app/MarketSimulationCadencer/dist ./dist
 
