@@ -31,7 +31,6 @@ export async function assetRate(req: Request, res: Response, marketEntityReposit
         res.sendStatus(404)
         return
     }
-    console.log('dfsgsd')
 
     let list = [];
 

@@ -1,5 +1,5 @@
 {
-  "name": "market-analysis",
+  "name": "player-state",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,7 +14,7 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "build": "tsc && cp src/.env ./dist/.env",
+    "build": "tsc && cp .env ./dist/.env",
     "start": "node dist/index.js",
     "serve": "nodemon src/index.ts",
     "test": "jest --runInBand"
@@ -25,10 +25,9 @@
   "dependencies": {
     "class-sanitizer": "^1.0.1",
     "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.0",
+    "class-validator": "^0.13.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mathjs": "^11.6.0",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.11"
