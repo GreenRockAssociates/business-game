@@ -1,0 +1,13 @@
+<div class="w-full rounded-xl bg-dark-700 p-3">
+  <h1 class="text-2xl" >{{newsReport.title}}</h1>
+  <p class="text-lg text-light-400 italic">{{newsReport.generatedTick | TickToGameDate}}</p>
+  <div class="w-full flex flex-row justify-end">
+    <button class="text-sm text-light-400 cursor-pointer flex flew-row gap-2 items-center duration-200 hover:text-primary-0" (click)="toggleNews()">
+      <p>Read {{newsOpened ? 'less' : 'more'}}</p>
+      <div class="duration-200" [ngClass]="{'rotate-90': newsOpened}">
+        <fa-icon [icon]="faChevronRight"></fa-icon>
+      </div>
+    </button>
+  </div>
+  <p *ngIf="newsOpened" [@inOutAnimation] class="h-[100px]">{{newsReport.content}}</p>
+</div>

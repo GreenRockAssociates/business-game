@@ -2,14 +2,14 @@ import {Repository} from "typeorm";
 import {InvitationEntity} from "../../entities/invitation.entity";
 import {Request, Response} from "express";
 import {GameIdDto} from "../../dto/game-id.dto";
-import {InvitePlayerRequestDto} from "../../dto/invite-player-request.dto";
+import {UserEmailDto} from "../../dto/user-email.dto";
 import {AxiosInstance} from "axios";
 import {plainToInstance} from "class-transformer";
 import {UserIdDto} from "../../dto/user-id.dto";
 import {validateOrReject} from "class-validator";
 import {GameEntity, GameState} from "../../entities/game.entity";
 
-async function getIdFromEmail(req: Request, res: Response, axios: AxiosInstance, playerEmail: InvitePlayerRequestDto) {
+async function getIdFromEmail(req: Request, res: Response, axios: AxiosInstance, playerEmail: UserEmailDto) {
     await validateOrReject(playerEmail); // Ensure we do have an email
     let {data} = await axios.get(`${process.env.BASE_SERVER_URL}${process.env.AUTHENTICATION_SERVICE_PREFIX}/userId?userEmail=${playerEmail.playerEmail}`, {
         headers: {cookie: req.headers.cookie}
@@ -23,7 +23,7 @@ export async function invitePlayer(req: Request, res: Response, invitationReposi
     const userId = req.session.userId // Can use it directly because the middleware ensures the data is valid
 
     const gameId: GameIdDto = req.params as unknown as GameIdDto;
-    const playerEmail: InvitePlayerRequestDto = req.body;
+    const playerEmail: UserEmailDto = req.body;
 
     let invitedPlayerId;
     try {

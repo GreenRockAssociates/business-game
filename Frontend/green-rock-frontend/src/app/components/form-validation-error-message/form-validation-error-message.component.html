@@ -1,0 +1,5 @@
+<div *ngIf="invalidControl()">
+  <div *ngFor="let message of getErrorMessagesForControl()">
+    <p class="text-red-400">{{message}}</p>
+  </div>
+</div>

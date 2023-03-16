@@ -33,15 +33,10 @@ export class NewsReportDto {
     @IsNotEmpty()
     content: string
 
-    @Expose()
-    @IsNumber()
-    influenceFactor: number
-
-    constructor(id: string, generatedTick: number, title: string, content: string, influenceFactor: number) {
+    constructor(id: string, generatedTick: number, title: string, content: string) {
         this.id = id;
         this.generatedTick = generatedTick;
         this.title = title;
         this.content = content;
-        this.influenceFactor = influenceFactor;
     }
 }

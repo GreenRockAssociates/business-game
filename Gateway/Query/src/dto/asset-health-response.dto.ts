@@ -9,7 +9,7 @@ export class AssetHealthResponseDto {
     @Expose()
     @IsString()
     @IsNotEmpty()
-    generatedTick: string
+    generatedTick: number
 
     @Expose()
     @IsString()
@@ -17,7 +17,7 @@ export class AssetHealthResponseDto {
     assetRating: string
 
 
-    constructor(assetTicker: string, generatedTick: string, assetRating: string) {
+    constructor(assetTicker: string, generatedTick: number, assetRating: string) {
         this.assetTicker = assetTicker;
         this.generatedTick = generatedTick;
         this.assetRating = assetRating;

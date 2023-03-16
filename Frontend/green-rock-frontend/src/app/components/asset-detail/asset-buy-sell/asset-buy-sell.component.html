@@ -1,0 +1,42 @@
+<div *ngIf="assetPortfolioEntry && assetHealth" class="h-full w-[200px] bg-dark-700 rounded-xl flex flex-col">
+  <div class="flex-1 p-2">
+    <div class="h-full flex flex-col gap-2">
+      <h1 class="text-xl text-center">Asset's information</h1>
+      <div class="flex-1 flex flex-col justify-around text-sm">
+        <p>Current value : ${{currentAssetValue | number : '1.2-2'}}</p>
+        <p>Owned shares : {{assetPortfolioEntry.quantity | number : '1.2-2'}}</p>
+        <p>Asset health : {{assetHealth.assetRating}}</p>
+
+        <div class="flex-1 flex flex-col justify-around" *ngIf="assetAnalysis; else noAnalysisYet">
+          <p>VaR : {{assetAnalysis.valueAtRisk}}</p>
+          <p>Exp. Ret. : {{assetAnalysis.expectedReturn}}</p>
+          <p>Beta : {{assetAnalysis.beta}}</p>
+        </div>
+        <ng-template #noAnalysisYet>
+          <div class="flex-1 flex flex-col justify-around">
+            <p>Not enough data to compute the analysis yet. Wait for the end of the first month.</p>
+          </div>
+        </ng-template>
+
+      </div>
+      <hr>
+      <h1 class="text-xl text-center">Buy and sell</h1>
+      <div>
+        <div class="flex flex-row justify-around">
+          <button (click)="decrementTransaction()" [ngClass]=""><fa-icon [icon]="faMinus"></fa-icon></button>
+          <input class="w-1/2 bg-dark-300 rounded px-2" min="0" type="number" [(ngModel)]="sharesTransactionAmount">
+          <button (click)="incrementTransaction()"><fa-icon [icon]="faPlus"></fa-icon></button>
+        </div>
+        <p *ngIf="sharesTransactionAmount > 0; else noTransactionStarted" class="text-sm my-2">{{sharesTransactionAmount}} share{{sharesTransactionAmount > 1 ? 's' : ''}} {{sharesTransactionAmount > 1 ? 'go' : 'goes'}} for ${{sharesTransactionAmount * currentAssetValue}}</p>
+        <ng-template #noTransactionStarted><p class="text-sm my-2">No shares chosen</p></ng-template>
+
+        <p *ngIf="notEnoughSharesError" class="text-sm text-red-400">Not enough shares to sell</p>
+        <p *ngIf="notEnoughFundsError" class="text-sm text-red-400">Not enough funds to buy</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-row justify-center">
+    <button (click)="sell()" [disabled]="sharesTransactionAmount > assetPortfolioEntry.quantity"   class="flex-1 border-t border-r border-light-500 rounded-tr-xl rounded-bl-xl text-center py-1 disabled:text-dark-400 enabled:hover:bg-dark-300 duration-200">Sell</button>
+    <button (click)="buy()" [disabled]="sharesTransactionAmount * currentAssetValue > bankAccount" class="flex-1 border-t border-l border-light-500 rounded-tl-xl rounded-br-xl text-center py-1 disabled:text-dark-400 enabled:hover:bg-dark-300 duration-200">Buy</button>
+  </div>
+</div>

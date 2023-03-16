@@ -5,11 +5,21 @@ import {GameEntity} from "../../entities/game.entity";
 import {Request, Response} from "express";
 import {getGame} from "../../api/routes/get-game.route";
 import {InvitationResponseDto} from "../../dto/invitation-response.dto";
+import {AuthenticationService} from "../../libraries/authentication.service";
 
 class ResponseMock {
     sendStatus() {}
     status() {}
     json() {}
+}
+
+class AuthenticationServiceMock {
+    getUserEmail: jest.Mock;
+
+    constructor() {
+        this.getUserEmail = jest.fn();
+        this.getUserEmail.mockImplementation(() => "a@a.com");
+    }
 }
 
 class helper {
@@ -49,6 +59,8 @@ describe('Get game route',  () => {
     let statusSpy: jest.SpyInstance;
     let jsonSpy: jest.SpyInstance;
 
+    let authenticationServiceMock: AuthenticationServiceMock;
+
     let dataSource: DataSource;
 
     beforeAll(async () => {
@@ -68,6 +80,8 @@ describe('Get game route',  () => {
         sendStatusSpy = jest.spyOn(responseMock, 'sendStatus');
         statusSpy = jest.spyOn(responseMock, 'status');
         jsonSpy = jest.spyOn(responseMock, 'json');
+
+        authenticationServiceMock = new AuthenticationServiceMock();
     })
 
     afterEach(async () => {
@@ -79,7 +93,7 @@ describe('Get game route',  () => {
         const userId = "c84c0eea-f3d8-4a2f-b6f0-ab40b89039fd";
         const game = await helper.insertGameAsOwner(dataSource, userId);
 
-        await getGame(helper.getRequestObject(userId, game.id), responseMock as unknown as Response, dataSource.getRepository(GameEntity))
+        await getGame(helper.getRequestObject(userId, game.id), responseMock as unknown as Response, dataSource.getRepository(GameEntity), authenticationServiceMock as unknown as AuthenticationService)
 
         expect(statusSpy).toHaveBeenCalledTimes(1)
         expect(statusSpy).toHaveBeenCalledWith(200)
@@ -96,7 +110,7 @@ describe('Get game route',  () => {
         const userId = "c84c0eea-f3d8-4a2f-b6f0-ab40b89039fd";
         await helper.insertGameAsOwner(dataSource, userId);
 
-        await getGame(helper.getRequestObject(userId, "5215ef28-d2c2-489a-ab72-61f2a427f9a7"), responseMock as unknown as Response, dataSource.getRepository(GameEntity))
+        await getGame(helper.getRequestObject(userId, "5215ef28-d2c2-489a-ab72-61f2a427f9a7"), responseMock as unknown as Response, dataSource.getRepository(GameEntity), authenticationServiceMock as unknown as AuthenticationService)
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1)
         expect(sendStatusSpy).toHaveBeenCalledWith(404)
@@ -106,7 +120,7 @@ describe('Get game route',  () => {
         const userId = "c84c0eea-f3d8-4a2f-b6f0-ab40b89039fd";
         const game = await helper.insertGameAsInvited(dataSource, userId);
 
-        await getGame(helper.getRequestObject(userId, game.id), responseMock as unknown as Response, dataSource.getRepository(GameEntity))
+        await getGame(helper.getRequestObject(userId, game.id), responseMock as unknown as Response, dataSource.getRepository(GameEntity), authenticationServiceMock as unknown as AuthenticationService)
 
         expect(statusSpy).toHaveBeenCalledTimes(1)
         expect(statusSpy).toHaveBeenCalledWith(200)
@@ -116,14 +130,14 @@ describe('Get game route',  () => {
         expect(ownerId).toEqual(game.ownerId);
         expect(name).toEqual(game.name);
         expect(gameState).toEqual(game.gameState);
-        expect(invitations).toEqual([new InvitationResponseDto(game.id, userId, true)]);
+        expect(invitations).toEqual([new InvitationResponseDto(game.id, userId, "a@a.com", true)]);
     })
 
     it("Should return code 404 if the id doesn't exist even if the player is invited", async () => {
         const userId = "c84c0eea-f3d8-4a2f-b6f0-ab40b89039fd";
         await helper.insertGameAsInvited(dataSource, userId);
 
-        await getGame(helper.getRequestObject(userId, "5215ef28-d2c2-489a-ab72-61f2a427f9a7"), responseMock as unknown as Response, dataSource.getRepository(GameEntity))
+        await getGame(helper.getRequestObject(userId, "5215ef28-d2c2-489a-ab72-61f2a427f9a7"), responseMock as unknown as Response, dataSource.getRepository(GameEntity), authenticationServiceMock as unknown as AuthenticationService)
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1)
         expect(sendStatusSpy).toHaveBeenCalledWith(404)
@@ -133,14 +147,14 @@ describe('Get game route',  () => {
         const userId = "c84c0eea-f3d8-4a2f-b6f0-ab40b89039fd";
         const game = await helper.insertGameAsNothing(dataSource);
 
-        await getGame(helper.getRequestObject(userId, game.id), responseMock as unknown as Response, dataSource.getRepository(GameEntity))
+        await getGame(helper.getRequestObject(userId, game.id), responseMock as unknown as Response, dataSource.getRepository(GameEntity), authenticationServiceMock as unknown as AuthenticationService)
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1)
         expect(sendStatusSpy).toHaveBeenCalledWith(404)
     })
 
     it("Should return code 404 if there is no game", async () => {
-        await getGame(helper.getRequestObject("0738a06a-f43e-4bad-bc61-58eff224b9aa", "2986a1b0-acec-4c40-8367-00d3252a0746"), responseMock as unknown as Response, dataSource.getRepository(GameEntity))
+        await getGame(helper.getRequestObject("0738a06a-f43e-4bad-bc61-58eff224b9aa", "2986a1b0-acec-4c40-8367-00d3252a0746"), responseMock as unknown as Response, dataSource.getRepository(GameEntity), authenticationServiceMock as unknown as AuthenticationService)
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1)
         expect(sendStatusSpy).toHaveBeenCalledWith(404)
