@@ -11,6 +11,7 @@ RUN mkdir DataSource
 COPY AssetHealth/package*.json ./AssetHealth
 COPY AssetHealth/tsconfig*.json ./AssetHealth
 COPY AssetHealth/src ./AssetHealth/src
+COPY AssetHealth/static ./AssetHealth/static
 COPY DataSource/package*.json ./DataSource
 COPY DataSource/tsconfig*.json ./DataSource
 COPY DataSource/src ./DataSource/src
