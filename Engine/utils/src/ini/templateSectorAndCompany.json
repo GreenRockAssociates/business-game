@@ -1,0 +1,374 @@
+{
+  "sector": [
+    {
+      "name": "Technology"
+    },
+    {
+      "name": "Digital services"
+    },
+    {
+      "name": "Agriculture"
+    },
+    {
+      "name": "Chemicals"
+    },
+    {
+      "name": "Entertainment"
+    },
+    {
+      "name": "Media"
+    },
+    {
+      "name": "Banking"
+    },
+    {
+      "name": "Edition"
+    },
+    {
+      "name": "Distribution"
+    },
+    {
+      "name": "Construction"
+    },
+    {
+      "name": "Logistics"
+    },
+    {
+      "name": "Automobile"
+    },
+    {
+      "name": "Healthcare"
+    },
+    {
+      "name": "Aeronautics"
+    },
+    {
+      "name": "Resources"
+    },
+    {
+      "name": "Textile"
+    },
+    {
+      "name": "Food"
+    },
+    {
+      "name": "Telecoms"
+    },
+    {
+      "name": "Luxury"
+    },
+    {
+      "name": "Mode"
+    },
+    {
+      "name": "Freight"
+    },
+    {
+      "name": "Military"
+    },
+    {
+      "name": "Materials"
+    },
+    {
+      "name": "Aerospace"
+    },
+    {
+      "name": "Electronics"
+    },
+    {
+      "name": "Energy"
+    },
+    {
+      "name": "Real estate"
+    },
+    {
+      "name": "Insurance"
+    },
+    {
+      "name": "Finance"
+    }
+  ],
+
+  "company": [
+    {
+      "name": "Pear",
+      "description": "Not Apple",
+      "logo": "pear.png",
+      "sectors" : ["Technology","Digital services"],
+      "assetTicker": "PEA"
+    },
+    {
+      "name": "Megasoft",
+      "description": "Megasoft is an American technology company founded in 1975. It is known for its Doors operating system, its Megasoft Office suite, as well as for its activities in the field of cloud computing and web services.",
+      "logo": "megasoft.png",
+      "sectors" : ["Technology","Digital services"],
+      "assetTicker": "MGS"
+    },
+    {
+      "name": "Billions",
+      "description": "Billions is an American technology company founded in 1998. It is best known for its Billions search engine, as well as online services such as Bmail, Billions Maps and Billions Drive. Billions is also a major player in the mobile operating system space with Android, as well as in the cloud computing space with Billions Cloud.",
+      "logo": "billion.png",
+      "sectors" : ["Technology","Digital services"],
+      "assetTicker": "BLN"
+    },
+    {
+      "name": "Mississipi",
+      "description": "Mississippi is an American e-commerce company founded in 1994. It has become one of the largest online retailers in the world, selling a wide range of products from books and music to electronics and household products. Mississippi is also a major player in cloud computing with Mississippi Web Services (MWS) and offers video streaming services with Mississippi Prime Video.",
+      "logo": "mississipi.png",
+      "sectors" : ["Technology","Digital services","Logistics","Distribution"],
+      "assetTicker": "MSS"
+    },
+    {
+      "name": "Oniel",
+      "description": "Oniel is an American fast food company founded in 1940. It has grown into one of the world's largest fast food chains, known for its burgers, fries and affordable menus. Oniel has more than 38,000 restaurants worldwide and serves more than 69 million customers each day.",
+      "logo": "oniel.png",
+      "sectors" : ["Food"],
+      "assetTicker": "ONL"
+    },
+    {
+      "name": "Meunier",
+      "description": "Meunier is a Swiss food and beverage company founded in 1866 by Frédéric Meunier. Meunier is also a major player in bottled water and baby nutrition. The company employs more than 300,000 people worldwide and operates in over 190 countries. ",
+      "logo": "meunier.png",
+      "sectors" : ["Agriculture"],
+      "assetTicker": "MEN"
+    },
+    {
+      "name": "Natglé",
+      "description": "Natglé is a French publishing house specialized in comics and graphic novels. Founded in 1969, the company has published many popular comic books in France. Natglé has also expanded its catalog to other genres, such as graphic novels, art books and children's books.",
+      "logo": "natgle.png",
+      "sectors" : ["Edition"],
+      "assetTicker": "NGL"
+    },
+    {
+      "name": "TMTC",
+      "description": "TMTC is a Taiwanese semiconductor manufacturing company founded in 1987. It is one of the world's largest semiconductor foundries, producing chips for customers worldwide. TMTC is also a major player in the research and development of advanced semiconductor technologies, such as 5-nanometer and smaller chips.",
+      "logo": "tmtc.png",
+      "sectors" : ["Technology","Electronics"],
+      "assetTicker": "TMT"
+    },
+    {
+      "name": "Turquoise",
+      "description": "Turquoise is a French telecommunications company founded in 1988. It is one of the leading telecommunications operators in Europe and worldwide, offering cell phone, internet access and television services. Turquoise is also active in the research and development of advanced technologies, such as 5G and the Internet of Things. The company has over 266 million customers worldwide.",
+      "logo": "turquoise.png",
+      "sectors" : ["Telecoms","Digital services"],
+      "assetTicker": "TQS"
+    },
+    {
+      "name": "CFP",
+      "description": "CFP is one of the world's largest banks by assets and offers a range of financial products and services such as retail banking, investment banking, asset management and insurance. CFP is also involved in initiatives related to social and environmental responsibility, such as financing renewable energy and sustainable development projects,",
+      "logo": "cfp.png",
+      "sectors" : ["Banking"],
+      "assetTicker": "CFP"
+    },
+    {
+      "name": "MCBC",
+      "description": "MCBC is a British bank founded in 1865 in Hong Kong and Shanghai. It has become one of the world's largest banks, with operations in more than 65 countries. MCBC offers financial products and services such as retail banking, investment banking, asset management and insurance. The company is also committed to initiatives related to social and environmental responsibility, such as financing renewable energy projects and combating money laundering and financial fraud",
+      "logo": "mcbc.png",
+      "sectors" : ["Banking"],
+      "assetTicker": "MCB"
+    },
+    {
+      "name": "Diargent",
+      "description": "Diargent is a French fashion company founded in 1946. It is known for its haute couture clothing, luxury perfumes and beauty products. Diargent is one of the most iconic brands in French fashion, and is also active in initiatives related to social and environmental responsibility, such as reducing its carbon footprint and promoting gender equality in the fashion industry.",
+      "logo": "diargent.png",
+      "sectors" : ["Luxury","Mode"],
+      "assetTicker": "DRG"
+    },
+    {
+      "name": "Bernin Moteur",
+      "description": "Bernin Moteur is a French car manufacturing company founded in 1899. It is one of the world's leading automotive manufacturers, offering a range of cars, vans and trucks. Bernin Moteur is also engaged in the research and development of advanced automotive technologies, such as electric vehicles and autonomous driving systems.",
+      "logo": "bernin.png",
+      "sectors" : ["Automobile"],
+      "assetTicker": "BRM"
+    },
+    {
+      "name": "James Automobils",
+      "description": "James Automobils is an American automotive manufacturing company founded in 1903. It is one of the world's largest automakers, offering a range of cars, trucks and commercial vehicles. James Automobils is also engaged in the research and development of advanced automotive technologies, such as autonomous driving systems.",
+      "logo": "james.png",
+      "sectors" : ["Automobile"],
+      "assetTicker": "JMA"
+    },
+    {
+      "name": "Otomo Motor Company",
+      "description": "Otomo Motor Company is a Japanese automobile manufacturing company founded in 1933. It is one of the world's leading automakers, offering a range of cars, trucks and commercial vehicles. Otomo Motor Company is also involved in the research and development of advanced automotive technologies, such as electric vehicles.",
+      "logo": "otomo.png",
+      "sectors" : ["Automobile"],
+      "assetTicker": "OMC"
+    },
+    {
+      "name": "Marine Group",
+      "description":"Marine Group is a French company specialized in the construction of warships and submarines. It designs and builds ships for the French and foreign navies, as well as for private sector clients. The company is also involved in the research and development of advanced technologies, such as nuclear propulsion systems and autonomous ships.",
+      "logo": "marine.png",
+      "sectors" : ["Transport","Freight","Military"],
+      "assetTicker": "MRG"
+    },
+    {
+      "name": "David SA",
+      "description": "David SA is a French construction materials company, founded in 1833. It specializes in the production of cement, ready-mixed concrete, aggregates, etc. David SA is one of the world's leading producers of building materials",
+      "logo": "david.png",
+      "sectors" : ["Construction","Materials"],
+      "assetTicker": "DVD"
+    },
+    {
+      "name": "Aerobus",
+      "description": "Aerobus is a European aircraft manufacturing company, founded in 1969. It is one of the world's largest aircraft manufacturers, offering a range of models for commercial airlines, armed forces and government agencies.",
+      "logo": "aerobus.png",
+      "sectors" : ["Aeronautics"],
+      "assetTicker": "ARB"
+    },
+    {
+      "name": "Depaix Aviation",
+      "description": "Depaix Aviation is a French company specializing in aircraft manufacturing and software production. It was founded in 1929 and is known for its fighter aircraft, business jets and military drones. Depaix Aviation is also involved in the production of computer-aided design software and geographic information systems.",
+      "logo": "depaix.png",
+      "sectors" : ["Aeronautics","Military"],
+      "assetTicker": "DPA"
+    },
+    {
+      "name": "Chicago Airplane Company",
+      "description": "Chicago Airplane Company is an American aircraft and space manufacturing company, founded in 1916. It is one of the world's largest aircraft manufacturers, offering a range of models for commercial airlines, the military and government agencies.The company is also active in the space industry, producing satellites and rocket launch systems.",
+      "logo": "chicago.png",
+      "sectors" : ["Aeronautics","Military"],
+      "assetTicker": "CAC"
+    },
+    {
+      "name": "Somme",
+      "description":"Somme is a French oil and gas company, founded in 1924. It is one of the five largest integrated oil companies in the world and is active in all stages of the energy value chain, from exploration and production to distribution and marketing.",
+      "logo": "somme.png",
+      "sectors" : ["Chemicals","Resources"],
+      "assetTicker": "SOM"
+    },
+    {
+      "name": "Coquille",
+      "description": "Coquille is a Dutch-British oil and gas company, founded in 1907. It is one of the five largest integrated oil companies in the world and is active in all stages of the energy value chain, from exploration and production to distribution and marketing.",
+      "logo": "coquille.png",
+      "sectors" : ["Chemicals","Resources"],
+      "assetTicker": "CQL"
+    },
+    {
+      "name": "Edisson",
+      "description": "Edisson is an American electric vehicle and clean technology company founded in 2003. It is known for its high-end electric cars, as well as its technological innovations, including large-scale energy storage and solar power generation.",
+      "logo": "edisson.png",
+      "sectors" : ["Automobile","Digital services"],
+      "assetTicker": "EDS"
+    },
+    {
+      "name": "Cosmos Exploration Technolgies",
+      "description": "Cosmos Exploration Technolgies is an American space technology company founded in 2002. It is known for its rocket launches and resupply missions to the International Space Station. SpaceX is also involved in developing technologies for space travel, including transporting people to the Moon and Mars.",
+      "logo": "cosmos.png",
+      "sectors" : ["Technology","Aerospace"],
+      "assetTicker": "CET"
+    },
+    {
+      "name": "Pythagore",
+      "description": "Pythagoras is a French technology company specializing in defense, aerospace, security and information technology, founded in 2000. It is involved in the design and manufacture of complex electronic systems for governments, armed forces and private sector companies.",
+      "logo": "pythagore.png",
+      "sectors" : ["Technology","Aerospace","Military","Electronics"],
+      "assetTicker": "PTH"
+    },
+    {
+      "name": "Laplaine",
+      "description": "Laplaine is a French fashion company founded in 1933 by the famous tennis player René Lacoste. It is known for its iconic crocodile polo shirt, as well as for its clothing, shoes, perfumes and fashion accessories for men, women and children. ",
+      "logo": "laplaine.png",
+      "sectors" : ["Mode","Textile"],
+      "assetTicker": "LPL"
+    },
+    {
+      "name": "Croisement",
+      "description": "Croisement is a  retail company. It is one of the largest retailers in the world, with more than 12,300 stores in over 30 countries. Carrefour sells a wide range of products, including food, electronics, fashion, beauty, and financial and travel services.",
+      "logo": "Croisement.png",
+      "sectors" : ["Distribution"],
+      "assetTicker": "CRO"
+    },
+    {
+      "name": "Atome",
+      "description": "Alstom is a company specializing in the design and manufacture of railway rolling stock and transportation systems. It is involved in the production of high-speed trains, metros, tramways, as well as in the design and implementation of signalling and maintenance systems.",
+      "logo": "Atome.png",
+      "sectors" : ["Logistics"],
+      "assetTicker": "ATOM"
+    },
+    {
+      "name": "CapBreton",
+      "description": "Capgemini is a French IT services and management consulting company founded in 1967. It provides technology solutions for companies in various sectors, including banking and finance, healthcare, telecommunications, energy and industry. Capgemini is also involved in digital transformation and innovation projects, such as Artificial Intelligence, blockchain and cloud computing.",
+      "logo": "CapBreton.png",
+      "sectors" : ["Digital services"],
+      "assetTicker": "CAP"
+    },
+    {
+      "name": "Dana",
+      "description": "Dana is a food company specialized in the production of fresh dairy products, beverages and baby food. ",
+      "logo": "Dana.png",
+      "sectors" : ["Agriculture"],
+      "assetTicker": "DAN"
+    },
+    {
+      "name": "Angie",
+      "description": "Engie is an energy company specialized in the production, distribution and supply of energy, including natural gas and electricity.",
+      "logo": "Angie.png",
+      "sectors" : ["Energy"],
+      "assetTicker": "ANG"
+    },
+    {
+      "name": "Finaso",
+      "description": "Finaso is a French pharmaceutical company. It specializes in the research, development, manufacture and marketing of drugs, particularly in the fields of human and animal health. Sanofi is involved in the production of drugs for the treatment of diseases such as diabetes, multiple sclerosis, influenza, cancer and cardiovascular diseases.",
+      "logo": "Finaso.png",
+      "sectors" : ["Healthcare","Chemicals"],
+      "assetTicker": "FIN"
+    },
+    {
+      "name": "Stellaris",
+      "description": "Stellaris is a multinational company of French and Italian origin, specialized in the production of cars and commercial vehicles. Created in 2021 by the merger of two major car manufacturers, Stellantis now owns a range of prestigious car brands.",
+      "logo": "Stellaris.png",
+      "sectors" : ["Automobile"],
+      "assetTicker": "STE"
+    },
+    {
+      "name": "Léonard",
+      "description": "Léonard is a company specialized in construction, engineering and related services. It is present in many sectors such as road and rail infrastructures, construction, energy, telecommunications and public services.",
+      "logo": "Léonard.png",
+      "sectors" : ["Real estate","Construction"],
+      "assetTicker": "LEO"
+    },
+    {
+      "name": "Vivaldi",
+      "description": "Vivaldi is a media and communications conglomerate. The company has evolved over time to become a media and entertainment giant. Vivaldi owns companies in various fields, such as television, film, music, video games, telecommunications and publishing.",
+      "logo": "Vivaldi.png",
+      "sectors" : ["Media","Entertainment"],
+      "assetTicker": "VIV"
+    },
+    {
+      "name": "France Scientifics",
+      "description": "France Scientifics is a global biotechnology company providing laboratory analysis and testing services for the food, pharmaceutical, environmental and medical diagnostic industries. Eurofins Scientific is one of the world leaders in its field and offers a wide range of testing and analytical services to meet the needs of its customers.",
+      "logo": "France_Scientifics.png",
+      "sectors" : ["Technology"],
+      "assetTicker": "FRS"
+    },
+    {
+      "name": "EXE",
+      "description": "EXE is a multinational insurance and asset management company. EXE has grown into one of the world's largest insurance groups, offering a range of life, health, auto, home insurance and asset management products and services.  The company is committed to meeting the needs of its customers, promoting sustainability and acting responsibly towards society and the environment.",
+      "logo": "EXE.png",
+      "sectors" : ["Insurance","Finance"],
+      "assetTicker": "EXE"
+    },
+    {
+      "name": "Gaz Liquide",
+      "description": "GAZ Liquide is a company specialized in the production and distribution of industrial, medical and specialty gases, as well as related services.  GAZ Liquide supplies gases for a variety of industrial applications, such as metallurgy, petrochemicals, electronics and automotive manufacturing, as well as for medical and food applications. ",
+      "logo": "Gaz_Liquide.png",
+      "sectors" : ["Resources"],
+      "assetTicker": "GAZ"
+    },
+    {
+      "name": "Lepetit",
+      "description": "Lepetit is a French company specialized in the production and distribution of electrical and digital equipment for residential, commercial and industrial electrical installations. Lepetit offers a wide range of products, including switches, sockets, electrical panels, cables and wiring accessories, as well as digital solutions for the smart home. ",
+      "logo": "Lepetit.png",
+      "sectors" : ["Electronics"],
+      "assetTicker": "LEP"
+    },
+    {
+      "name": "Gérard Pastis",
+      "description": "Gérard Pastis is a company specializing in the production and distribution of alcoholic beverages, including spirits such as whisky, vodka, gin and rum, as well as wines and champagnes. Gérard Pastis owns iconic brands.",
+      "logo": "Gérard_Pastis.png",
+      "sectors" : ["Agriculture"],
+      "assetTicker": "GER"
+    }
+  ]
+}

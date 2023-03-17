@@ -1,7 +1,9 @@
-import {DataSource} from "typeorm"
-import "reflect-metadata";
-import { join } from "path";
-
 import dotenv from 'dotenv';
-dotenv.config({path: '.env'});
+dotenv.config({path: __dirname + '/.env'}); // Do this before imports so that all modules can use the environment variables
 
+import {migrate} from "./ini/bdd_ini";
+
+(async () => {
+    await migrate();
+    console.log("Database filled")
+})()

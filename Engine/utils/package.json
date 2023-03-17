@@ -1,5 +1,5 @@
 {
-  "name": "player-state",
+  "name": "util",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,8 +14,6 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "build": "tsc && cp .env ./dist/.env",
-    "start": "node dist/index.js",
     "serve": "nodemon src/index.ts",
     "test": "jest --runInBand"
   },

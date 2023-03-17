@@ -1,54 +1,67 @@
-import { Request, Response } from "express";
-import {createConnection, DataSource} from "typeorm";
-import {PortfolioEntity} from "../../../DataSource/src/entities/portfolio.entity";
+import {DataSource} from "typeorm";
 import {AssetEntity} from "../../../DataSource/src/entities/asset.entity";
-import {AssetHealthEntity} from "../../../DataSource/src/entities/asset-health.entity";
-import {GameEntity} from "../../../DataSource/src/entities/game.entity";
-import {MarketEntity} from "../../../DataSource/src/entities/market.entity";
-import {NewsReportEntity} from "../../../DataSource/src/entities/news-report.entity";
-import {PlayerEntity} from "../../../DataSource/src/entities/player.entity";
 import {SectorEntity} from "../../../DataSource/src/entities/sector.entity";
-import data from "./templateSectorAndCompany.json";
 import {AppDataSource} from "../../../DataSource/src";
+import * as fs from "fs";
 
+interface jsonTemplate {
+    sector: {name: string}[],
+    company: {
+        name: string,
+        description: string,
+        logo: string,
+        sectors : string[],
+        assetTicker: string
+    }[],
+}
 
-export const migrate = async (req: Request, res: Response) => {
+export async function migrate() {
+
+    const json: jsonTemplate = JSON.parse(fs.readFileSync(__dirname + '/templateSectorAndCompany.json', 'utf8'));
 
     const dataSource = await AppDataSource.initialize().catch((error: Error) => {
         throw new Error(`Error initializing database: ${error.message}`);
     });
 
-    const mySectorMap = await addSector(dataSource);
-    await addCompany(dataSource,mySectorMap)
+    await dataSource.getRepository(AssetEntity).delete({});
+    await dataSource.getRepository(SectorEntity).delete({});
 
-};
+    const mySectorMap = await addSector(json, dataSource);
+    await addCompany(json, dataSource, mySectorMap)
+
+}
 
 
-const addSector = async (dataSource: DataSource) => {
+async function addSector (json: jsonTemplate, dataSource: DataSource) {
     let mySectorMap = new Map<string, SectorEntity>();
 
-    for (let i = 0; i < data.sector.length; i++) {
-        const item = data.sector[i];
+    for (let i = 0; i < json.sector.length; i++) {
+        const item = json.sector[i];
         const sector = new SectorEntity(item.name)
         await dataSource.manager.save(sector);
         mySectorMap.set(item.name,sector)
     }
 
     return mySectorMap
-};
+}
 
-const addCompany = async (dataSource: DataSource, mySectorMap : Map<string, SectorEntity>) => {
+async function addCompany (json: jsonTemplate, dataSource: DataSource, mySectorMap : Map<string, SectorEntity>) {
 
-    for (let i = 0; i < data.company.length; i++) {
+    for (let i = 0; i < json.company.length; i++) {
 
-        const item = data.company[i];
+        try {
+            const item = json.company[i];
 
-        const company = new AssetEntity(item.assetTicker,item.name,item.description,item.logo)
-        for (let y = 0; y < item.sectors.length; y++) {
-            company.sectors.push(mySectorMap.get(item.sectors[y]))
+            console.log(item)
+            const company = new AssetEntity(item.assetTicker,item.name,item.description,item.logo)
+            company.sectors = [];
+            for (let y = 0; y < item.sectors.length; y++) {
+                company.sectors.push(mySectorMap.get(item.sectors[y]))
+            }
+            await dataSource.manager.save(company);
+        } catch (e) {
+            console.log(e)
+            throw e
         }
-        await dataSource.manager.save(company);
-
-
     }
-};
+}
