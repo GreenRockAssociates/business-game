@@ -163,6 +163,7 @@ services:
     ports:
       - '127.0.0.1:5435:5432'
     volumes:
+      - ./game_db_init.sql:/docker-entrypoint-initdb.d/game_db_init.sql
       - ./docker/postgres/game:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
