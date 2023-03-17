@@ -38,7 +38,7 @@ async function addSector (json: jsonTemplate, dataSource: DataSource) {
     for (let i = 0; i < json.sector.length; i++) {
         const item = json.sector[i];
         const sector = new SectorEntity(item.name)
-        await dataSource.manager.save(sector);
+        await repository_sector.manager.save(sector);
         mySectorMap.set(item.name,sector)
     }
 
