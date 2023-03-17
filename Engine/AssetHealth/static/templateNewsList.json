@@ -1,118 +1,309 @@
 {
-  "globalNews": [
-    {
-      "title": "Le barrage de Hoover s'effondre.",
-      "content": "Suite à des manquements dans la maintenance, le barrage de Hoover aux États-Unis s'est effondré tard dans la soirée. Plus de 80 000 personnes sont portées disparues, et des millions d'autres sont dans des conditions de précarité critique alors que l'accès à l'eau et l'électricité n'est plus garanti dans une bonne partie de l'Ouest des États-Unis.",
-      "impact": -4.0
-    },
-    {
-      "title": "Le Covid continue à faire des ravages en Chine",
-      "content": "Alors que le gouvernement chinois lève enfin ses restrictions liés au covid, l'épidémie reprend de plus belle dans le pays. Les grands centres urbains sont particulièrement touchés,notamment Shanghai.",
-      "impact": -2.0
-    },
-    {
-      "title": "[[country]] remporte la coupe du monde de football !",
-      "content": "Après une confrontation acharnée en finale, [[country]] repart avec une nouvelle étoile sur le maillot de son équipe. La coupe du monde, très critiquée par les activistes écologistes, s'est finalement terminée sur un record d'audience.",
-      "impact": 0.4
-    },
-    {
-      "title": "[[country]] signe un nouveau traité de coopération avec l’Union Européenne.",
-      "content": "Grâce à ce traité de coopération commerciale et environnementale, [[country]] et l'Union Européenne sont plus engagés que jamais dans leurs engagements futurs.",
-      "impact": 0.2
-    },
-    {
-      "title": "La banque centrale d'un pays annonce un changement de politique monétaire.",
-      "content": "La FED annonce qu'elle revoit à la baisse les taux d'intérêts pour ralentir l'inflation croissante aux USA. Le marché a réagi favorablement a ce développement. ",
-      "impact": 5.0
-    },
-    {
-      "title": "Une nouvelle percée médicale est annoncée.",
-      "content": "Les laboratoires de recherche de [[country]] ont annoncés la mise au point d'un nouveau traitement pour la leucémie.",
-      "impact": 1.0
-    },
-    {
-      "title": "Une importante cyberattaque est signalée.",
-      "content": "Les services gouvernementaux de [[country]] subissent actuellement une cyberattaque de grande ampleur. L'identité des pirates n'est pas connue, mais les soupçons se porte vers la Corée du Nord.",
-      "impact": 0.0
-    },
-    {
-      "title": "Le taux de chômage augmente lors du dernier trimestre",
-      "content": "Malgré les efforts du gouvernement, les dernières mesures montrent que le nombre de chômeur a augmenté lors du trimestre. ",
-      "impact": -4.0
-    },
-    {
-      "title": "La crise énergétique européenne continue",
-      "content": "Malgré les efforts des gouvernements européens, le prix de l'énergie continue de grimper a mesure que l'hiver progresse.",
-      "impact": -3.0
-    },
-    {
-      "title": "[[country]] désigné pour accueillir les prochains Jeux Olympiques.",
-      "content": "Après de nombreux débats, [[country]] à réussir à faire accepter sa candidature comme pays d'accueil des jeux olympiques. Une mise à jour des équipements sportifs du pays a déjà été annoncé par le gouvernement.",
-      "impact": 1.0
-    },
-    {
-      "title": "[[country]] a tenu ses élections présidentielles.",
-      "content": "Après une campagne agitée, [[country]] a réélu son président sortant. Il est prévu qu'il continue sur sa lancée politique du précédent mandat. ",
-      "impact": 1.0
-    },
-    {
-      "title": "[[country]]  annonce la fermeture de ses centrales à charbon dans le cadre d’un programme de transition écologique.",
-      "content": "En accord avec les traités conclus lors de la COP 26, le gouvernement de [[country]] prévoit de fermer la totalité de ses centrales à charbon à l'horizon 2035, remplacées dans le mixe énergétique pour des énergies renouvelables.",
-      "impact": 0.0
-    },
-    {
-      "title": "[[country]]  met en place un nouveau fond d’investissement.",
-      "content": "Afin de réindustrialisé son pays, le dirigeant de [[country]] a annoncé la création d'un fond d'investissement très largement doté. Piloté par le gouvernement, le fond financera des projets visant à créer des emplois locaux dans les anciens centres industriels.",
-      "impact": 0.0
-    }
-  ],
-  "genericCompanyNews": [
-    {
-      "title": "[[company]] enregistre des résultats records après le lancement de leur nouveau produit.",
-      "content": "[[company]] lance aujourd'hui son nouveau produit, une vraie révolution. 200 000 personnes ont été comptabilisées hier soir devant ses magasins partout dans le monde. Les analystes s'attendent à des profits records au prochain trimestre.",
-      "impact": 7.0
-    },
-    {
-      "title": "Scandale financier chez [[company]]",
-      "content": "La justice américaine a annoncé l'ouverture d'une enquête sur [[company]] après avoir constaté des irrégularités dans la trésorerie de l'entreprise.",
-      "impact": -3.0
-    },
-    {
-      "title": "[[company]] annonce le lancement de son propre Métavers",
-      "content": "Visiblement conquis aux possibilités de ce nouveau concept de réalité virtuelle, le PDG de [[company]] annonce qu'il est très enthousiaste quant au futur de celle-ci, et entend positionner son entreprise comme un acteur clé du secteur",
-      "impact": 1.0
-    },
-    {
-      "title": "[[company]] annonce un nouveau partenariat dans la technologie blockchain.",
-      "content": "Suivant les tendances d'investissement dans le secteur de la tech, [[company]] annonce un partenariat avec une startup du secteur. ",
-      "impact": 2.0
-    },
-    {
-      "title": "La cote de crédit de [[company]] est revue à la baisse.",
-      "content": "Suite à l'annonce des résultats financiers inférieurs à ceux promis par la direction de l'entreprise, sa cote de crédit a été modifié à la baisse par le secteur bancaire. L'entreprise entre peut-être dans un cycle de ralentissement de croissance.",
-      "impact": -3.0
-    },
-    {
-      "title": "Une importante cyberattaque est signalée.",
-      "content": "Les serveurs de [[company]] sont actuellement pris en otage par des pirates informatiques. Ces attaques de plus en plus fréquentes déstabilisent grandement le secteur de [[sector]]",
-      "impact": 0.0
-    },
-    {
-      "title": "[[company]] annonce une fusion",
-      "content": "[[company]] annonce une fusion avec son rival national historique afin de devenir compétitif sur la scène internationale. Les détails seront connus ultérieurement.",
-      "impact": 0.0
-    }
-  ],
-  "genericSectorNews": [
-    {
-      "title": "Nouvelles régulations européennes pour les entreprises de [[sector]] !",
-      "content": "Avec ces nouvelles directives et critères de qualité sur les produits de [[sector]], l'Union Européenne prends de court les fabricants et les oblige à revoir leurs méthodes de productions.",
-      "impact": 0.0
-    },
-    {
-      "title": "[[sector]] de nouveau touché par la guerre en Ukraine",
-      "content": "Alors que le conflit semble s'enliser de plus en plus, [[sector]] fait face à de nouveaux défis logistiques pour palier l'absence de matières premières ukrainiennes vitales à l'industrie.",
-      "impact": -4.0
-    }
-  ]
+    "globalNews": [
+        {
+            "title": "Hoover Dam collapsed.",
+            "content": "As a result of maintenance failures, the Hoover Dam in the United States collapsed late this evening. More than 80,000 people are missing, and millions more are in critical need as access to water and electricity is no longer guaranteed in much of the western United States.",
+            "impact": -4.0
+        },
+        {
+            "title": "Covid continues to take its toll in China",
+            "content": "While the Chinese government is finally lifting its restrictions on covid, the epidemic is picking up steam in the country. Large urban centers are particularly affected, including Shanghai.",
+            "impact": -2.0
+        },
+        {
+            "title": "[[Country]] wins the soccer world cup!",
+            "content": "After a fierce confrontation in the final, [[country]] leaves with a new star on his team's jersey. The World Cup, much criticized by environmental activists, finally ended with a record-breaking audience.",
+            "impact": 3.0
+        },
+        {
+            "title": "[[Country]] signs a new cooperation treaty with the European Union.",
+            "content": "Through this trade and environmental cooperation treaty, [[country]] and the European Union are more committed than ever to their future commitments.",
+            "impact": 4.0
+        },
+        {
+            "title": "A country's central bank announces a change in monetary policy.",
+            "content": "The FED announced that it is lowering interest rates to slow rising inflation in the US. The market reacted favorably to this development. ",
+            "impact": 5.0
+        },
+        {
+            "title": "A new medical breakthrough is announced.",
+            "content": "Research laboratories in [[country]] announced the development of a new treatment for leukemia.",
+            "impact": 1.0
+        },
+        {
+            "title": "A major cyberattack is reported.",
+            "content": "Government services in [[country]] are currently undergoing a large-scale cyberattack. The identity of the hackers is not known, but suspicions point to the North Korea.",
+            "impact": 3.0
+        }
+    ,
+        {
+            "title": "Unemployment rate increases in the last quarter",
+            "content": "Despite the government's efforts, the latest measures show that the number of unemployed increased during the quarter. ",
+            "impact": -4.0
+        }
+    ,
+        {
+            "title": "The European energy crisis continues",
+            "content": "Despite the efforts of European governments, energy prices continue to rise as winter progresses.",
+            "impact": -3.0
+        }
+    ,
+        {
+            "title": "[[country]] designated to host the next Olympic Games.",
+            "content": "After much debate, [[country]] to succeed in getting its bid accepted as the host country of the Olympic Games. An update of the country's sports facilities has already been announced by the government.",
+            "impact": 1.0
+        }
+    ,
+        {
+            "title": "[[Country]] held its presidential elections.",
+            "content": "After a turbulent campaign, [[country]] has re-elected its incumbent president. It is expected to continue the political momentum of the previous term. ",
+            "impact": 1.0
+        },
+        {
+            "title": "[[Country]] announces the closure of its coal plants as part of a green transition program.",
+            "content": "In line with the treaties reached at COP 26, the government of [[country]] plans to close all of its coal-fired power plants by 2035, replaced in the energy mix for renewable energy.",
+            "impact": 1.0
+        }
+    ,
+        {
+            "title": "[[Country]] is setting up a new investment fund.",
+            "content": "In order to reindustrialize his country, the leader of [[country]] has announced the creation of a heavily endowed investment fund. Piloted by the government, the fund will finance projects to create local jobs in former industrial centers.",
+            "impact": 3.0
+        },
+        {
+            "title": "[name_country] subject to an embargo.",
+            "content": "As a result of its aggressive actions in the international arena, [[country]] has had economic sanctions imposed on it by various countries in protest.",
+            "impact": -1.0
+        },
+        {
+            "title": "Oil prices are rising drastically.",
+            "content": "With the new embargo on [[country]], OPEC came together and decided to limit the number of barrels produced this quarter, causing demand and therefore prices to soar.",
+            "impact": -3.0
+        }
+    ,
+        {
+            "title": "[[Country]] is seeing its housing market collapse",
+            "content": "Anticipated by many observers, the real estate bubble in [[country]] has just burst, causing its housing stock and construction sector to lose billions of dollars in value.",
+            "impact": -4.0
+        },
+        {
+            "title": "[[country]] unveils the energy of the future",
+            "content": "With a successful first test of its nuclear fusion reactor model, [[company]] is getting the public and investors excited.",
+            "impact": 5.0
+        },
+        {
+            "title": "Coup d'état in [[country]]",
+            "content": "After a great period of political instability, the military stepped in and declared a state of emergency and martial law to try to bring order.",
+            "impact": -6.0
+        },
+        {
+            "title": "A series of earthquakes affects the Middle East.",
+            "content": "A disaster of unprecedented proportions is ravaging a region already ravaged by war and religious fanaticism. As humanitarian aid efforts are organized, some worry about the conditions under which aid will be distributed to the people.",
+            "impact": -3.0
+        },
+        {
+            "title": "[[Country]] announces a new diplomatic summit.",
+            "content": "In order to coordinate the development and cooperation between the actors of its region, [[country]] announces the creation of a new meeting between heads of state. Its good diplomatic reputation reassures the actors about the stakes of the event.",
+            "impact": 5.0
+        }
+    ],
+    "genericCompanyNews": [
+        {
+            "title": "[[company]] is posting record results after the launch of their new product.",
+            "content": "The company is launching its new product today, a real revolution. 200,000 people were counted last night outside its stores around the world. Analysts expect record profits next quarter.",
+            "impact": 7.0
+        },
+        {
+            "title": "Financial scandal at [[company]]",
+            "content": "U.S. courts have announced the opening of an investigation into [[company]] after finding irregularities in the company's cash flow.",
+            "impact": -3.0
+        },
+        {
+            "title": "[[company]] announces the launch of its own Metavers",
+            "content": "Visibly conquered by the possibilities of this new concept of virtual reality, the CEO of [[company]] announces that he is very enthusiastic about the future of it, and intends to position his company as a key player in the sector",
+            "impact": 1.0
+        },
+        {
+            "title": "[[company]] announces new partnership in blockchain technology.",
+            "content": "Following the investment trends in the tech sector, [[company]] announces a partnership with an industry startup. ",
+            "impact": 2.0
+        },
+        {
+            "title": "[[company]]'s credit rating is downgraded.",
+            "content": "Following the announcement of financial results below those promised by the company's management, its credit rating has been modified downward by the banking sector. The company may be entering a cycle of slower growth.",
+            "impact": -3.0
+        },
+        {
+            "title": "A major cyberattack is reported.",
+            "content": "The servers of [[company]] are currently being held hostage by hackers. These increasingly frequent attacks are greatly destabilizing the [[sector]]",
+            "impact": -2.0
+        },
+        {
+            "title": "[[company]] announces a merger",
+            "content": "[[company]] announces a merger with its historical national rival in order to become competitive on the international scene. Details will be known at a later date.",
+            "impact": 4.0
+        },
+        {
+            "title": "[[company]] announces a social plan",
+            "content": "Following the announcement of the group's results, the CEO of the group announced the dismissal of part of the workforce. The decision, highly criticized by the unions, was welcomed with open arms by the shareholders.",
+            "impact": 2.0
+        },
+        {
+            "title": "[[company]] announces major expansion plans",
+            "content": "[[company]] has announced plans to expand its operations with the opening of 3 new locations in [[country]]. The move is part of the company's strategy to grow and is expected to create 1200 new jobs in the area.",
+            "impact": 3.0
+        },
+        {
+            "title": "[[company]] faces public backlash over production methods",
+            "content": "[[company]] is facing public backlash over its newly revealed methods in Africa and Asia, with shareholders calling for action to be taken to address the problem. The company has stated that it takes the issue seriously and is committed to finding a solution.",
+            "impact": -4.0
+        },
+        {
+            "title": "[[company]] faces tough competition from its competitors",
+            "content": "[[company]] is facing tough competition from its rival in the [[sector]], that recently launched several new products, which perform better compared to [[company]]'s offerings. The company is now working on a new strategy to regain market share and improve its offerings.",
+            "impact": -1.0
+        },
+        {
+            "title": "[[company]] announces cost-cutting measures",
+            "content": "[[company]] has announced cost-cutting measures, including reducing its reliance of sub-contractors, to improve profitability and financial performance. The company is now working on finding opportunities to reduce costs and streamline operations while maintaining its competitiveness.",
+            "impact": 3.0
+        },
+        {
+            "title": "[[company]] expands operations into new markets",
+            "content": "[[company]] is expanding its operations into new markets such as Africa, with the aim of driving growth and profitability. The company is now working on finding opportunities to expand its reach and is collaborating with partners and stakeholders to ensure success in the new market.",
+            "impact": 4.0
+        },
+        {
+            "title": "[[company]] faces legal challenges",
+            "content": "[[company]] is facing legal challenges, with investigation being filed against the company. The company is now working on finding solutions to mitigate the negative impact on its reputation and financial performance and is collaborating with legal experts to address the issue.",
+            "impact": -5.0
+        },{
+            "title": "[[company]] introduces new sustainability goals",
+            "content": "[[company]] has introduced new sustainability goals aimed at reducing its environmental impact and promoting sustainable practices. The new goals include [Sustainability Goals] and are part of the company's commitment to corporate social responsibility.",
+            "impact": 2.0
+        },
+        {
+            "title": "[[company]] launches new marketing campaign",
+            "content": "[[company]] has launched a new marketing campaign aimed at promoting its products/services and improving its brand image. The campaign includes [Campaign Details], such as social media, print and TV advertisements, and is part of the company's growth strategy.",
+            "impact": 2.0
+        },
+        {
+            "title": "[[company]] announces restructuring",
+            "content": "[[company]] has announced restructuring, including 15% employees being laid off and/or restructuring of [Department/Division]. The company is now working on finding solutions to mitigate the negative impact on its employees and is collaborating with stakeholders to ensure a smooth transition.",
+            "impact": 3.0
+        },
+        {
+            "title": "[[company]] partners with the US governement to launch new initiative",
+            "content": "[[company]] has partnered with US governement to launch a new initiative aimed at creating new technologies. The partnership is expected to create synergies and drive growth for both companies and is the result of [Reason].",
+            "impact": 6.0
+        },
+        {
+            "title": "[[company]] announces expansion plans",
+            "content": "[[company]] has announced plans to expand its operations in South-East Asia, which is expected to drive growth and profitability for the company. The expansion plans include the opening of new locations and collaborations with local companies and are part of the company's growth strategy.",
+            "impact": 3.0
+        },
+        {
+            "title": "[[company]] experiences service outage",
+            "content": "[[company]] is experiencing a service outage, which is impacting its operations and profitability. The company is now working on finding solutions to mitigate the negative impact on its customers and is collaborating with stakeholders to ensure a smooth resolution.",
+            "impact": -4.0
+        }
+    ],
+    "genericSectorNews": [
+        {
+            "title": "New European regulations for [[sector]] companies!",
+            "content": "With these new guidelines and quality criteria on [[sector]] products, the European Union is taking manufacturers by surprise and forcing them to review their production methods.",
+            "impact": 0.0
+        },
+        {
+            "title": "[[sector]] again affected by the war in Ukraine",
+            "content": "As the conflict appears to be getting increasingly bogged down, [[sector]] is facing new logistical challenges to mitigate the lack of vital Ukrainian raw materials to the industry.",
+            "impact": -4.0
+        },
+        {
+            "title": "Rising oil prices favor green energy and [[sector]]." ,
+            "content": "This has spurred demand for clean, sustainable energy such as solar and wind power, which offer more stable costs and a renewable energy source.",
+            "impact": 2.0
+        },
+        {
+            "title": "[[sector]] faces regulatory changes",
+            "content": "[[sector]] is facing regulatory changes that could impact its operations. Governmental agency has announced new regulations on a wide range of product, which could have a significant impact on the sector. The sector is now working on adapting to the new regulations and finding solutions to mitigate any negative effects.",
+            "impact": -3.0
+        },
+        {
+            "title": "[[sector]] faces environmental challenges",
+            "content": "[[sector]] is facing environmental challenges . The sector is now working on finding sustainable solutions to reduce its environmental impact and meet the growing demand for sustainability from consumers and investors. The sector is confident that its sustainability efforts will benefit the environment and its business in the long run.",
+            "impact": -2.0
+        },
+        {
+            "title": "[[sector]] invests in innovation and technology",
+            "content": "[[sector]] is investing heavily in innovation and technology to improve its offerings and competitiveness. The sector is exploring new technologies such as [Technology Name] and is collaborating with startups and other companies to drive innovation in the sector.",
+            "impact": 4.0
+        },
+        {
+            "title": "[[sector]] sees major disruption from new players",
+            "content": "[[sector]] is facing major disruption from new players entering the market. Startups such as [Company Name] are shaking up the sector with new business models and technologies. The established players in the sector are now working on adapting to the new landscape and finding ways to remain competitive.",
+            "impact": 3.0
+        },
+        {
+            "title": "[[sector]] faces environmental challenges",
+            "content": "[[sector]] is facing environmental challenges such as [Challenge]. The sector is now working on finding sustainable solutions to reduce its environmental impact and meet the growing demand for sustainability from consumers and investors. The sector is confident that its sustainability efforts will benefit the environment and its business in the long run.",
+            "impact": 0.0
+        },
+        {
+            "title": "[[sector]] shows strong growth in Q1",
+            "content": "[[sector]] has shown strong growth in the first quarter of the year. The growth was largely driven by the actual conjectures, and the sector is expected to continue its growth trajectory for the rest of the year.",
+            "impact": 6.0
+        },
+        {
+            "title": "[[sector]] faces talent shortage",
+            "content": "[[sector]] is facing a talent shortage, with a lack of skilled workers in key roles. The sector is now working on attracting and retaining talent by offering record high salaries, training programs, and other incentives.",
+            "impact": -2.0
+        },
+        {
+            "title": "[[sector]] experiences disruption from the trade war between China and the USA",
+            "content": "[[sector]] is experiencing disruption from the dispute between the East and the West. The sector is now working on finding solutions to adapt to the new landscape and mitigate the negative effects on its operations.",
+            "impact": -5.0
+        },
+        {
+            "title": "[[sector]] embraces digital transformation",
+            "content": "[[sector]] is embracing digital transformation to improve efficiency, reduce costs, and enhance customer experience. The sector is investing in new technologies such as Blockchain and is using data analytics and artificial intelligence to drive growth and competitiveness.",
+            "impact": 3.0
+        },
+        {
+            "title": "[[sector]] faces challenges in meeting sustainability goals",
+            "content": "[[sector]] is facing challenges in meeting its sustainability goals. The sector is now working on finding sustainable solutions to reduce its environmental impact, and is collaborating with stakeholders to drive change.",
+            "impact": -2.0
+        },
+        {
+            "title": "[[sector]] faces disruption from changing consumer preferences",
+            "content": "[[sector]] is facing disruption from changing consumer preferences, with consumers demanding more ecological engagement. The sector is now working on finding solutions to adapt to the new landscape and meet the demands of consumers.",
+            "impact":  -2.0
+        },
+        {
+            "title": "[[sector]] faces financial challenges due to economic downturn",
+            "content": "[[sector]] is facing financial challenges due to the economic downturn du to the rise of energy prices, which is impacting the sector's revenue and profitability. The sector is now working on finding solutions to overcome the challenges and drive growth and cost-cutting initiatives.",
+            "impact": -2.0
+        },
+        {
+            "title": "[[sector]] experiences supply chain disruptions",
+            "content": "[[sector]] is experiencing supply chain disruptions due to the global pandemic, which is impacting the sector's operations and profitability. The sector is now working on finding solutions to mitigate the negative effects on its supply chain and collaboration with suppliers.",
+            "impact": -2.0
+        },
+        {
+            "title": "[[sector]] faces increased competition from emerging markets",
+            "content": "[[sector]] is facing increased competition from emerging markets such as Africa, with new players entering the market and challenging the established players. The sector is now working on finding solutions to remain competitive, and exploring new markets and opportunities.",
+            "impact": -2.0
+        },
+        {
+            "title": "[[sector]] invests in diversity and inclusion",
+            "content": "[[sector]] is investing in diversity and inclusion to create a more inclusive and equitable workplace. The sector is now working on implementing policies and programs to promote diversity and inclusion and is collaborating with stakeholders to drive change.",
+            "impact": 4.0
+        },
+        {
+            "title": "[[sector]] faces increased regulation and compliance requirements",
+            "content": "[[sector]] is facing increased regulation and compliance requirements, with new regulations and compliance standards being introduced. The sector is now working on finding solutions to comply with the new requirements and is collaborating with regulatory authorities to ensure compliance.",
+            "impact": -1.0
+        }
+    ]
+
 }

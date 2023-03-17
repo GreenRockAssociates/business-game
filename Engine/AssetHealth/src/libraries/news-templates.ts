@@ -57,9 +57,12 @@ export interface INewsGenerator {
 export class GlobalNewsGenerator implements INewsGenerator {
     template: GenericNewsTemplate;
 
+    countries: string[] = ["France", "The UK", "The US", "Spain", "Italy", "Germany", "China", "The UE", "Russia", "Brazil", "Canada", "Mexico", "Japan", "Taiwan", "South Korea"];
+
     toNewsReportEntity(currentTick: number, allAssets: AssetEntity[]): NewsReportEntity {
+        const country = this.countries[Math.floor(Math.random() * this.countries.length)]
         const filledTemplate = this.template.fill(new Map([
-            [/\[\[country]]/g, "country"]
+            [/\[\[country]]/g, country]
         ]));
         const newsReportEntity: NewsReportEntity = new NewsReportEntity(currentTick, filledTemplate.title, filledTemplate.content, filledTemplate.impact);
         newsReportEntity.assets = allAssets;
