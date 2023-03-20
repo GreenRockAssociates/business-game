@@ -50,13 +50,12 @@ export async function sell(req: Request, res: Response, repository_player: Repos
     }
 
     if(playerasset.count===dto.quantity){
-        await portfolioEntityRepository.delete({playerId : dto.playerId,assetTicker : dto.assetId})
+        player.portfolio = player.portfolio.filter(entry => entry.assetTicker !== dto.assetId);
+        await portfolioEntityRepository.delete({playerId : dto.playerId, assetTicker : dto.assetId});
     }
     else{
-
         playerasset.count -= dto.quantity
-
-
+        await portfolioEntityRepository.save(playerasset)
     }
     player.bankAccount += dto.quantity*asset.value
     await repository_player.save(player)
