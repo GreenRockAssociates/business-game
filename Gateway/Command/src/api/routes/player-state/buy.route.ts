@@ -1,4 +1,4 @@
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 import {PlayerStateService} from "../../../libraries/player-state.service";
 import {AxiosError} from "axios";
 import {BuySellInternalRequestDto} from "../../../dto/buy-sell-internal-request.dto";
@@ -6,7 +6,7 @@ import {BuySellExternalRequestDto} from "../../../dto/buy-sell-external-request.
 import {validateOrReject} from "class-validator";
 
 export function buyRouteFactory(playerStateService: PlayerStateService){
-    return async (req: Request, res: Response) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
         const buyRequest: BuySellExternalRequestDto = req.body;
         const internalRequestBody = new BuySellInternalRequestDto(req.session.playerId, buyRequest.assetId, buyRequest.quantity);
         try {
@@ -20,11 +20,7 @@ export function buyRouteFactory(playerStateService: PlayerStateService){
             await playerStateService.buy(req.session, internalRequestBody)
             res.sendStatus(200);
         } catch (e) {
-            if (e instanceof AxiosError){
-                res.sendStatus(e.response.status || 500);
-            } else {
-                res.sendStatus(500);
-            }
+            next(e)
         }
     }
 }
