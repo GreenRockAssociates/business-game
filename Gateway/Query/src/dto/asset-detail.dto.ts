@@ -1,5 +1,5 @@
 import {Expose, Type} from "class-transformer";
-import {IsArray, IsNotEmpty, IsString, Matches, ValidateNested} from "class-validator";
+import {IsNotEmpty, IsString, Matches} from "class-validator";
 
 export class AssetDetailDto {
     @Expose()
@@ -23,8 +23,7 @@ export class AssetDetailDto {
     logo: string
 
     @Expose()
-    @IsArray()
-    @ValidateNested({ each: true })
+    @IsString({ each: true })
     @Type(() => String)
     sectors: string[]
 
