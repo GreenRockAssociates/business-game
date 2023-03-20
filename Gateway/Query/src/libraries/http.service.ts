@@ -10,6 +10,10 @@ export class HttpService {
         return status;
     }
 
+    async executeGetRequestFast(url: string): Promise<any> {
+        return (await this.axios.get(url)).data
+    }
+
     async executeGetRequest<T extends object>(url: string, dtoType: ClassConstructor<T>): Promise<T> {
         const {data} = await this.axios.get(url)
         return await this.castAndValidateResponse<T>(data, dtoType);

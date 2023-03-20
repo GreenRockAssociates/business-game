@@ -11,7 +11,7 @@ export class MarketAnalysisService {
 
     async getMarketRate(sessionData: PlayerSessionData): Promise<MarketResponseDto> {
         const url = `${this.baseServiceUrl}/${sessionData.gameIdInEngine}/market/market-rate`;
-        return this.httpService.executeGetRequest(url, MarketResponseDto);
+        return this.httpService.executeGetRequestFast(url);
     }
 
     async getAssetDetail(sessionData: PlayerSessionData, assetId: AssetTickerDto): Promise<AssetDetailDto> {
