@@ -42,7 +42,6 @@ export class RabbitMqInteractor {
         queueToFunctionMap.forEach((callback, queue) => {
             this.channel.consume(queue, async (msg: ConsumeMessage) => {
                 try {
-                    console.info("Received message from queue :\n", JSON.parse(msg.content.toString()))
                     await callback(msg);
                     this.channel.ack(msg);
                 } catch (e) {
@@ -59,6 +58,5 @@ export class RabbitMqInteractor {
     async sendToMarketSimulateQueue(message: MarketSimulationOutgoingMessageDTO){
         await validateOrReject(message);
         this.channel.sendToQueue(MARKET_SIMULATION_QUEUE_NAME, this.toBuffer(message));
-        console.info("Sent message to queue :\n", message)
     }
 }
