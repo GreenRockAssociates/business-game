@@ -50,7 +50,12 @@ export class AssetBuySellComponent implements OnInit {
       }
     })
     this.queryService.getPortfolio(this.gameId).subscribe({
-      next: value => this.assetPortfolioEntry = value.portfolio.find(entry => entry.assetId === this.assetTicker)
+      next: value => {
+        this.assetPortfolioEntry = value.portfolio.find(entry => entry.assetId === this.assetTicker) ?? {
+          assetId: this.assetTicker,
+          quantity: 0
+        }
+      }
     })
     this.queryService.getBankAccount(this.gameId).subscribe({
       next: response => this.bankAccount = response.money

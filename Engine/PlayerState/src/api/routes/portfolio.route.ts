@@ -24,5 +24,6 @@ export async function portfolio(req: Request, res: Response, repository_player: 
     for (let i = 0; i < player.portfolio.length; i++) {
         allPortfolio.push(new portfolioDTO(player.portfolio[i]))
     }
-    res.json(allPortfolio);
+
+    res.json({portfolio: allPortfolio});
 }
