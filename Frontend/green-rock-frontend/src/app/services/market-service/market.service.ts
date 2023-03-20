@@ -12,7 +12,7 @@ import {AssetMarketStateEntry} from "../../interfaces/asset-market-state-entry";
 })
 export class MarketService implements OnDestroy {
 
-  private webSocketSubject: WebSocketSubject<string> | null = null;
+  private webSocketSubject: WebSocketSubject<MarketStateDto> | null = null;
   private marketStateSubjectMap: Map<string, BehaviorSubject<AssetMarketStateEntry[]>> | null = null;
 
   constructor(
@@ -58,12 +58,14 @@ export class MarketService implements OnDestroy {
     return new BehaviorSubject<AssetMarketStateEntry[]>([]);
   }
 
-  private marketWebSocketFactory(gameId: string): WebSocketSubject<string> {
-    const ws: WebSocketSubject<string> = webSocket(`${environment.baseServerUrl}${environment.realTimeUpdateService}/${gameId}`);
+  private marketWebSocketFactory(gameId: string): WebSocketSubject<MarketStateDto> {
+    const ws: WebSocketSubject<MarketStateDto> = webSocket(`${environment.webSocketUrl}/${gameId}`);
 
     // Subscribe with the necessary steps to parse and handle the messages on the websocket
     ws.pipe(
-      map(message => JSON.parse(message) as MarketStateDto)
+      map(
+        marketState => new MarketStateDto(marketState.gameId, marketState.tick, marketState.marketState)
+      )
     ).subscribe({
       next: marketState => marketState
         .getMarketState()

@@ -27,7 +27,6 @@ export class MarketEntryDto {
 
     @Expose()
     @IsNumber()
-    @IsPositive()
     value: number
 
     @Expose()
