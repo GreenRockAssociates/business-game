@@ -88,7 +88,7 @@ describe("asset rate", () => {
 
         const param = new GameAndAssetIdDto(game.id,"AAPL")
 
-        await assetRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+        await assetRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(AssetEntity));
 
         await expect(sendJson).toHaveBeenCalledWith([{"Assetvalues": [], "Description": "A tech company", "IdGame": game.id, "Logo": "logo.png", "Name": "Apple", "Ticker": "AAPL"}]);
 
@@ -114,7 +114,7 @@ describe("asset rate", () => {
 
         const param = new GameAndAssetIdDto(game.id,"AAPL")
 
-        await assetRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+        await assetRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(AssetEntity));
 
         await expect(sendJson).toHaveBeenCalledWith([{"Assetvalues": [], "Description": "A tech company", "IdGame": game.id, "Logo": "logo.png", "Name": "Apple", "Ticker": "AAPL"}]);
 
@@ -128,7 +128,7 @@ describe("asset rate", () => {
 
         const param = new GameAndAssetIdDto(game.id,"AAPL")
 
-        await assetRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+        await assetRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(AssetEntity));
 
         await expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
@@ -141,7 +141,7 @@ describe("asset rate", () => {
 
         const param = new GameIdDto("14e16078-07af-454c-8083-493682c70c70")
 
-        await assetRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity));
+        await assetRate({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(AssetEntity));
 
         await expect(sendStatusSpy).toHaveBeenCalledWith(404);
 

@@ -19,6 +19,6 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     const assetEntityRepository = dataSource.getRepository(AssetEntity);
 
     router.get('/:gameID/market/market-rate', requestParamsToDtoMiddlewareFactory(GameIdDto),(req : Request,res : Response) => marketRate(req,res,marketEntityRepository))
-    router.get('/:gameID/market/asset/:assetID', requestParamsToDtoMiddlewareFactory(GameAndAssetIdDto),(req : Request,res : Response) => assetRate(req,res,marketEntityRepository))
+    router.get('/:gameID/market/asset/:assetID', requestParamsToDtoMiddlewareFactory(GameAndAssetIdDto),(req : Request,res : Response) => assetRate(req,res,assetEntityRepository))
     router.get('/:gameID/market/analysis/:assetID', requestParamsToDtoMiddlewareFactory(GameAndAssetIdDto),(req : Request,res : Response) => AnalysisRoute(req,res,marketEntityRepository,assetEntityRepository))
 }
