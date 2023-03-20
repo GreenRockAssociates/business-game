@@ -20,7 +20,6 @@ export class BuyandsellDto {
 
     @IsNotEmpty()
     @IsString()
-    @IsUUID()
     @Expose()
     assetId   : string;
 

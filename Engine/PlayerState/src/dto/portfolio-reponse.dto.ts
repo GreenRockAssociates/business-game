@@ -1,8 +1,7 @@
-import {IsNotEmpty, IsNumber, IsUUID,IsString,IsPositive,ValidateNested} from "class-validator";
+import {IsNotEmpty, IsNumber,IsString,IsPositive} from "class-validator";
 import {Expose} from "class-transformer";
 import "reflect-metadata";
 import {PortfolioEntity} from "../../../DataSource/src/entities/portfolio.entity";
-import e from "express";
 
 
 /**
@@ -12,7 +11,6 @@ import e from "express";
 export class portfolioDTO {
     @IsNotEmpty()
     @IsString()
-    @IsUUID()
     @Expose()
     assetId   : string;
 

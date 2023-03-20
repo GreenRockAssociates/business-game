@@ -1,5 +1,5 @@
 import {PlayerStateService} from "../../libraries/player-state.service";
-import {Request, Response} from "express";
+import {NextFunction, Request, Response} from "express";
 import {BuySellInternalRequestDto} from "../../dto/buy-sell-internal-request.dto";
 import {PlayerSessionData} from "../../interfaces/session-data.interface";
 import {AxiosError} from "axios";
@@ -47,7 +47,7 @@ describe("Sell route", () => {
     let mockResponse: Response;
     let sendStatusSpy: jest.SpyInstance;
 
-    let sellRoute: (req: Request, res: Response) => Promise<void>
+    let sellRoute: (req: Request, res: Response, next: NextFunction) => Promise<void>
 
     beforeEach(() => {
         mockPlayerStateService = new MockPlayerStateService() as unknown as PlayerStateService;
@@ -62,7 +62,7 @@ describe("Sell route", () => {
     it("Should return 200 on correct parameters", async () => {
         const request = Helper.getValidRequest();
 
-        await sellRoute(request, mockResponse);
+        await sellRoute(request, mockResponse, () => {});
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
@@ -72,7 +72,7 @@ describe("Sell route", () => {
         const request = Helper.getValidRequest();
         request.body = new BuySellInternalRequestDto("", "", -1)
 
-        await sellRoute(request, mockResponse);
+        await sellRoute(request, mockResponse, () => {});
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(400);
@@ -88,7 +88,7 @@ describe("Sell route", () => {
             status: 404}
         )})
 
-        await sellRoute(request, mockResponse);
+        await sellRoute(request, mockResponse, () => {});
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -98,7 +98,7 @@ describe("Sell route", () => {
         const request = Helper.getValidRequest();
         sellSpy.mockImplementation(() => {throw new Error("test")})
 
-        await sellRoute(request, mockResponse);
+        await sellRoute(request, mockResponse, () => {});
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(500);
@@ -107,7 +107,7 @@ describe("Sell route", () => {
     it("Should pass the correct parameters to PlayerStateService", async () => {
         const request = Helper.getValidRequest();
 
-        await sellRoute(request, mockResponse);
+        await sellRoute(request, mockResponse, () => {});
 
         expect(sellSpy).toHaveBeenCalledTimes(1);
         expect(sellSpy).toHaveBeenCalledWith(Helper.getValidSession(), Helper.getValidBody());
