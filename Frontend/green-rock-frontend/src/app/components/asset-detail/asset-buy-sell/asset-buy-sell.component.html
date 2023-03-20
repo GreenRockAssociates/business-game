@@ -8,9 +8,9 @@
         <p class="mt-5">Asset health : {{assetHealth.assetRating}}</p>
 
         <div class="flex-1 flex flex-col justify-around" *ngIf="assetAnalysis; else noAnalysisYet">
-          <p>VaR : {{assetAnalysis.valueAtRisk}}</p>
-          <p>Exp. Ret. : {{assetAnalysis.expectedReturn}}</p>
-          <p>Beta : {{assetAnalysis.beta}}</p>
+          <p>Value at risk: {{assetAnalysis.valueAtRisk}}</p>
+          <p>Expected Return: {{assetAnalysis.expectedReturn}}</p>
+          <p>Beta: {{assetAnalysis.beta}}</p>
         </div>
         <ng-template #noAnalysisYet>
           <div class="flex-1 flex flex-col justify-around">

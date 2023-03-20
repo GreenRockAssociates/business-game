@@ -27,7 +27,6 @@ import { GameDateComponent } from './components/game-date/game-date.component';
 import { NewsCardComponent } from './components/news/news-card/news-card.component';
 import {TickToGameDatePipe} from "./pipes/tick-to-game-date.pipe";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AssetAnalysisComponent } from './components/asset-detail/asset-analysis/asset-analysis.component';
 import { AssetBuySellComponent } from './components/asset-detail/asset-buy-sell/asset-buy-sell.component';
 import { MarketGraphComponent } from './components/asset-detail/market-graph/market-graph.component';
 import { AssetNewsListComponent } from './components/asset-detail/asset-news-list/asset-news-list.component';
@@ -57,7 +56,6 @@ import { ProfileComponent } from './pages/launcher/profile/profile.component';
     GameDateComponent,
     NewsCardComponent,
     TickToGameDatePipe,
-    AssetAnalysisComponent,
     AssetBuySellComponent,
     MarketGraphComponent,
     AssetNewsListComponent,
