@@ -1,4 +1,4 @@
-import {IsNumber, IsPositive, IsUUID} from "class-validator";
+import {IsString, IsUUID} from "class-validator";
 import {Expose} from "class-transformer";
 
 export class GameIdAndCurrentTickDto {
@@ -6,13 +6,12 @@ export class GameIdAndCurrentTickDto {
     @Expose()
     gameId : string
 
-    @IsNumber()
-    @IsPositive()
+    @IsString()
     @Expose()
-    currentTick: number
+    currentTick: string
 
 
-    constructor(gameId: string, currentTick: number) {
+    constructor(gameId: string, currentTick: string) {
         this.gameId = gameId;
         this.currentTick = currentTick;
     }

@@ -18,7 +18,7 @@ export function requestParamsToDtoMiddlewareFactory(dtoType: any, skipMissingPro
         // Use try/catch block to be able to return from the function in case of error
         try {
             await validateOrReject(dto, {skipMissingProperties})
-        } catch (_) {
+        } catch (e) {
             res.sendStatus(400);
             return;
         }

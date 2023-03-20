@@ -22,8 +22,7 @@ export class AssetHealthService {
     async getEvolutionVectorForGame(gameId: string, currentTick: number): Promise<Map<string, number>> {
         const response = await this.axiosInstance.get(`${process.env.BASE_SERVER_URL}${process.env.ASSET_HEALTH_SERVICE_PREFIX}/${gameId}/asset-health/evolution-vector/${currentTick}`);
 
-        const responsePlain: object = JSON.parse(response.data);
-        const responseDto: EvolutionVectorResponseDto = plainToInstance(EvolutionVectorResponseDto, responsePlain, {excludeExtraneousValues: true});
+        const responseDto: EvolutionVectorResponseDto = plainToInstance(EvolutionVectorResponseDto, response.data as object, {excludeExtraneousValues: true});
         await validateOrReject(responseDto);
         sanitize(responseDto);
 

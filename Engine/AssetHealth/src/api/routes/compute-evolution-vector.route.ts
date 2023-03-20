@@ -103,12 +103,12 @@ export function computeEvolutionVectorRouteFactory(assetRepository: Repository<A
         let evolutionVector: Map<string, number> = new Map();
         await Promise.all(
             allAssets.map(async asset => {
-                const growthProbability: number = await getGrowthProbability(gameIdAndCurrentTickDto.gameId, asset, gameIdAndCurrentTickDto.currentTick, assetHealthRepository, newsReportRepository);
+                const growthProbability: number = await getGrowthProbability(gameIdAndCurrentTickDto.gameId, asset, Number.parseInt(gameIdAndCurrentTickDto.currentTick), assetHealthRepository, newsReportRepository);
                 evolutionVector.set(asset.ticker, growthProbability);
             })
         );
 
-        const response: EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, gameIdAndCurrentTickDto.currentTick);
+        const response: EvolutionVectorResponseDto = new EvolutionVectorResponseDto(null, Number.parseInt(gameIdAndCurrentTickDto.currentTick));
         response.setEvolutionVector(evolutionVector);
         try {
             await validateOrReject(response);
