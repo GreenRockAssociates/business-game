@@ -11,7 +11,7 @@ services:
   frontend:
     build: Frontend/green-rock-frontend/
     ports:
-      - '127.0.0.1:10000:80'
+      - '127.0.0.1:4200:80'
     restart: unless-stopped
 
   ##################################################
@@ -122,6 +122,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: iam
       POSTGRES_PASSWORD: postgres
+    expose:
+      - '5432:5432'
     ports:
       - '127.0.0.1:5433:5432'
     volumes:
@@ -129,6 +131,8 @@ services:
 
   redis-iam:
     image: redis
+    expose:
+      - '6379:6379'
     ports:
       - '127.0.0.1:6380:6379'
     command:
@@ -144,6 +148,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: launcher
       POSTGRES_PASSWORD: postgres
+    expose:
+      - '5432:5432'
     ports:
       - '127.0.0.1:5434:5432'
     volumes:
@@ -160,6 +166,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: game
       POSTGRES_PASSWORD: postgres
+    expose:
+      - '5432:5432'
     ports:
       - '127.0.0.1:5435:5432'
     volumes:
@@ -173,6 +181,8 @@ services:
 
   rabbit-mq-game:
     image: rabbitmq
+    expose:
+      - '5672:5672'
     ports:
       - '127.0.0.1:5673:5672'
     volumes:
