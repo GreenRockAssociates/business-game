@@ -22,7 +22,7 @@ export class MarketConnectionRepository {
     }
 
     getConnectionsForGame(gameId: string): WebSocket[]{
-        return this.marketIdToConnectionListMap.get(gameId);
+        return this.marketIdToConnectionListMap.get(gameId) ?? [];
     }
 
     constructor() {
