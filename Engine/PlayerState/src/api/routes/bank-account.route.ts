@@ -19,7 +19,6 @@ export async function bankAcount(req: Request, res: Response, repository_player:
         return
     }
     const acount = new bankAccountDto(player.bankAccount)
-    res.sendStatus(200);
-    res.send(JSON.stringify(acount));
+    res.json(acount);
 
 }
