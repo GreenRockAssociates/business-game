@@ -27,7 +27,7 @@
           <input class="w-1/2 bg-dark-300 rounded px-2" min="0" type="number" [(ngModel)]="sharesTransactionAmount">
           <button (click)="incrementTransaction()"><fa-icon [icon]="faPlus"></fa-icon></button>
         </div>
-        <p *ngIf="sharesTransactionAmount > 0; else noTransactionStarted" class="text-sm my-2">{{sharesTransactionAmount}} share{{sharesTransactionAmount > 1 ? 's' : ''}} {{sharesTransactionAmount > 1 ? 'go' : 'goes'}} for ${{sharesTransactionAmount * currentAssetValue}}</p>
+        <p *ngIf="sharesTransactionAmount > 0; else noTransactionStarted" class="text-sm my-2">{{sharesTransactionAmount}} share{{sharesTransactionAmount > 1 ? 's' : ''}} {{sharesTransactionAmount > 1 ? 'go' : 'goes'}} for ${{sharesTransactionAmount * currentAssetValue | number : '1.2-2'}}</p>
         <ng-template #noTransactionStarted><p class="text-sm my-2">No shares chosen</p></ng-template>
 
         <p *ngIf="notEnoughSharesError" class="text-sm text-red-400">Not enough shares to sell</p>

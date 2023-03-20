@@ -72,6 +72,7 @@ export class AssetBuySellComponent implements OnInit {
 
   sell() {
     this.commandService.sellAsset(this.gameId, this.assetTicker, this.sharesTransactionAmount).subscribe({
+      next: _ => this.assetPortfolioEntry!.quantity -= this.sharesTransactionAmount,
       error: err => {
         if (err.status === 412) this.showNotEnoughSharesError()
       }
@@ -80,6 +81,7 @@ export class AssetBuySellComponent implements OnInit {
 
   buy() {
     this.commandService.buyAsset(this.gameId, this.assetTicker, this.sharesTransactionAmount).subscribe({
+      next: _ => this.assetPortfolioEntry!.quantity += this.sharesTransactionAmount,
       error: err => {
         if (err.status === 412) this.showNotEnoughFundsError()
       }
