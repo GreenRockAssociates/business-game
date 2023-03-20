@@ -35,6 +35,7 @@ app.use(`${process.env.SERVICE_URL_PREFIX}`, router)
 
 // Custom error handling to avoid leaking stack trace
 app.use((err: any, req: Request, res: Response, _: NextFunction) => {
+    console.error(err);
     res.sendStatus(err?.statusCode ?? 500);
 })
 

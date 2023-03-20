@@ -41,8 +41,12 @@ export class RabbitMqInteractor {
         // Register each one
         queueToFunctionMap.forEach((callback, queue) => {
             this.channel.consume(queue, async (msg: ConsumeMessage) => {
-                await callback(msg);
-                this.channel.ack(msg);
+                try {
+                    await callback(msg);
+                    this.channel.ack(msg);
+                } catch (e) {
+                    console.error(e)
+                }
             });
         })
     }
