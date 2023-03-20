@@ -48,17 +48,13 @@ export async function startGame(req: Request, res: Response, gameRepository: Rep
 
     const participatingUserIds = getParticipatingUsers(game);
 
-    try {
-        const {playerIds, gameEngineId} = await gameOrchestratorService.startGame(participatingUserIds.length);
+    const {playerIds, gameEngineId} = await gameOrchestratorService.startGame(participatingUserIds.length);
 
-        game.gameState = GameState.STARTED;
-        game.engineId = gameEngineId;
-        game.userIds = createUserIdToPlayerIdTranslationsEntities(participatingUserIds, playerIds);
+    game.gameState = GameState.STARTED;
+    game.engineId = gameEngineId;
+    game.userIds = createUserIdToPlayerIdTranslationsEntities(participatingUserIds, playerIds);
 
-        await gameRepository.save(game);
+    await gameRepository.save(game);
 
-        res.sendStatus(200);
-    } catch (_) {
-        res.sendStatus(500);
-    }
+    res.sendStatus(200);
 }

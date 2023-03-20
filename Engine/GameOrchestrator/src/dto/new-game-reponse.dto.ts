@@ -10,7 +10,7 @@ export class newgameResponseDto {
     @IsString()
     @IsUUID()
     @Expose()
-    gameId : string;
+    gameEngineId : string;
 
 
     @IsNotEmpty()
@@ -23,7 +23,7 @@ export class newgameResponseDto {
 
 
     constructor(gameId : string,playerIds : string[] ) {
-        this.gameId  = gameId ;
+        this.gameEngineId  = gameId ;
         this.playerIds = playerIds ;
     }
 }
