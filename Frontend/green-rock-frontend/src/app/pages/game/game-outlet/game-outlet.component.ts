@@ -13,6 +13,8 @@ export class GameOutletComponent implements OnInit, OnDestroy {
   gameId: string = "";
   bankAccount: number = 0;
 
+  connected: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private queryService: QueryService,
@@ -25,12 +27,9 @@ export class GameOutletComponent implements OnInit, OnDestroy {
       next: response => this.bankAccount = response.money
     })
 
-    try {
-      this.marketService.establishConnection(this.gameId);
-    } catch (_){
-      this.marketService.closeConnection();
-      this.marketService.establishConnection(this.gameId);
-    }
+    this.marketService.establishConnection(this.gameId).subscribe({
+      complete: () => {this.connected = true}
+    })
   }
 
   ngOnDestroy(): void {

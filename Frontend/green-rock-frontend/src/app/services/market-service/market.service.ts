@@ -19,16 +19,21 @@ export class MarketService implements OnDestroy {
     private queryService: QueryService
   ) {}
 
-  establishConnection(gameId: string) {
+  establishConnection(gameId: string): Observable<void> {
     if (this.marketStateSubjectMap || this.webSocketSubject) {
       throw new Error("A connection already exists");
     }
 
-    this.queryService.getMarketRate(gameId).subscribe({
-      next: initialMarketState => this.marketStateSubjectMap = this.initializeMarketStateSubjectMap(initialMarketState)
-    })
+    return new Observable<void>(subscriber => {
+      this.queryService.getMarketRate(gameId).subscribe({
+        next: initialMarketState => {
+          this.marketStateSubjectMap = this.initializeMarketStateSubjectMap(initialMarketState)
+          subscriber.complete();
+        }
+      })
 
-    this.webSocketSubject = this.marketWebSocketFactory(gameId);
+      this.webSocketSubject = this.marketWebSocketFactory(gameId);
+    })
   }
 
   private initializeMarketStateSubjectMap(initialMarketState: MarketResponseDto): Map<string, BehaviorSubject<AssetMarketStateEntry[]>> {
