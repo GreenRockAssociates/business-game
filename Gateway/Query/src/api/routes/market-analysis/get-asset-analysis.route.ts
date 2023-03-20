@@ -12,8 +12,12 @@ export function getAssetAnalysisRouteFactory(marketAnalysisService: MarketAnalys
         try {
             const assetStatisticalAnalysisDto: AssetStatisticalAnalysisDto = await marketAnalysisService.getAssetAnalysis(req.session, assetId);
             res.json(instanceToPlain(assetStatisticalAnalysisDto));
-        } catch (e) {
-            next(e)
+        } catch (e: any) {
+            if (e instanceof AxiosError){
+                res.sendStatus(e?.response?.status ?? 500)
+            } else {
+                next(e)
+            }
         }
     }
 }

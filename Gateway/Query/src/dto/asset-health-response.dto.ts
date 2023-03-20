@@ -1,14 +1,13 @@
 import {Expose} from "class-transformer";
-import {IsNotEmpty, IsString, IsUUID} from "class-validator";
+import {IsNotEmpty, IsNumber, IsString} from "class-validator";
 
 export class AssetHealthResponseDto {
     @Expose()
-    @IsUUID()
+    @IsString()
     assetTicker: string
 
     @Expose()
-    @IsString()
-    @IsNotEmpty()
+    @IsNumber()
     generatedTick: number
 
     @Expose()

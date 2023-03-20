@@ -10,7 +10,11 @@ export function getAllNewsRouteFactory(assetHealthService: AssetHealthService){
             const newsDto: NewsResponseDto = await assetHealthService.getAllNews(req.session);
             res.json(instanceToPlain(newsDto));
         } catch (e) {
-            next(e)
+            if (e instanceof AxiosError){
+                res.sendStatus(e?.response?.status ?? 500)
+            } else {
+                next(e)
+            }
         }
     }
 }

@@ -21,8 +21,7 @@ export class MarketAnalysisService {
 
     async getAssetAnalysis(sessionData: PlayerSessionData, assetId: AssetTickerDto): Promise<AssetStatisticalAnalysisDto> {
         const url = `${this.baseServiceUrl}/${sessionData.gameIdInEngine}/market/analysis/${assetId.assetTicker}`;
-        throw Error("Not implemented");
-        //return this.httpService.executeGetRequest(url, AssetStatisticalAnalysisDto);
+        return this.httpService.executeGetRequest(url, AssetStatisticalAnalysisDto);
     }
 
     constructor(httpService: HttpService = new HttpService()) {

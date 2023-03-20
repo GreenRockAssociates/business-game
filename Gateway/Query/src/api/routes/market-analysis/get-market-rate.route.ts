@@ -2,6 +2,7 @@ import {MarketAnalysisService} from "../../../libraries/market-analysis.service"
 import {MarketResponseDto} from "../../../dto/market-response.dto";
 import {NextFunction, Request, Response} from "express";
 import {instanceToPlain} from "class-transformer";
+import {AxiosError} from "axios";
 
 export function getMarketRateRouteFactory(marketAnalysisService: MarketAnalysisService) {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -9,7 +10,11 @@ export function getMarketRateRouteFactory(marketAnalysisService: MarketAnalysisS
             const market: MarketResponseDto = await marketAnalysisService.getMarketRate(req.session);
             res.json(instanceToPlain(market));
         } catch (e) {
-            next(e)
+            if (e instanceof AxiosError){
+                res.sendStatus(e?.response?.status ?? 500)
+            } else {
+                next(e)
+            }
         }
     }
 }

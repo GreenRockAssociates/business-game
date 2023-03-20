@@ -13,7 +13,11 @@ export function getAssetHealthDataRoute(assetHealthService: AssetHealthService){
             const newsDto: AssetHealthResponseDto = await assetHealthService.getAssetHealthData(req.session, assetId);
             res.json(instanceToPlain(newsDto));
         } catch (e) {
-            next(e)
+            if (e instanceof AxiosError){
+                res.sendStatus(e?.response?.status ?? 500)
+            } else {
+                next(e)
+            }
         }
     }
 }

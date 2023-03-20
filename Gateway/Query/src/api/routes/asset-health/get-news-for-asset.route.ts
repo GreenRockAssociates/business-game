@@ -13,7 +13,11 @@ export function getNewsForAssetRouteFactory(assetHealthService: AssetHealthServi
             const newsDto: NewsResponseDto = await assetHealthService.getNewsForAsset(req.session, assetId);
             res.json(instanceToPlain(newsDto));
         } catch (e) {
-            next(e)
+            if (e instanceof AxiosError){
+                res.sendStatus(e?.response?.status ?? 500)
+            } else {
+                next(e)
+            }
         }
     }
 }

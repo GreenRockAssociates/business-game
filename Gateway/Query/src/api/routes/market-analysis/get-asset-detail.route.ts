@@ -13,7 +13,11 @@ export function getAssetDetailRouteFactory(marketAnalysisService: MarketAnalysis
             const assetDetail: AssetDetailDto = await marketAnalysisService.getAssetDetail(req.session, assetId);
             res.json(instanceToPlain(assetDetail));
         } catch (e) {
-            next(e)
+            if (e instanceof AxiosError){
+                res.sendStatus(e?.response?.status ?? 500)
+            } else {
+                next(e)
+            }
         }
     }
 }

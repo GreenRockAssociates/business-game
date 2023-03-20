@@ -20,7 +20,11 @@ export function buyRouteFactory(playerStateService: PlayerStateService){
             await playerStateService.buy(req.session, internalRequestBody)
             res.sendStatus(200);
         } catch (e) {
-            next(e)
+            if (e instanceof AxiosError){
+                res.sendStatus(e?.response?.status ?? 500)
+            } else {
+                next(e)
+            }
         }
     }
 }
