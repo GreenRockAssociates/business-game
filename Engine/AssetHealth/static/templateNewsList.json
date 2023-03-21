@@ -11,12 +11,12 @@
             "impact": -2.0
         },
         {
-            "title": "[[Country]] wins the soccer world cup!",
+            "title": "[[country]] wins the soccer world cup!",
             "content": "After a fierce confrontation in the final, [[country]] leaves with a new star on his team's jersey. The World Cup, much criticized by environmental activists, finally ended with a record-breaking audience.",
             "impact": 3.0
         },
         {
-            "title": "[[Country]] signs a new cooperation treaty with the European Union.",
+            "title": "[[country]] signs a new cooperation treaty with the European Union.",
             "content": "Through this trade and environmental cooperation treaty, [[country]] and the European Union are more committed than ever to their future commitments.",
             "impact": 4.0
         },
@@ -55,18 +55,18 @@
         }
     ,
         {
-            "title": "[[Country]] held its presidential elections.",
+            "title": "[[country]] held its presidential elections.",
             "content": "After a turbulent campaign, [[country]] has re-elected its incumbent president. It is expected to continue the political momentum of the previous term. ",
             "impact": 1.0
         },
         {
-            "title": "[[Country]] announces the closure of its coal plants as part of a green transition program.",
+            "title": "[[country]] announces the closure of its coal plants as part of a green transition program.",
             "content": "In line with the treaties reached at COP 26, the government of [[country]] plans to close all of its coal-fired power plants by 2035, replaced in the energy mix for renewable energy.",
             "impact": 1.0
         }
     ,
         {
-            "title": "[[Country]] is setting up a new investment fund.",
+            "title": "[[country]] is setting up a new investment fund.",
             "content": "In order to reindustrialize his country, the leader of [[country]] has announced the creation of a heavily endowed investment fund. Piloted by the government, the fund will finance projects to create local jobs in former industrial centers.",
             "impact": 3.0
         },
@@ -82,7 +82,7 @@
         }
     ,
         {
-            "title": "[[Country]] is seeing its housing market collapse",
+            "title": "[[country]] is seeing its housing market collapse",
             "content": "Anticipated by many observers, the real estate bubble in [[country]] has just burst, causing its housing stock and construction sector to lose billions of dollars in value.",
             "impact": -4.0
         },
@@ -102,7 +102,7 @@
             "impact": -3.0
         },
         {
-            "title": "[[Country]] announces a new diplomatic summit.",
+            "title": "[[country]] announces a new diplomatic summit.",
             "content": "In order to coordinate the development and cooperation between the actors of its region, [[country]] announces the creation of a new meeting between heads of state. Its good diplomatic reputation reassures the actors about the stakes of the event.",
             "impact": 5.0
         }
@@ -189,12 +189,12 @@
         },
         {
             "title": "[[company]] announces restructuring",
-            "content": "[[company]] has announced restructuring, including 15% employees being laid off and/or restructuring of [Department/Division]. The company is now working on finding solutions to mitigate the negative impact on its employees and is collaborating with stakeholders to ensure a smooth transition.",
+            "content": "[[company]] has announced restructuring, including 15% employees being laid off and/or restructured. The company is now working on finding solutions to mitigate the negative impact on its employees and is collaborating with stakeholders to ensure a smooth transition.",
             "impact": 3.0
         },
         {
-            "title": "[[company]] partners with the US governement to launch new initiative",
-            "content": "[[company]] has partnered with US governement to launch a new initiative aimed at creating new technologies. The partnership is expected to create synergies and drive growth for both companies and is the result of [Reason].",
+            "title": "[[company]] partners with the US government to launch new initiative",
+            "content": "[[company]] has partnered with US government to launch a new initiative aimed at creating new technologies. The partnership is expected to create synergies and drive growth for both companies and is the result of [Reason].",
             "impact": 6.0
         },
         {
@@ -241,7 +241,7 @@
         },
         {
             "title": "[[sector]] sees major disruption from new players",
-            "content": "[[sector]] is facing major disruption from new players entering the market. Startups such as [Company Name] are shaking up the sector with new business models and technologies. The established players in the sector are now working on adapting to the new landscape and finding ways to remain competitive.",
+            "content": "[[sector]] is facing major disruption from new players entering the market. Startups such as [[company]] are shaking up the sector with new business models and technologies. The established players in the sector are now working on adapting to the new landscape and finding ways to remain competitive.",
             "impact": 3.0
         },
         {

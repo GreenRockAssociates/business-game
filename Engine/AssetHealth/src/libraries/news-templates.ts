@@ -138,27 +138,42 @@ export class SpecificSectorNewsGenerator implements INewsGenerator {
 }
 
 class NewsTemplateJson {
+    @Expose()
     globalNews?: GenericNewsTemplate[];
+
+    @Expose()
     genericCompanyNews?: GenericNewsTemplate[];
+
+    @Expose()
     genericSectorNews?: GenericNewsTemplate[];
+
+    @Expose()
     specificSectorNews?: SpecificNewsTemplate[];
+
+
+    constructor(globalNews: GenericNewsTemplate[], genericCompanyNews: GenericNewsTemplate[], genericSectorNews: GenericNewsTemplate[], specificSectorNews: SpecificNewsTemplate[]) {
+        this.globalNews = globalNews;
+        this.genericCompanyNews = genericCompanyNews;
+        this.genericSectorNews = genericSectorNews;
+        this.specificSectorNews = specificSectorNews;
+    }
 }
 
 export function parseNewsTemplateJson(json: string): INewsGenerator[] {
     const parsedJson = JSON.parse(json);
-    const newsTemplateList: NewsTemplateJson = plainToInstance(NewsTemplateJson, parsedJson);
+    const newsTemplateList: NewsTemplateJson = plainToInstance(NewsTemplateJson, parsedJson as object);
 
     const generatorList: INewsGenerator[] = []
-    newsTemplateList.globalNews?.forEach(template => {
+    newsTemplateList.globalNews?.map(news => plainToInstance(GenericNewsTemplate, news)).forEach(template => {
         generatorList.push(new GlobalNewsGenerator(template));
     })
-    newsTemplateList.genericCompanyNews?.forEach(template => {
+    newsTemplateList.genericCompanyNews?.map(news => plainToInstance(GenericNewsTemplate, news)).forEach(template => {
         generatorList.push(new GenericCompanyNewsGenerator(template));
     })
-    newsTemplateList.genericSectorNews?.forEach(template => {
+    newsTemplateList.genericSectorNews?.map(news => plainToInstance(GenericNewsTemplate, news)).forEach(template => {
         generatorList.push(new GenericSectorNewsGenerator(template));
     })
-    newsTemplateList.specificSectorNews?.forEach(template => {
+    newsTemplateList.specificSectorNews?.map(news => plainToInstance(SpecificNewsTemplate, news)).forEach(template => {
         generatorList.push(new SpecificSectorNewsGenerator(template));
     })
 
