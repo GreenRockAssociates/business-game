@@ -490,6 +490,13 @@ CREATE INDEX "IDX_dddae8938c7678d69a8b9e6dbe" ON public.asset_entity_sectors_sec
 
 
 --
+-- Name: market_entity_game_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX market_entity_game_id ON public.market_entity USING btree ("gameId");
+
+
+--
 -- Name: news_report_entity FK_1fbc40a8e4b8597d484d9a87b87; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
