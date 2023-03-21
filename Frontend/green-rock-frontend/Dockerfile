@@ -13,4 +13,5 @@ RUN npm run build --prod
 
 ### STAGE 2: Run ###
 FROM nginx:stable-alpine
+COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /usr/src/app/dist/green-rock-frontend /usr/share/nginx/html
