@@ -6,10 +6,10 @@ export const COMPANY_RATING_TO_PROBABILITY_IMPACT_MAP = new Map<string, number>(
     ["AA", computeProbabilityImpact(3)],
     ["A", computeProbabilityImpact(2)],
     ["B", computeProbabilityImpact(1)],
-    ["C", computeProbabilityImpact(-1)],
-    ["D", computeProbabilityImpact(-2)],
-    ["E", computeProbabilityImpact(-3)],
-    ["F", computeProbabilityImpact(-5)]
+    ["C", computeProbabilityImpact(0)],
+    ["D", computeProbabilityImpact(-1)],
+    ["E", computeProbabilityImpact(-2)],
+    ["F", computeProbabilityImpact(-3)]
 ]);
 
 export const MAX_CONCURRENT_NEWS_PER_ASSET = 3;
