@@ -1,17 +1,10 @@
 import {NextFunction, Request, Response} from 'express';
 import {Repository} from "typeorm";
-import {PlayerEntity} from "../../../../DataSource/src/entities/player.entity";
 import {MarketEntity} from "../../../../DataSource/src/entities/market.entity";
 import {AssetEntity} from "../../../../DataSource/src/entities/asset.entity";
-import {PortfolioEntity} from "../../../../DataSource/src/entities/portfolio.entity";
-import {GameIdDto} from "../../dto/game-id.dto";
-import {AssetDto} from "../../dto/asset.dto";
-import {assetStateDto} from "../../dto/assetstate.dto";
-import util from "util";
 import {GameAndAssetIdDto} from "../../dto/gameandassetid.dto";
-import {forEach, i, number, re, variance} from 'mathjs'
+import {variance} from 'mathjs'
 import {dataAnalisysDto} from "../../dto/data_analisys.sto";
-
 
 
 export async function AnalysisRoute(req: Request, res: Response, next: NextFunction, marketEntityRepository : Repository<MarketEntity>, assetEntityRepository : Repository<AssetEntity>) {
@@ -61,15 +54,17 @@ export async function AnalysisRoute(req: Request, res: Response, next: NextFunct
         let assetList = marketToList(data[indexAsset])
 
         let marketvar = market(data)
-        let returnmarket = dailyReturn(marketvar)
+        let returnmarketPercentage = dailyReturnPercentage(marketvar)
+        let returnmarketValue = dailyReturnValue(marketvar)
 
-        let returnasset = dailyReturn(assetList)
+        let returnassetPercentage = dailyReturnPercentage(assetList)
+        let returnassetValue = dailyReturnValue(assetList)
 
-        Beta = betafunc(returnasset, returnmarket)
+        Beta = betafunc(returnassetPercentage, returnmarketPercentage)
 
-        VaR = valueAtRisk95(returnasset)
+        VaR = valueAtRisk95(returnassetValue)
 
-        ER = expectedReturn(returnasset, returnmarket)
+        ER = expectedReturn(returnassetPercentage, returnmarketPercentage)
 
         res.json(new dataAnalisysDto(VaR, Beta, ER))
     } catch (e) {
@@ -111,12 +106,25 @@ function market(assets : MarketEntity[][]){
     return marketasset
 
 }
-function dailyReturn(asset : number[]){
+function dailyReturnPercentage(asset : number[]){
     let dailyReturnList = []
 
     for(let n = 0; n< asset.length; n++){
         if(n%120==0 && n!=0){
-            dailyReturnList.push(((asset[n]-asset[n-60])/asset[n-60]) * 100)
+            dailyReturnList.push(((asset[n]-asset[n-60])/asset[n-60]))
+        }
+    }
+
+    return dailyReturnList
+
+}
+
+function dailyReturnValue(asset : number[]){
+    let dailyReturnList = []
+
+    for(let n = 0; n< asset.length; n++){
+        if(n%120==0 && n!=0){
+            dailyReturnList.push(asset[n]-asset[n-60])
         }
     }
 
@@ -125,11 +133,11 @@ function dailyReturn(asset : number[]){
 }
 
 function valueAtRisk95(asset : number[]){
-    asset.sort((a,b)=>a-b)
+    asset.sort((a, b) => b - a)
 
-    const index = Math.floor(asset.length *0.95)
+    const index = Math.floor(asset.length * 0.95)
 
-    return asset[index]
+    return -asset[index]
 }
 
 
@@ -138,32 +146,18 @@ function betafunc(re : number[], rm : number[]){
     return covariance(re,rm)/variance(rm)
 }
 
-function mean(arr : number[])
-{
-    const lenghtArray = arr.length
-    let sum = 0;
-    for(let i = 0; i < lenghtArray; i++)
-        sum = sum + arr[i];
-
-    return sum / lenghtArray;
-}
-
 // Function to find covariance.
 function covariance(arr1 : number[], arr2 : number[])
 {
-    let sum = 0;
-    const lenghtArray = arr1.length
+    const n = arr1.length;
+    const sum1 = arr1.reduce((acc, curr) => acc + curr, 0);
+    const sum2 = arr2.reduce((acc, curr) => acc + curr, 0);
+    const sum12 = arr1.map((val, index) => [val, arr2[index]]).reduce((acc, curr) => acc + (curr[0] * curr[1]), 0);
 
-    let mean_arr1 = mean(arr1);
-    let mean_arr2 = mean(arr2);
-    for(let i = 0; i < lenghtArray; i++)
-        sum = sum + (arr1[i] - mean_arr1) *
-            (arr2[i] - mean_arr2);
-
-    return sum / (lenghtArray - 1);
+    return (sum12 - sum1 * sum2 / n) / n;
 }
 
-function expectedReturn(re : number[], rm : number[]){
+function expectedReturn(re : number[], rmPercent : number[]){
 
-    return(0.035+betafunc(re,rm)*(valueAtRisk95(rm)-0.035))
+    return(0.035+betafunc(re,rmPercent)*(valueAtRisk95(rmPercent)-0.035))
 }
