@@ -55,7 +55,6 @@ export async function AnalysisRoute(req: Request, res: Response, next: NextFunct
 
         let marketvar = market(data)
         let returnmarketPercentage = dailyReturnPercentage(marketvar)
-        let returnmarketValue = dailyReturnValue(marketvar)
 
         let returnassetPercentage = dailyReturnPercentage(assetList)
         let returnassetValue = dailyReturnValue(assetList)
@@ -157,7 +156,7 @@ function covariance(arr1 : number[], arr2 : number[])
     return (sum12 - sum1 * sum2 / n) / n;
 }
 
-function expectedReturn(re : number[], rmPercent : number[]){
+function expectedReturn(re : number[], rm : number[]){
 
-    return(0.035+betafunc(re,rmPercent)*(valueAtRisk95(rmPercent)-0.035))
+    return(0.035+betafunc(re,rm)*(valueAtRisk95(rm)-0.035))
 }
