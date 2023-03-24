@@ -71,7 +71,7 @@
             "impact": 3.0
         },
         {
-            "title": "[name_country] subject to an embargo.",
+            "title": "[[country]] subject to an embargo.",
             "content": "As a result of its aggressive actions in the international arena, [[country]] has had economic sanctions imposed on it by various countries in protest.",
             "impact": -1.0
         },
