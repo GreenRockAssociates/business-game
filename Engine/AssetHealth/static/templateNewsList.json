@@ -179,12 +179,12 @@
             "impact": -5.0
         },{
             "title": "[[company]] introduces new sustainability goals",
-            "content": "[[company]] has introduced new sustainability goals aimed at reducing its environmental impact and promoting sustainable practices. The new goals include [Sustainability Goals] and are part of the company's commitment to corporate social responsibility.",
+            "content": "[[company]] has introduced new sustainability goals aimed at reducing its environmental impact and promoting sustainable practices. The new goals are part of the company's commitment to corporate social responsibility.",
             "impact": 2.0
         },
         {
             "title": "[[company]] launches new marketing campaign",
-            "content": "[[company]] has launched a new marketing campaign aimed at promoting its products/services and improving its brand image. The campaign includes [Campaign Details], such as social media, print and TV advertisements, and is part of the company's growth strategy.",
+            "content": "[[company]] has launched a new marketing campaign aimed at promoting its products/services and improving its brand image. The campaign includes posts on social media, print and TV advertisements, and is part of the company's growth strategy.",
             "impact": 2.0
         },
         {
@@ -194,7 +194,7 @@
         },
         {
             "title": "[[company]] partners with the US government to launch new initiative",
-            "content": "[[company]] has partnered with US government to launch a new initiative aimed at creating new technologies. The partnership is expected to create synergies and drive growth for both companies and is the result of [Reason].",
+            "content": "[[company]] has partnered with US government to launch a new initiative aimed at creating new technologies. The partnership is expected to create synergies and drive growth for both companies.",
             "impact": 6.0
         },
         {
@@ -236,7 +236,7 @@
         },
         {
             "title": "[[sector]] invests in innovation and technology",
-            "content": "[[sector]] is investing heavily in innovation and technology to improve its offerings and competitiveness. The sector is exploring new technologies such as [Technology Name] and is collaborating with startups and other companies to drive innovation in the sector.",
+            "content": "[[sector]] is investing heavily in innovation and technology to improve its offerings and competitiveness. The sector is exploring new technologies and is collaborating with startups and other companies to drive innovation in the sector.",
             "impact": 4.0
         },
         {
@@ -246,7 +246,7 @@
         },
         {
             "title": "[[sector]] faces environmental challenges",
-            "content": "[[sector]] is facing environmental challenges such as [Challenge]. The sector is now working on finding sustainable solutions to reduce its environmental impact and meet the growing demand for sustainability from consumers and investors. The sector is confident that its sustainability efforts will benefit the environment and its business in the long run.",
+            "content": "[[sector]] is facing environmental challenges. The sector is now working on finding sustainable solutions to reduce its environmental impact and meet the growing demand for sustainability from consumers and investors. The sector is confident that its sustainability efforts will benefit the environment and its business in the long run.",
             "impact": 0.0
         },
         {
