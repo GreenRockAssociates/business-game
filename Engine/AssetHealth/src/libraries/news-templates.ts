@@ -62,7 +62,8 @@ export class GlobalNewsGenerator implements INewsGenerator {
     toNewsReportEntity(currentTick: number, allAssets: AssetEntity[]): NewsReportEntity {
         const country = this.countries[Math.floor(Math.random() * this.countries.length)]
         const filledTemplate = this.template.fill(new Map([
-            [/\[\[country]]/g, country]
+            [/\[\[country]]/g, country],
+            [/\[\[Country]]/g, country],
         ]));
         const newsReportEntity: NewsReportEntity = new NewsReportEntity(currentTick, filledTemplate.title, filledTemplate.content, filledTemplate.impact);
         newsReportEntity.assets = allAssets;
