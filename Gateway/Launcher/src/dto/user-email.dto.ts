@@ -6,9 +6,9 @@ export class UserEmailDto {
     @IsString()
     @IsEmail()
     @Expose()
-    playerEmail: string
+    userEmail: string
 
-    constructor(playerEmail: string) {
-        this.playerEmail = playerEmail;
+    constructor(userEmail: string) {
+        this.userEmail = userEmail;
     }
 }

@@ -39,12 +39,12 @@ export function registerRoutes(router: Router, dataSource: DataSource){
     const authenticationService = new AuthenticationService(axios.create());
 
     router.get("/games", (req, res) => getAllGames(req, res, gameRepository));
-    router.get("/games/:gameId", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => getGame(req, res, gameRepository, authenticationService));
+    router.get("/games/:gameId", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res, next) => getGame(req, res, next, gameRepository, authenticationService));
     router.post("/new-game", jsonToDtoMiddlewareFactory(CreateGameRequestDto), (req, res) => newGame(req, res, gameRepository));
-    router.put("/games/:gameId/invite", requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(UserEmailDto), (req, res) => invitePlayer(req, res, invitationRepository, gameRepository, axios.create()));
-    router.delete("/games/:gameId/invite/:invitedPlayerId", requestParamsToDtoMiddlewareFactory(InvitationIdentifierDto), (req, res) => deleteInvitation(req, res, invitationRepository));
-    router.get("/invites", (req, res) => getUnansweredInvitations(req, res, invitationRepository, authenticationService));
-    router.put("/invites", jsonToDtoMiddlewareFactory(AnswerInviteDto), (req, res) => answerInvite(req, res, invitationRepository));
+    router.put("/games/:gameId/invite", requestParamsToDtoMiddlewareFactory(GameIdDto), jsonToDtoMiddlewareFactory(UserEmailDto), (req, res, next) => invitePlayer(req, res, next, invitationRepository, gameRepository, axios.create()));
+    router.delete("/games/:gameId/invite/:invitedUserId", requestParamsToDtoMiddlewareFactory(InvitationIdentifierDto), (req, res, next) => deleteInvitation(req, res, next, invitationRepository));
+    router.get("/invites", (req, res, next) => getUnansweredInvitations(req, res, next, invitationRepository, authenticationService));
+    router.put("/invites", jsonToDtoMiddlewareFactory(AnswerInviteDto), (req, res, next) => answerInvite(req, res, next, invitationRepository));
     router.get("/games/:gameId/engine-id", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => gameIdToEngineId(req, res, gameRepository));
     router.get("/games/:gameId/players/engine-id", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => userIdToPlayerId(req, res, userIdTranslationEntityRepository));
     router.put("/games/:gameId/start", requestParamsToDtoMiddlewareFactory(GameIdDto), (req, res) => startGame(req, res, gameRepository, gameOrchestratorService));

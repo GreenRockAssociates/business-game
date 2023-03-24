@@ -59,7 +59,7 @@ describe('Answer invitation route',  () => {
         const userId = "5e2cb3fa-71cf-4a6f-b5b6-80f71a3ba303";
         const game = await helper.insertGameAsInvited(dataSource, userId, "a0911cdb-fd25-4899-9596-60ef5a112916", false);
 
-        await answerInvite(helper.getRequestObject(userId, game.id, true), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await answerInvite(helper.getRequestObject(userId, game.id, true), responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         const invitationFromDb = await dataSource.getRepository(InvitationEntity).findOneBy({
             userId,
@@ -74,7 +74,7 @@ describe('Answer invitation route',  () => {
         const userId = "5e2cb3fa-71cf-4a6f-b5b6-80f71a3ba303";
         const game = await helper.insertGameAsInvited(dataSource, userId, "a0911cdb-fd25-4899-9596-60ef5a112916", true);
 
-        await answerInvite(helper.getRequestObject(userId, game.id, false), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await answerInvite(helper.getRequestObject(userId, game.id, false), responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         const invitationFromDb = await dataSource.getRepository(InvitationEntity).findOneBy({
             userId,
@@ -88,7 +88,7 @@ describe('Answer invitation route',  () => {
     it("Should return 404 if the game does not exist", async () => {
         const userId = "5e2cb3fa-71cf-4a6f-b5b6-80f71a3ba303";
 
-        await answerInvite(helper.getRequestObject(userId, "3d73cbf2-31af-4889-8809-fb0f37538563", true), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await answerInvite(helper.getRequestObject(userId, "3d73cbf2-31af-4889-8809-fb0f37538563", true), responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -99,7 +99,7 @@ describe('Answer invitation route',  () => {
         const game = new GameEntity("f1c10c0f-33ce-40e6-a53c-99d234dd0c42", "02c207bc-6c10-40bd-b87f-7b40e2026609");
         await dataSource.manager.save(game);
 
-        await answerInvite(helper.getRequestObject(userId, game.id, true), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await answerInvite(helper.getRequestObject(userId, game.id, true), responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -113,7 +113,7 @@ describe('Answer invitation route',  () => {
         invitation.game = game
         await dataSource.manager.save(invitation);
 
-        await answerInvite(helper.getRequestObject(userId, game.id, true), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await answerInvite(helper.getRequestObject(userId, game.id, true), responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(412);
@@ -127,7 +127,7 @@ describe('Answer invitation route',  () => {
         invitation.game = game
         await dataSource.manager.save(invitation);
 
-        await answerInvite(helper.getRequestObject(userId, game.id, true), responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await answerInvite(helper.getRequestObject(userId, game.id, true), responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(412);

@@ -68,7 +68,7 @@ describe("Delete invitation route", () => {
         await dataSource.manager.save(invitation);
         const request = helper.getRequestObject(game.id, userId, invitedUserId);
 
-        await deleteInvitation(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await deleteInvitation(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
@@ -90,7 +90,7 @@ describe("Delete invitation route", () => {
         await dataSource.manager.save(invitation);
         const request = helper.getRequestObject(game.id, "51aeb892-c071-461d-8754-8832cffa7301", invitedUserId);
 
-        await deleteInvitation(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await deleteInvitation(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -109,7 +109,7 @@ describe("Delete invitation route", () => {
         await dataSource.manager.save(game);
         const request = helper.getRequestObject(game.id, userId, invitedUserId);
 
-        await deleteInvitation(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await deleteInvitation(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -125,7 +125,7 @@ describe("Delete invitation route", () => {
         await dataSource.manager.save(invitation);
         const request = helper.getRequestObject(game.id, userId, invitedUserId);
 
-        await deleteInvitation(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity));
+        await deleteInvitation(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity));
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(412);

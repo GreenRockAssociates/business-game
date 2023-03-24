@@ -51,7 +51,7 @@ export class LauncherService {
   }
 
   answerInvitation(invitation: InvitationDto, answer: boolean): Observable<void> {
-    return this.httpClient.post(`${environment.baseServerUrl}${environment.launcherService}/invites`, {
+    return this.httpClient.put(`${environment.baseServerUrl}${environment.launcherService}/invites`, {
       gameId: invitation.gameId,
       accept: answer
     }, {
@@ -69,7 +69,7 @@ export class LauncherService {
 
   addInvitation(gameId: string, email: string): Observable<void> {
     return this.httpClient.put(`${environment.baseServerUrl}${environment.launcherService}/games/${gameId}/invite`, {
-      playerEmail: email
+      userEmail: email
     }, {
       withCredentials: true,
       responseType: "text"

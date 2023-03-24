@@ -13,7 +13,7 @@ describe("User email DTO", () => {
 
         await expect(validateOrReject(inviterPlayerRequest)).rejects.toContainEqual(
             expect.objectContaining({
-                "property": "playerEmail"
+                "property": "userEmail"
             })
         )
     })

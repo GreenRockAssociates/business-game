@@ -21,7 +21,7 @@ export async function userIdToEmail(req: Request, res: Response, repository: Rep
         return;
     }
 
-    const response = new UserEmailResponseDto(user.id);
+    const response = new UserEmailResponseDto(user.email);
     try {
         await validateOrReject(response);
         res.json(instanceToPlain(response));

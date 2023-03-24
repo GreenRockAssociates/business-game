@@ -1,6 +1,6 @@
 export interface InvitationDto {
   userId: string;
-  userEmail: string;
+  userEmail: { userEmail: string };
   gameId: string;
   acceptedInvitation: boolean
 }

@@ -10,7 +10,7 @@
       <div class="flex flex-wrap gap-5">
         <div *ngFor="let invitation of game.invitations" class="flex flex-row justify-center items-center gap-3 bg-dark-500 px-5 py-2 rounded-xl">
           <fa-icon *ngIf="invitation.acceptedInvitation" [icon]="faCircleCheck" title="User has accepted the invitation" class="cursor-help"></fa-icon>
-          <p>{{invitation.userEmail}}</p>
+          <p>{{invitation.userEmail.userEmail}}</p>
           <button class="hover:text-red-500" (click)="rescindInvitation(invitation)">
             <fa-icon [icon]="faXmark"></fa-icon>
           </button>

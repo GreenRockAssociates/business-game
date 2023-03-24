@@ -77,7 +77,7 @@ describe("Invite player route", () => {
             };
         })
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
@@ -106,7 +106,7 @@ describe("Invite player route", () => {
             };
         })
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(412);
@@ -128,7 +128,7 @@ describe("Invite player route", () => {
             };
         })
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -153,7 +153,7 @@ describe("Invite player route", () => {
             };
         })
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -175,7 +175,7 @@ describe("Invite player route", () => {
             };
         })
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(412);
@@ -196,7 +196,7 @@ describe("Invite player route", () => {
             };
         })
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -217,7 +217,7 @@ describe("Invite player route", () => {
             };
         })
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -234,7 +234,7 @@ describe("Invite player route", () => {
             throw new Error('test')
         })
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -256,7 +256,7 @@ describe("Invite player route", () => {
             };
         })
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(404);
@@ -282,7 +282,7 @@ describe("Invite player route", () => {
         invitation.game = game;
         await dataSource.manager.save(invitation);
 
-        await invitePlayer(request, responseMock as unknown as Response, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
+        await invitePlayer(request, responseMock as unknown as Response, () => {}, dataSource.getRepository(InvitationEntity), dataSource.getRepository(GameEntity), axiosInstanceMock as unknown as AxiosInstance);
 
         expect(sendStatusSpy).toHaveBeenCalledTimes(1);
         expect(sendStatusSpy).toHaveBeenCalledWith(200);
