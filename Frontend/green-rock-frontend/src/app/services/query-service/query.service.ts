@@ -71,7 +71,7 @@ export class QueryService {
       withCredentials: true
     }).pipe(map(response => {
       return {
-        news: response.news.sort((a, b) => a.generatedTick - b.generatedTick )
+        news: response.news.sort((a, b) => b.generatedTick - a.generatedTick )
       }
     }))
   }
@@ -81,7 +81,7 @@ export class QueryService {
       withCredentials: true
     }).pipe(map(response => {
       return {
-        news: response.news.sort((a, b) => a.generatedTick - b.generatedTick )
+        news: response.news.sort((a, b) => b.generatedTick - a.generatedTick )
       }
     }))
   }
