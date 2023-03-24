@@ -7,11 +7,8 @@ export function getMarketRateRouteFactory(marketAnalysisService: MarketAnalysisS
     return async (req: Request, res: Response, next: NextFunction) => {
         const start = Date.now()
         try {
-            console.log("Before calling service :", (Date.now() - start) / 1000)
             const market: MarketResponseDto = await marketAnalysisService.getMarketRate(req.session);
-            console.log("After calling service :", (Date.now() - start) / 1000)
             res.json(market);
-            console.log("After sending response :", (Date.now() - start) / 1000)
         } catch (e) {
             if (e instanceof AxiosError){
                 res.sendStatus(e?.response?.status ?? 500)

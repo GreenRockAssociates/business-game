@@ -59,7 +59,6 @@ describe("bdd init", () => {
 
 
         })
-        console.log(assetdb)
 
     })
 

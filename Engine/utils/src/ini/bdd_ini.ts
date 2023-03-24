@@ -52,7 +52,6 @@ async function addCompany (json: jsonTemplate, dataSource: DataSource, mySectorM
         try {
             const item = json.company[i];
 
-            console.log(item)
             const company = new AssetEntity(item.assetTicker,item.name,item.description,item.logo)
             company.sectors = [];
             for (let y = 0; y < item.sectors.length; y++) {
