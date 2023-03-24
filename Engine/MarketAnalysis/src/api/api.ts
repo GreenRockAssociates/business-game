@@ -1,4 +1,4 @@
-import express, {Request, Response, Router} from 'express';
+import express, {NextFunction, Request, Response, Router} from 'express';
 import {DataSource} from "typeorm";
 import {requestParamsToDtoMiddlewareFactory} from "./middlewares/request-params-to-dto.middleware";
 import {GameIdDto} from "../dto/game-id.dto";
@@ -20,5 +20,5 @@ export function registerRoutes(router: Router, dataSource: DataSource){
 
     router.get('/:gameID/market/market-rate', requestParamsToDtoMiddlewareFactory(GameIdDto),(req : Request,res : Response) => marketRate(req,res,marketEntityRepository))
     router.get('/:gameID/market/asset/:assetID', requestParamsToDtoMiddlewareFactory(GameAndAssetIdDto),(req : Request,res : Response) => assetRate(req,res,assetEntityRepository))
-    router.get('/:gameID/market/analysis/:assetID', requestParamsToDtoMiddlewareFactory(GameAndAssetIdDto),(req : Request,res : Response) => AnalysisRoute(req,res,marketEntityRepository,assetEntityRepository))
+    router.get('/:gameID/market/analysis/:assetID', requestParamsToDtoMiddlewareFactory(GameAndAssetIdDto),(req : Request,res : Response, next: NextFunction) => AnalysisRoute(req,res, next, marketEntityRepository,assetEntityRepository))
 }

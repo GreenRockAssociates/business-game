@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import {NextFunction, Request, Response} from 'express';
 import {Repository} from "typeorm";
 import {PlayerEntity} from "../../../../DataSource/src/entities/player.entity";
 import {MarketEntity} from "../../../../DataSource/src/entities/market.entity";
@@ -14,66 +14,67 @@ import {dataAnalisysDto} from "../../dto/data_analisys.sto";
 
 
 
-export async function AnalysisRoute(req: Request, res: Response, marketEntityRepository : Repository<MarketEntity>, assetEntityRepository : Repository<AssetEntity>) {
+export async function AnalysisRoute(req: Request, res: Response, next: NextFunction, marketEntityRepository : Repository<MarketEntity>, assetEntityRepository : Repository<AssetEntity>) {
+    try {
+        let VaR = 0
+        let Beta = 0
+        let ER = 0
+        const ids = req.params as unknown as GameAndAssetIdDto
 
-    let VaR = 0
-    let Beta = 0
-    let ER = 0
-    const ids = req.params as unknown as GameAndAssetIdDto
+        const assetTickers = (await assetEntityRepository.find({})).map(asset => asset.ticker)
+        if (!assetTickers.includes(ids.assetID)) {
+            res.sendStatus(404)
+            return;
+        }
 
-    const assetTickers = (await assetEntityRepository.find({})).map(asset => asset.ticker)
-    if (!assetTickers.includes(ids.assetID)){
-        res.sendStatus(404)
-        return;
-    }
-
-    const data = await Promise.all(
-        assetTickers.map(assetTicker => {
-            return marketEntityRepository.find({
-                where : {
-                    gameId : ids.gameID,
-                    assetTicker : assetTicker
-                },
-                order : {
-                    tick : "DESC"
-                },
-                relations : {
-                    asset: true
-                }
+        const data = await Promise.all(
+            assetTickers.map(assetTicker => {
+                return marketEntityRepository.find({
+                    where: {
+                        gameId: ids.gameID,
+                        assetTicker: assetTicker
+                    },
+                    order: {
+                        tick: "DESC"
+                    },
+                    relations: {
+                        asset: true
+                    }
+                })
             })
-        })
-    )
+        )
 
 
+        if (data[0].length == 0 || !data) {
+            res.sendStatus(404)
+            return
+        }
 
-    if(data[0].length==0 || !data){
-        res.sendStatus(404)
-        return
+
+        if (data[0].length < 600) {
+            res.sendStatus(412)
+            return
+        }
+
+
+        let indexAsset: number = findIndexAsset(data, ids.assetID)
+        let assetList = marketToList(data[indexAsset])
+
+        let marketvar = market(data)
+        let returnmarket = dailyReturn(marketvar)
+
+        let returnasset = dailyReturn(assetList)
+
+        Beta = betafunc(returnasset, returnmarket)
+
+        VaR = valueAtRisk95(returnasset)
+
+        ER = expectedReturn(returnasset, returnmarket)
+
+        res.json(new dataAnalisysDto(VaR, Beta, ER))
+    } catch (e) {
+        next(e)
     }
-
-
-    if(data[0].length<600){
-        res.sendStatus(412)
-        return
-    }
-
-
-    let indexAsset : number = findIndexAsset(data,ids.assetID)
-    let assetList = marketToList(data[indexAsset])
-
-    let marketvar = market(data)
-    let returnmarket = dailyReturn(marketvar)
-
-    let returnasset =  dailyReturn(assetList)
-
-    Beta = betafunc(returnasset,returnmarket)
-
-    VaR = valueAtRisk95(returnasset)
-
-    ER = expectedReturn(returnasset,returnmarket )
-
-    res.json(new dataAnalisysDto(VaR,Beta,ER))
-    return
 }
 
 function marketToList(asset : MarketEntity[]){
@@ -115,7 +116,7 @@ function dailyReturn(asset : number[]){
 
     for(let n = 0; n< asset.length; n++){
         if(n%120==0 && n!=0){
-            dailyReturnList.push((asset[n]-asset[n-60])/asset[n-60])
+            dailyReturnList.push(((asset[n]-asset[n-60])/asset[n-60]) * 100)
         }
     }
 

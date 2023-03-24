@@ -82,7 +82,7 @@ describe("market Analysis", () => {
 
         const param = new GameAndAssetIdDto(game.id,"AAPL")
 
-        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
+        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, () => {}, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
         await expect(sendJson).toBeCalledTimes(1)
     },10000)
     it("not enough data",async ()=> {
@@ -111,7 +111,7 @@ describe("market Analysis", () => {
 
         const param = new GameAndAssetIdDto(game.id,"AAPL")
 
-        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
+        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, () => {}, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
         await expect(sendStatusSpy).toHaveBeenCalledWith(412);
 
     })
@@ -141,7 +141,7 @@ describe("market Analysis", () => {
 
         const param = new GameAndAssetIdDto('378cf42b-8004-402b-bc20-92bc14215780',"AAPL")
 
-        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
+        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, () => {}, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
         await expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
     })
@@ -171,7 +171,7 @@ describe("market Analysis", () => {
 
         const param = new GameAndAssetIdDto(game.id,"AAfffPL")
 
-        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
+        await AnalysisRoute({ "params": param} as unknown as Request, responseMock as unknown as Response, () => {}, dataSource.getRepository(MarketEntity),dataSource.getRepository(AssetEntity));
         await expect(sendStatusSpy).toHaveBeenCalledWith(404);
 
     })

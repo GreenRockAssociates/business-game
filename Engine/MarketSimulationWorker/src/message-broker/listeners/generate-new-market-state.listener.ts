@@ -12,19 +12,19 @@ function generatePriceVariation(price: number): number {
 }
 
 /**
- * This method returns `value` truncated to keep only the first `decimalsToKeep` decimal places
+ * This method returns `value` rounded to keep only the first `decimalsToKeep` decimal places
  * @param value
  * @param decimalsToKeep
  */
-function truncateNumber(value: number, decimalsToKeep: number) {
+function roundNumber(value: number, decimalsToKeep: number) {
     let multiplier = Math.pow(10, decimalsToKeep || 0);
-    return Math.floor(value * multiplier) / multiplier;
+    return Math.round(value * multiplier) / multiplier;
 }
 
 function applyRandomStep(currentMarketState: Map<string, number>, evolutionVector: Map<string, number>): Map<string, number> {
     const newMarketState: Map<string, number> = new Map<string, number>();
     currentMarketState.forEach((marketValue, asset) => {
-        const variation = generatePriceVariation(marketValue);
+        let variation = generatePriceVariation(marketValue);
 
         let newPrice = marketValue;
         if (Math.random() < evolutionVector.get(asset)){
@@ -33,7 +33,14 @@ function applyRandomStep(currentMarketState: Map<string, number>, evolutionVecto
             newPrice -= variation;
         }
 
-        newPrice = truncateNumber(newPrice, 2);
+        // If the price falls below 0.1€, simulate a market boom since people buy the asset because it is cheap
+        if (newPrice < 0.1){
+            variation = Math.max(variation, 0.1);
+            newPrice = newPrice + ((Math.random()*10) * variation);
+            newPrice = Math.abs(newPrice);
+        }
+
+        newPrice = roundNumber(newPrice, 2);
 
         newMarketState.set(asset, newPrice);
     })
