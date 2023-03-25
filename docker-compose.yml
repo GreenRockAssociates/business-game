@@ -11,7 +11,7 @@ services:
   frontend:
     build: Frontend/green-rock-frontend/
     ports:
-      - '127.0.0.1:4200:80'
+      - '127.0.0.1:30999:80'
     restart: unless-stopped
 
   ##################################################
@@ -23,23 +23,15 @@ services:
   authentication:
     build: Gateway/Authentication/
     ports:
-      - '127.0.0.1:30000:30000'
+      - '127.0.0.1:31000:30000'
     expose:
       - '30000:30000'
-    restart: unless-stopped
-
-  command:
-    build: Gateway/Command/
-    ports:
-      - '127.0.0.1:30003:30003'
-    expose:
-      - '30003:30003'
     restart: unless-stopped
 
   launcher:
     build: Gateway/Launcher/
     ports:
-      - '127.0.0.1:30001:30001'
+      - '127.0.0.1:31001:30001'
     expose:
       - '30001:30001'
     restart: unless-stopped
@@ -47,15 +39,23 @@ services:
   query:
     build: Gateway/Query/
     ports:
-      - '127.0.0.1:30002:30002'
+      - '127.0.0.1:31002:30002'
     expose:
       - '30002:30002'
+    restart: unless-stopped
+
+  command:
+    build: Gateway/Command/
+    ports:
+      - '127.0.0.1:31003:30003'
+    expose:
+      - '30003:30003'
     restart: unless-stopped
 
   real-time-update:
     build: Gateway/RealTimeMarketUpdate/
     ports:
-      - '127.0.0.1:30004:30004'
+      - '127.0.0.1:31004:30004'
     expose:
       - '30004:30004'
     restart: unless-stopped
@@ -124,8 +124,6 @@ services:
       POSTGRES_PASSWORD: postgres
     expose:
       - '5432:5432'
-    ports:
-      - '127.0.0.1:5433:5432'
     volumes:
       - ./docker/postgres/iam:/var/lib/postgresql/data
 
@@ -133,8 +131,6 @@ services:
     image: redis
     expose:
       - '6379:6379'
-    ports:
-      - '127.0.0.1:6380:6379'
     command:
       - /bin/sh
       - -c
@@ -150,8 +146,6 @@ services:
       POSTGRES_PASSWORD: postgres
     expose:
       - '5432:5432'
-    ports:
-      - '127.0.0.1:5434:5432'
     volumes:
       - ./docker/postgres/launcher:/var/lib/postgresql/data
     healthcheck:
@@ -168,8 +162,6 @@ services:
       POSTGRES_PASSWORD: postgres
     expose:
       - '5432:5432'
-    ports:
-      - '127.0.0.1:5435:5432'
     volumes:
       - ./game_db_init.sql:/docker-entrypoint-initdb.d/game_db_init.sql
       - ./docker/postgres/game:/var/lib/postgresql/data
@@ -183,8 +175,6 @@ services:
     image: rabbitmq
     expose:
       - '5672:5672'
-    ports:
-      - '127.0.0.1:5673:5672'
     volumes:
       - ./docker/rabbitmq/data/:/var/lib/rabbitmq/
       - ./docker/rabbitmq/log/:/var/log/rabbitmq
