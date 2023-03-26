@@ -7,7 +7,7 @@ import {PortfolioEntity} from "../../../../DataSource/src/entities/portfolio.ent
 import {GameIdDto} from "../../dto/game-id.dto";
 
 
-export async function buy(req: Request, res: Response, repository_player: Repository<PlayerEntity>, marketEntityRepository : Repository<MarketEntity>) {
+export async function buy(req: Request, res: Response, repository_player: Repository<PlayerEntity>, portfolioEntityRepository: Repository<PortfolioEntity>, marketEntityRepository : Repository<MarketEntity>) {
     const dto = req.body as BuyandsellDto;
     const gameid = req.params as unknown as GameIdDto;
 
@@ -15,9 +15,6 @@ export async function buy(req: Request, res: Response, repository_player: Reposi
     const player = await repository_player.findOne({
         where: {
             id : dto.playerId
-        },
-        relations: {
-            portfolio : true
         }
     })
     if(!player){
@@ -44,19 +41,25 @@ export async function buy(req: Request, res: Response, repository_player: Reposi
         res.sendStatus(412)
         return
     }
-    const playerasset = player.portfolio.find(asset => asset.assetTicker=== dto.assetId)
+
+
+    let playerasset = await portfolioEntityRepository.findOneBy({
+        playerId: dto.playerId,
+        assetTicker: dto.assetId
+    })
 
     if(playerasset){
         playerasset.count += dto.quantity
     }else{
-        const newPlayerAsset = new PortfolioEntity();
-        newPlayerAsset.player = player;
-        newPlayerAsset.asset = asset.asset;
-        newPlayerAsset.count = dto.quantity
-        player.portfolio.push(newPlayerAsset)
+        playerasset = new PortfolioEntity();
+        playerasset.player = player;
+        playerasset.asset = asset.asset;
+        playerasset.count = dto.quantity
     }
     player.bankAccount -= dto.quantity*asset.value
-    await repository_player.save(player)
+
+    await portfolioEntityRepository.save(playerasset);
+    await repository_player.save(player);
 
     res.sendStatus(200);
 }
