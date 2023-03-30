@@ -9,6 +9,7 @@ import {RabbitMqInteractor} from "../message-broker/rabbit-mq-interactor";
 import {AssetHealthService} from "../libraries/asset-health.service";
 import { MarketEntity } from '../../../DataSource/src/entities/market.entity';
 import { AssetEntity } from '../../../DataSource/src/entities/asset.entity';
+import {resumeGame} from "./routes/resume-game";
 
 
 export const router = express.Router()
@@ -22,4 +23,5 @@ export function registerRoutes(router: Router, dataSource: DataSource, rabbitMqI
     const assetHealthService = new AssetHealthService();
 
     router.post('/orchestrator/new-game', jsonToDtoMiddlewareFactory(NewGameDto), (req, res) => newGame(req, res, playerEntityRepository, gameEntityRepository, marketRepository, assetRepository, rabbitMqInteractor, assetHealthService))
+    router.post('/orchestrator/resume-game/:gameId', (req, res) => resumeGame(req, res, rabbitMqInteractor))
 }
