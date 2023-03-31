@@ -454,7 +454,7 @@ celerybeat.pid
 # Environments
 .venv
 env/
-Engine/venv/
+venv/
 ENV/
 env.bak/
 venv.bak/
@@ -637,4 +637,3 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos
 
 docker/
-.env-docker

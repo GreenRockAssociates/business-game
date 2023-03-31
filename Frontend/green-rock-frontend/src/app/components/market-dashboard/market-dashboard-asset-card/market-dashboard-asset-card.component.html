@@ -1,0 +1,18 @@
+<div *ngIf="asset" class="w-full h-full bg-dark-500 rounded-lg p-5 flex flex-col cursor-pointer border border-transparent hover:border-primary-500 hover:scale-110 duration-200" [routerLink]="['asset/', assetTicker]">
+  <div class="flex flex-row justify-between">
+    <div>
+      <div class="flex items-center gap-2 h-6">
+        <div class="h-3/4 w-[5px] rounded-full bg-primary-500"></div>
+        <p class="font-bold">{{asset.assetTicker}}</p>
+      </div>
+      <p class="text-sm italic text-light-400">{{asset.name}}</p>
+    </div>
+    <div>
+      <p>${{assetValue | number : '1.2-2'}}</p>
+    </div>
+  </div>
+
+  <div class="mt-2">
+    <app-market-graph [assetTicker]="assetTicker" [gameId]="gameId"></app-market-graph>
+  </div>
+</div>

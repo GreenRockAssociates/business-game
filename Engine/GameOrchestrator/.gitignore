@@ -1,0 +1,4 @@
+node_modules/
+build/
+src/.env
+src/.env-docker

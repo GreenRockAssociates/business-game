@@ -1,0 +1,29 @@
+<div *ngIf="invitationsList" class="w-full h-full flex justify-center py-20">
+  <div class="flex justify-center flex-1">
+    <div class="w-1/2 h-full bg-dark-800 rounded-lg px-10 py-10">
+      <h1 class="text-4xl font-bold text-gradient from-secondary to-primary-500 pb-10">Pending invitations</h1>
+      <div class="flex flex-wrap gap-5 justify-around">
+        <div *ngFor="let invitation of invitationsList" class="w-full flex flex-row justify-between p-5 bg-dark-500 rounded-lg border-2 border-transparent hover:border-primary-500 hover:scale-105 duration-200 ease-out">
+          <div>
+            <div class="flex flex-row items-center gap-5">
+              <h2 class="text-lg font-bold">{{invitation.game.name}}</h2>
+            </div>
+          </div>
+          <div class="flex justify-center items-center gap-5 text-xl">
+            <button class="hover:text-green-500 duration-200 ease-out" (click)="answerInvitation(invitation.invitation, true)">
+              <fa-icon [icon]="faCheck"></fa-icon>
+            </button>
+            <button class="hover:text-red-500 duration-200 ease-out" (click)="answerInvitation(invitation.invitation, false)">
+              <fa-icon [icon]="faXmark"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="invitationsList.length === 0">
+          There are no invitations yet
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-generic-error-message  *ngIf="errorOccurred"></app-generic-error-message>
