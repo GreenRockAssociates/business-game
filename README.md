@@ -27,9 +27,7 @@ L'objectif de ce projet est de réaliser un business game à l'intention d'étud
 - Dans chaque dossier, effectuer la commande `npm install`
 
 ##### 2. Préparer les environnements
-Dans chacun des dossier, créer un fichier .env et le remplir avec les bonnes données.
-
-Les différents templates de .env sont disponibles sur discord dans le channel #environments ou au bas de ce readme.
+Dans chacun des dossiers, consulter les fichiers `.env.example` et `.env-docker.example` puis créer les fichiers `.env` et `.env-docker` correspondants.
 
 ##### 3. Lancer les logiciels tiers
 - Se placer à la racine du repo
